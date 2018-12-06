@@ -190,6 +190,75 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 196440779}
   m_CullTransparentMesh: 0
+--- !u!1 &246060982
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 246060983}
+  - component: {fileID: 246060985}
+  - component: {fileID: 246060984}
+  m_Layer: 5
+  m_Name: Marco
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &246060983
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 246060982}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 339774307}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -0.000061035156, y: -0.000030517578}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &246060984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 246060982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 21300000, guid: a5cee849b0c49b74c8c14bb7edaf2f96, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+--- !u!222 &246060985
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 246060982}
+  m_CullTransparentMesh: 0
 --- !u!1 &339774303
 GameObject:
   m_ObjectHideFlags: 0
@@ -275,6 +344,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
+  - {fileID: 246060983}
   - {fileID: 1767035193}
   m_Father: {fileID: 0}
   m_RootOrder: 2
@@ -324,6 +394,7 @@ MonoBehaviour:
   _boardSquareRed: {fileID: 21300000, guid: 1c61724bba54ca047ab902429c5c7ff9, type: 3}
   _boardSquareYellow: {fileID: 21300000, guid: fe24bfbcf814b46489fa8a115237cb23, type: 3}
   _boardSquareGreen: {fileID: 21300000, guid: 0369e826db36db64ea57961bf27bc672, type: 3}
+  _boardSquareWall: {fileID: 21300000, guid: 27ed1e7205b01d04cb5549f65bbc301f, type: 3}
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -386,11 +457,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4276731208347660, guid: ce1549129a660ef4c848f8b2b0d07a0e, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -7.36
+      value: -5.78
       objectReference: {fileID: 0}
     - target: {fileID: 4276731208347660, guid: ce1549129a660ef4c848f8b2b0d07a0e, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -4.89
+      value: -3.2
       objectReference: {fileID: 0}
     - target: {fileID: 4276731208347660, guid: ce1549129a660ef4c848f8b2b0d07a0e, type: 2}
       propertyPath: m_LocalPosition.z
@@ -415,6 +486,14 @@ Prefab:
     - target: {fileID: 4276731208347660, guid: ce1549129a660ef4c848f8b2b0d07a0e, type: 2}
       propertyPath: m_RootOrder
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4276731208347660, guid: ce1549129a660ef4c848f8b2b0d07a0e, type: 2}
+      propertyPath: m_LocalScale.x
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4276731208347660, guid: ce1549129a660ef4c848f8b2b0d07a0e, type: 2}
+      propertyPath: m_LocalScale.y
+      value: 0.7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ce1549129a660ef4c848f8b2b0d07a0e, type: 2}
@@ -511,7 +590,7 @@ RectTransform:
   m_Children:
   - {fileID: 196440780}
   m_Father: {fileID: 339774307}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.8674483, y: 0.79800004}
   m_AnchorMax: {x: 0.9948276, y: 0.9233251}
@@ -559,6 +638,17 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 519420030}
         m_MethodName: changeColorBoardSquares
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 519420030}
+        m_MethodName: generateWalls
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

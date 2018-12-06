@@ -13,6 +13,7 @@ public class ConfigurationOfTheCheckboxes : MonoBehaviour {
     [SerializeField] private Sprite _boardSquareRed;
     [SerializeField] private Sprite _boardSquareYellow;
     [SerializeField] private Sprite _boardSquareGreen;
+    [SerializeField] private Sprite _boardSquareWall;
 
     /// <summary>
     /// Este metodo start es usado para llamar diferentes metodos para realizar la configuracion inicial
@@ -21,6 +22,7 @@ public class ConfigurationOfTheCheckboxes : MonoBehaviour {
     void Start () {
         findBoardSquares();
         changeColorBoardSquares();
+        generateWalls();
 	}// cierre de la funcion Start 
 	
 	
@@ -28,7 +30,7 @@ public class ConfigurationOfTheCheckboxes : MonoBehaviour {
     /// <summary>
     /// Metodo encargado de buscar todas las casillas del tablero.
     /// </summary>
-    private void findBoardSquares()
+    public void findBoardSquares()
     {
         _boardSquares = GameObject.FindGameObjectsWithTag("CheckBoxes");
 
@@ -72,5 +74,27 @@ public class ConfigurationOfTheCheckboxes : MonoBehaviour {
         }//cierre for que recorre el arreglo
 
     } //cierre de la funcion changeColorBoardSquares
+
+    /// <summary>
+    /// Define la cantidad de muros en el nivel al igual que general esta cantidad en en una posicion random
+    /// evitando que se cree un muro en una casilla que ya contenia uno
+    /// </summary>
+    public void generateWalls()
+    {
+        int _quantityWalls = Random.RandomRange(1, 5);
+        int _indexBoardSquare;
+
+        while (_quantityWalls > 0)
+        {
+            _indexBoardSquare = Random.RandomRange(0, 35);
+            if (_boardSquares[_indexBoardSquare].GetComponent<SpriteRenderer>().sprite != _boardSquareWall)
+            {
+                _boardSquares[_indexBoardSquare].GetComponent<SpriteRenderer>().sprite = _boardSquareWall;
+                _quantityWalls--;
+            }// cierre if
+
+        }//cierre while
+        
+    }// Cierre de generateWalls
 
 }// cierre de la clase 
