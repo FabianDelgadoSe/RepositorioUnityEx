@@ -40,7 +40,7 @@ public class ConfigurationBoard : Photon.PunBehaviour {
 	public void restarBoard()
     {
         changeColorBoardSquares();
-        //generateWalls();
+        generateWalls();
     }
 
     public void loadSpritesSquare()
@@ -75,11 +75,10 @@ public class ConfigurationBoard : Photon.PunBehaviour {
     } //cierre de la funcion changeColorBoardSquares
 
     /// <summary>
-    /// Define la cantidad de muros en el nivel al igual que general esta cantidad en en una posicion random
+    /// Define la cantidad de muros en el nivel al igual que general esta cantidad en una posicion random
     /// evitando que se cree un muro en una casilla que ya contenia uno
     /// </summary>
-    /*  NO FUNCIONA
-     * public void generateWalls()
+    public void generateWalls()
     {
         int _quantityWalls = Random.RandomRange(1, 5);
         int _indexBoardSquare;
@@ -91,7 +90,7 @@ public class ConfigurationBoard : Photon.PunBehaviour {
             if (!_boardSquaresArray[_indexBoardSquare].GetComponent<Square>().IsWall)
             {
                 _boardSquaresArray[_indexBoardSquare].GetComponent<Square>().Index = 5;
-                //_boardSquaresArray[_indexBoardSquare].GetComponent<PhotonView>().RPC("changeSprite", PhotonTargets.All);
+                _boardSquaresArray[_indexBoardSquare].GetComponent<PhotonView>().RPC("changeSprite", PhotonTargets.All);
                 _quantityWalls--;
 
             }// cierre if
@@ -99,5 +98,5 @@ public class ConfigurationBoard : Photon.PunBehaviour {
         }//cierre while
         
     }// Cierre de generateWalls
-    */
+    
 }// cierre de la clase 
