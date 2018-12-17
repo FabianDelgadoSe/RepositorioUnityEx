@@ -45,4 +45,5 @@ MonoBehaviour:
   - changeSprite
   - change
   - restarBoard
+  - showPlayersConnected
   DisableAutoOpenWizard: 1
