@@ -68,7 +68,6 @@ public class ConfigurationBoard : Photon.PunBehaviour {
         {
             _codeColor = Random.RandomRange(1, 5);
             _boardSquaresArray[i].GetComponent<Square>().Index = _codeColor;
-            _boardSquaresArray[i].GetComponent<PhotonView>().RPC("changeSprite", PhotonTargets.All);
 
         }//cierre for que recorre el arreglo
 
@@ -90,7 +89,6 @@ public class ConfigurationBoard : Photon.PunBehaviour {
             if (!_boardSquaresArray[_indexBoardSquare].GetComponent<Square>().IsWall)
             {
                 _boardSquaresArray[_indexBoardSquare].GetComponent<Square>().Index = 5;
-                _boardSquaresArray[_indexBoardSquare].GetComponent<PhotonView>().RPC("changeSprite", PhotonTargets.All);
                 _quantityWalls--;
 
             }// cierre if

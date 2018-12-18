@@ -27,7 +27,7 @@ public class NetworkManager : Photon.MonoBehaviour
     void OnConnectedToMaster()
     {
         // nombre de la sala, opciones de la sala y algo que no se que es
-        PhotonNetwork.JoinOrCreateRoom("unica", new RoomOptions() { maxPlayers = 6 }, null);
+        PhotonNetwork.JoinOrCreateRoom("Sala kevin", new RoomOptions() { maxPlayers = 6 }, null);
 
     }
 

@@ -112,7 +112,6 @@ public class Square : Photon.PunBehaviour {
     [PunRPC]
     public void changeSprite()
     {
-
         switch (Index)
         {
             case 1:
@@ -147,6 +146,7 @@ public class Square : Photon.PunBehaviour {
         }
     }
 
+   
     
     /// <summary>
     /// Recibe los datos de el index y si la casilla es un muro
@@ -167,8 +167,8 @@ public class Square : Photon.PunBehaviour {
             Index = (int)stream.ReceiveNext();
             _isWall = (bool)stream.ReceiveNext();
             photonView.RPC("changeSprite", PhotonTargets.All);
-
-
         }
     }
+
+    
 }

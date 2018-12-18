@@ -5,13 +5,17 @@ using UnityEngine.SceneManagement;
 /// <summary>
 /// Scrip provicional hasta que se cree correctamente el paso de escenas
 /// </summary>
-public class ChangeScene : MonoBehaviour {
+public class ChangeScene : Photon.PunBehaviour {
 
 
     public void chansy()
     {
-        SceneManager.LoadScene("Main");
+        photonView.RPC("changeScene", PhotonTargets.All);
     }
 
-       
+    [PunRPC]
+    void changeScene()
+    {
+        SceneManager.LoadScene("Main");
+    }   
 }
