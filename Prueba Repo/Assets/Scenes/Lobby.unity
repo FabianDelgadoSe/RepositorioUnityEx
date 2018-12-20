@@ -1275,7 +1275,17 @@ Prefab:
       propertyPath: ObservedComponents.Array.data[0]
       value: 
       objectReference: {fileID: 1777034051}
-    m_RemovedComponents: []
+    - target: {fileID: 1543354099745032, guid: 237e429f7d4c4a4428837e3f2fcc7eda, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1543354099745032, guid: 237e429f7d4c4a4428837e3f2fcc7eda, type: 2}
+      propertyPath: m_Name
+      value: Lobby Manger
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 114923877174947474, guid: 237e429f7d4c4a4428837e3f2fcc7eda, type: 2}
+    - {fileID: 114074692651990198, guid: 237e429f7d4c4a4428837e3f2fcc7eda, type: 2}
   m_SourcePrefab: {fileID: 100100000, guid: 237e429f7d4c4a4428837e3f2fcc7eda, type: 2}
   m_IsPrefabAsset: 0
 --- !u!1 &1846273818

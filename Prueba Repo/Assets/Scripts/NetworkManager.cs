@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using TMPro;
 /// <summary>
 /// Clase nesesaria para toda la configuracion cuando se conecta con el servidor
@@ -10,15 +11,16 @@ public class NetworkManager : Photon.MonoBehaviour
 {
 
     public string _version;
-    public Room currentRoom;
-
+    [SerializeField] private Text _roomName;
 
     /// <summary>
     /// se conecta con el servidor con la version que se le pase
     /// </summary>
-	void Start()
+	public void startConnection()
     {
-        PhotonNetwork.ConnectUsingSettings(_version);
+        if (_roomName.text != "")
+            PhotonNetwork.ConnectUsingSettings(_version);
+       
     }
 
     /// <summary>
@@ -27,7 +29,7 @@ public class NetworkManager : Photon.MonoBehaviour
     void OnConnectedToMaster()
     {
         // nombre de la sala, opciones de la sala y algo que no se que es
-        PhotonNetwork.JoinOrCreateRoom("Sala kevin", new RoomOptions() { maxPlayers = 6 }, null);
+        PhotonNetwork.JoinOrCreateRoom(_roomName.text, new RoomOptions() { maxPlayers = 6 }, null);
 
     }
 
@@ -45,22 +47,10 @@ public class NetworkManager : Photon.MonoBehaviour
     /// </summary>
     void OnJoinedRoom()
     {
-        if (PhotonNetwork.room != null)
-        {
-            Debug.Log("GuardandoRoom");
-            currentRoom = PhotonNetwork.room;
-        }
-
+        
         Debug.Log("entre a la sala");
-
-        //Evalua que haya un campo de texto que llenar
-        if (this.GetComponent<LobbyManager>().PlayersCountText != null) {
-
-            //llama la funcion de la clase LobbyManager
-            this.GetComponent<PhotonView>().RPC("showPlayersConnected", PhotonTargets.All);
-
-        }
-
+        SceneManager.LoadScene("Lobby");
+        
         PhotonNetwork.automaticallySyncScene = true;
 
 

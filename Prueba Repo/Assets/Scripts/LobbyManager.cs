@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-
+/// <summary>
+/// Creado para contener funciones que administren el lobby
+/// </summary>
 public class LobbyManager : Photon.PunBehaviour
 {
 
@@ -22,28 +24,23 @@ public class LobbyManager : Photon.PunBehaviour
         }
     }
 
-    // Use this for initialization
+    /// <summary>
+    /// Funcion usada para inicializar el room y decirle a todas las personas conectadas que 
+    /// llamen el metedo showPlayerConnected
+    /// </summary>
     void Start()
     {
-
+        _currentRoom = PhotonNetwork.room;
+        photonView.RPC("showPlayersConnected",PhotonTargets.All);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
 
-    }
-
-    //Obtiene la variable del NetworkManager para extraer el playercount y mandarlo al txt
+    /// <summary>
+    /// Obtiene la variable del NetworkManager para extraer el playercount y mandarlo al txt 
+    /// </summary>    
     [PunRPC]
     public void showPlayersConnected()
-    {
-        Debug.Log("Tomar room del networkmanager");
-        _currentRoom = this.GetComponent<NetworkManager>().currentRoom;
-        Debug.Log("Mostrar player conectados");
+    { 
         playersCountText.text = "PlayerCount\n " + _currentRoom.PlayerCount.ToString();
-
-
-
     }
 }
