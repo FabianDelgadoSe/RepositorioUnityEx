@@ -31,7 +31,9 @@ public class LobbyManager : Photon.PunBehaviour
     void Start()
     {
         _currentRoom = PhotonNetwork.room;
-        photonView.RPC("showPlayersConnected",PhotonTargets.All);
+        if(_currentRoom.PlayerCount > 1)
+            photonView.RPC("showPlayersConnected",PhotonTargets.All);        
+
     }
 
 

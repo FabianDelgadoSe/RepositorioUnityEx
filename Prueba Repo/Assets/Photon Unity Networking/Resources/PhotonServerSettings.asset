@@ -47,4 +47,7 @@ MonoBehaviour:
   - restarBoard
   - showPlayersConnected
   - changeScene
+  - mineTurn
+  - finishTurn
+  - StarTurn
   DisableAutoOpenWizard: 1
