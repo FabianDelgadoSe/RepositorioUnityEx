@@ -1456,6 +1456,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _myturn: {fileID: 1912722078}
+  _otherPlayer: {fileID: 1039149022828496, guid: 93d4522d46c9ab940a58af7bb87d9dea,
+    type: 2}
 --- !u!4 &666060545
 Transform:
   m_ObjectHideFlags: 0
@@ -3319,6 +3321,20 @@ Prefab:
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 224333732482313970, guid: ad843fd8d48b1404d8422ca6dafea406,
+        type: 2}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224138807362185000, guid: ad843fd8d48b1404d8422ca6dafea406,
+        type: 2}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1961879150559380, guid: ad843fd8d48b1404d8422ca6dafea406, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114247117531262596, guid: ad843fd8d48b1404d8422ca6dafea406, type: 2}

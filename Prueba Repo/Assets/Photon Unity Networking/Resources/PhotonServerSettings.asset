@@ -50,4 +50,5 @@ MonoBehaviour:
   - mineTurn
   - finishTurn
   - StarTurn
+  - finishTurnOtherComputers
   DisableAutoOpenWizard: 1
