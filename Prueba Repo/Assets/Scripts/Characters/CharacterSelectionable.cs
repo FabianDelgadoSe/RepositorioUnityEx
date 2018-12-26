@@ -24,7 +24,7 @@ public class CharacterSelectionable : Photon.PunBehaviour
     [PunRPC]
     public void setCharacterSelection()
     {
-        if (_isSelected)
+        if (!_isSelected)
         {
             _isSelected = true;
             GetComponent<Image>().sprite = _character._iconSelected;
