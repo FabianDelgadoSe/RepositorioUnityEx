@@ -51,4 +51,6 @@ MonoBehaviour:
   - finishTurn
   - StarTurn
   - finishTurnOtherComputers
+  - setCharacterSelector
+  - setCharacterSelection
   DisableAutoOpenWizard: 1

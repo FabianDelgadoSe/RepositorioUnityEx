@@ -31,8 +31,8 @@ public class LobbyManager : Photon.PunBehaviour
     void Start()
     {
         _currentRoom = PhotonNetwork.room;
-        if(_currentRoom.PlayerCount > 1)
-            photonView.RPC("showPlayersConnected",PhotonTargets.All);        
+        if (_currentRoom.PlayerCount >= 1)
+            photonView.RPC("showPlayersConnected", PhotonTargets.All);
 
     }
 
@@ -42,7 +42,8 @@ public class LobbyManager : Photon.PunBehaviour
     /// </summary>    
     [PunRPC]
     public void showPlayersConnected()
-    { 
+    {
+        Debug.Log("Mostrando cantidad jugadores conectados - Sala: " + _currentRoom.Name);
         playersCountText.text = "PlayerCount\n " + _currentRoom.PlayerCount.ToString();
     }
 }
