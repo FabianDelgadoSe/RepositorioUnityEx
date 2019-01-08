@@ -43,7 +43,6 @@ public class LobbyManager : Photon.PunBehaviour
     [PunRPC]
     public void showPlayersConnected()
     {
-        Debug.Log("Mostrando cantidad jugadores conectados - Sala: " + _currentRoom.Name);
         playersCountText.text = "PlayerCount\n " + _currentRoom.PlayerCount.ToString();
     }
 }

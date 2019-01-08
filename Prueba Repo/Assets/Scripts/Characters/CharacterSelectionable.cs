@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class CharacterSelectionable : Photon.PunBehaviour
 {
 
     [SerializeField] Character _character;
 
-
+    PlayerData[] _playerData;
+    private PlayerData _currentPlayer;
     private bool _isSelected = false;
     [SerializeField] private TextMeshProUGUI _name;
 
@@ -18,6 +20,7 @@ public class CharacterSelectionable : Photon.PunBehaviour
     {
         GetComponent<Image>().sprite = _character._iconUnSelected;
         _name.text = _character._name;
+        _playerData = FindObjectsOfType<PlayerData>();
 
     }
 
@@ -26,10 +29,23 @@ public class CharacterSelectionable : Photon.PunBehaviour
     {
         if (!_isSelected)
         {
+            assignCharacterToPlayer();
+
             _isSelected = true;
             GetComponent<Image>().sprite = _character._iconSelected;
+            _name.text = _playerData[0].PlayerName;
 
         }
+    }
+
+    private void assignCharacterToPlayer()
+    {
+
+
+        Debug.Log("Player con PlayerData: " + _playerData.Length);
+        _playerData[0].CharacterSelected = _character;
+
+
     }
 
     public void characterClicked()

@@ -50,7 +50,9 @@ public class NetworkManager : Photon.MonoBehaviour
         
         Debug.Log("entre a la sala");
         SceneManager.LoadScene("Lobby");
-        
+
+        PhotonNetwork.Instantiate("PlayerPrefab", Vector3.zero, Quaternion.identity, 0);
+
         PhotonNetwork.automaticallySyncScene = true;
 
 
