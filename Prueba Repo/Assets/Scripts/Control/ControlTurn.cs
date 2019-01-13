@@ -15,7 +15,7 @@ public class ControlTurn : Photon.PunBehaviour {
     private int _indexTurn;
     private int _mineId;
 
-    private  const float INICIAL_POSITION_X = -4.85f; 
+    private  const float INICIAL_POSITION_X = -4.85f;
 
     /// <summary>
     /// inicializa variables como mineId crea los objetos que representan los otros jugadores en la pantalla de cada
@@ -27,15 +27,15 @@ public class ControlTurn : Photon.PunBehaviour {
 
         createdOthersPlayers();
         
-        /* el player master es el que tendra el control de los turnos 
+        /* el player master es el que elegira el que tendra el primer turno
          * el if inicia el primer turno de manera aleatoria
         */
         if (PhotonNetwork.masterClient == PhotonNetwork.player)
         {
-            _indexTurn = Random.RandomRange(1, PhotonNetwork.room.playerCount+1);
-            photonView.RPC("mineTurn", PhotonTargets.All,_indexTurn);
+            IndexTurn = Random.RandomRange(1, PhotonNetwork.room.playerCount+1);
+            photonView.RPC("mineTurn", PhotonTargets.All,IndexTurn);
             FindObjectOfType<ConfigurationBoard>().changeColorBoardSquares();
-            Invoke("nextTurn", 2);
+            
         }//cierre if player master
 
     }// cierre start
@@ -51,7 +51,7 @@ public class ControlTurn : Photon.PunBehaviour {
         {
             if(i != _mineId)
             {
-                aux = Instantiate(_otherPlayer, new Vector3(INICIAL_POSITION_X + (i * 1.01f), 4.85f, 0), Quaternion.identity);
+                aux = Instantiate(_otherPlayer, new Vector3(INICIAL_POSITION_X + (i * 1.01f), 4.5f, 0), Quaternion.identity);
                 aux.GetComponent<OthersPlayersData>().IdOfThePlayerThatRepresents = i;
 
             }// cierre 
@@ -69,20 +69,21 @@ public class ControlTurn : Photon.PunBehaviour {
     /// <summary>
     /// Usado luego de finalizar turno para dar comienzo al turno del siguiente jugador en orden
     /// </summary>
-    void nextTurn()
+    public void nextTurn()
     {
-        photonView.RPC("finishTurn", PhotonPlayer.Find(_indexTurn));
-        if (_indexTurn != PhotonNetwork.room.playerCount)
+        finishTurn();
+        //photonView.RPC("finishTurn", PhotonPlayer.Find(_indexTurn));
+        if (IndexTurn != PhotonNetwork.room.playerCount)
         {
-            _indexTurn++;
+            IndexTurn++;
         }// cierre if
         else
         {
-            _indexTurn = 1;
+            IndexTurn = 1;
         }// cierre else
 
-        photonView.RPC("mineTurn", PhotonTargets.All,_indexTurn);
-        Invoke("nextTurn", 2);
+        photonView.RPC("mineTurn", PhotonTargets.All,IndexTurn);
+        
     }// cierre nextTurn
 
     /// <summary>
@@ -90,7 +91,8 @@ public class ControlTurn : Photon.PunBehaviour {
     /// </summary>
     void StarTurn()
     {
-        _myturn.active = true;       
+        _myturn.active = true;
+        gameObject.GetComponent<ControlCharacterLocation>().locateCharacterOnTheEdge();
     }//cierre starTurn
 
     /// <summary>
@@ -105,13 +107,14 @@ public class ControlTurn : Photon.PunBehaviour {
     
     /// <summary>
     /// Antes de llamar metodo starTurn este metodo es llamado para saber si es mi turno
-    /// el parametro ID es el ID del jugador al cual le corresponde el turno
+    /// el parametro ID es el ID del jugador al cual le corresponde el turno y este ID es guardado
+    /// es la variable indexturn para saber el ID del player del cual es el turno
     /// </summary>
     /// <param name="ID"></param>
     [PunRPC]
     void mineTurn(int ID)
     {
-
+        this.IndexTurn = ID;
         if (ID == this._mineId)
         {
             StarTurn();
@@ -132,6 +135,19 @@ public class ControlTurn : Photon.PunBehaviour {
         _otherPlayersList[ID - 1].gameObject.GetComponent<OthersPlayersData>().finishTurn();
     }//cierre finishTurnOtherComputers
 
+    /// <summary>
+    /// get y set de variable indexTurn
+    /// </summary>
+    public int IndexTurn
+    {
+        get
+        {
+            return _indexTurn;
+        }
 
-
+        set
+        {
+            _indexTurn = value;
+        }
+    }
 }

@@ -15,6 +15,7 @@ public class Square : Photon.PunBehaviour {
     private int _index;
 
     private bool _isWall = false;
+    [SerializeField] private bool _itsOnEdge;
 
     public Sprite BoardSquareBlue
     {
@@ -106,9 +107,23 @@ public class Square : Photon.PunBehaviour {
             _isWall = value;
         }
     }
-/// <summary>
-/// Tiene el proposito de configurar el objeto dependiendo de un index
-/// </summary>
+
+    public bool ItsOnEdge
+    {
+        get
+        {
+            return _itsOnEdge;
+        }
+
+        set
+        {
+            _itsOnEdge = value;
+        }
+    }
+
+    /// <summary>
+    /// Tiene el proposito de configurar el objeto dependiendo de un index
+    /// </summary>
     [PunRPC]
     public void changeSprite()
     {
