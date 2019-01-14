@@ -13,7 +13,7 @@ public class locateCharacter : Photon.PunBehaviour
         
         if (!photonView.isMine)
         {
-            //Destroy(gameObject.GetComponent<locateCharacter>());
+            Destroy(gameObject.GetComponent<locateCharacter>());
         }
         
     }
@@ -35,12 +35,10 @@ public class locateCharacter : Photon.PunBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Square")
+        if (collision.CompareTag("Square"))
         {
-            Debug.Log("hola 2");
             if (collision.gameObject.GetComponent<Square>().ItsOnEdge && !_isMoving)
             {
-                Debug.Log("hola");
                 transform.position = collision.gameObject.transform.position;
                 Destroy(gameObject.GetComponent<locateCharacter>());
             }

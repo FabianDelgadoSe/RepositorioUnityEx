@@ -322,6 +322,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _character: {fileID: 11400000, guid: 1c642311ccf41b245a62548198c38bdb, type: 2}
+  _isSelected: 0
   _name: {fileID: 1966119523}
 --- !u!114 &257157540
 MonoBehaviour:
@@ -479,7 +480,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 24.1
+  m_fontSize: 20
   m_fontSizeBase: 8.48
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -813,6 +814,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _character: {fileID: 11400000, guid: 9e2906e7d463ceb4ab02dfa4d0c6463b, type: 2}
+  _isSelected: 0
   _name: {fileID: 428622328}
 --- !u!114 &824589377
 MonoBehaviour:
@@ -970,7 +972,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 24.1
+  m_fontSize: 20
   m_fontSizeBase: 8.48
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1152,6 +1154,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _character: {fileID: 11400000, guid: 668a172055e42594183029439864775d, type: 2}
+  _isSelected: 0
   _name: {fileID: 1298048650}
 --- !u!114 &926347210
 MonoBehaviour:
@@ -1336,6 +1339,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _character: {fileID: 11400000, guid: 81f63d5ee3b212e4395a651b07f0012e, type: 2}
+  _isSelected: 0
   _name: {fileID: 1866200964}
 --- !u!114 &1043891265
 MonoBehaviour:
@@ -1493,7 +1497,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 24.1
+  m_fontSize: 20
   m_fontSizeBase: 8.48
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1675,6 +1679,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _character: {fileID: 11400000, guid: 2b681b2b527b5e4409e12e60c0b0b3b0, type: 2}
+  _isSelected: 0
   _name: {fileID: 1161880062}
 --- !u!114 &1166537401
 MonoBehaviour:
@@ -1832,7 +1837,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 24.1
+  m_fontSize: 20
   m_fontSizeBase: 8.48
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1915,9 +1920,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1447166968}
   - component: {fileID: 1447166971}
-  - component: {fileID: 1447166970}
   - component: {fileID: 1447166969}
   - component: {fileID: 1447166972}
+  - component: {fileID: 1447166970}
   - component: {fileID: 1447166975}
   - component: {fileID: 1447166974}
   m_Layer: 5
@@ -2033,6 +2038,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _character: {fileID: 11400000, guid: cdfddce7d11eb974e9177e167cc4c7da, type: 2}
+  _isSelected: 0
   _name: {fileID: 884602845}
 --- !u!114 &1447166974
 MonoBehaviour:
@@ -2436,7 +2442,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 36.35
+  m_fontSize: 30.55
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2671,7 +2677,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 24.1
+  m_fontSize: 20
   m_fontSizeBase: 8.48
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2826,7 +2832,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 24.1
+  m_fontSize: 20
   m_fontSizeBase: 8.48
   m_fontWeight: 400
   m_enableAutoSizing: 1

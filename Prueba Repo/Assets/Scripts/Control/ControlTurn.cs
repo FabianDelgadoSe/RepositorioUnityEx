@@ -92,7 +92,7 @@ public class ControlTurn : Photon.PunBehaviour {
     void StarTurn()
     {
         _myturn.active = true;
-        gameObject.GetComponent<ControlCharacterLocation>().locateCharacterOnTheEdge();
+        gameObject.GetComponent<ControlCharacterLocation>().enabled = true;
     }//cierre starTurn
 
     /// <summary>

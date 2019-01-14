@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 public class PlayerData : Photon.PunBehaviour
 {
 
-    private Character _characterSelected;
+    private Character _characterSelected = null;
 
     private string _playerName;
 

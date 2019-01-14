@@ -12,8 +12,9 @@ public class CharacterSelectionable : Photon.PunBehaviour
 
     PlayerData[] _playerData;
     private PlayerData _currentPlayer;
-    private bool _isSelected = false;
+    public bool _isSelected = false;
     [SerializeField] private TextMeshProUGUI _name;
+    private PhotonPlayer _playerSelect;
 
     // Use this for initialization
     void Start()
@@ -21,36 +22,52 @@ public class CharacterSelectionable : Photon.PunBehaviour
         GetComponent<Image>().sprite = _character._iconUnSelected;
         _name.text = _character._name;
         _playerData = FindObjectsOfType<PlayerData>();
+        Debug.Log(_playerData[0].CharacterSelected);
+    }
+
+    [PunRPC]
+    public void setCharacterSelection(PhotonPlayer Player)
+    {
+        _playerSelect = Player;
+        _isSelected = true;
+        GetComponent<Image>().sprite = _character._iconSelected;
+        _name.text = Player.ID.ToString();
+    }
+
+
+    private void assignCharacterToPlayer()
+    {
+     
+            _playerData[0].CharacterSelected = _character;
+
 
     }
 
     [PunRPC]
-    public void setCharacterSelection()
+    private void removeCharacterToPlayer(PhotonPlayer Player)
     {
-        if (!_isSelected)
-        {
-            assignCharacterToPlayer();
-
-            _isSelected = true;
-            GetComponent<Image>().sprite = _character._iconSelected;
-            _name.text = _playerData[0].PlayerName;
-
-        }
-    }
-
-    private void assignCharacterToPlayer()
-    {
-
-
-        Debug.Log("Player con PlayerData: " + _playerData.Length);
-        _playerData[0].CharacterSelected = _character;
-
-
+        _playerSelect = null;
+        _isSelected = false;
+        GetComponent<Image>().sprite = _character._iconUnSelected;
+        _name.text = _character.name;
+        
     }
 
     public void characterClicked()
     {
-        photonView.RPC("setCharacterSelection", PhotonTargets.All);
+        if (!_isSelected && _playerData[0].CharacterSelected == null)
+        {
+            assignCharacterToPlayer();
+            photonView.RPC("setCharacterSelection", PhotonTargets.All, PhotonNetwork.player);
+
+        }
+        else if (_isSelected && PhotonNetwork.player == _playerSelect)
+        {
+            _playerData[0].CharacterSelected = null;
+            photonView.RPC("removeCharacterToPlayer", PhotonTargets.All, PhotonNetwork.player);
+        }
     }
+
+
 
 }

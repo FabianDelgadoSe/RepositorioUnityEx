@@ -7,7 +7,7 @@ using UnityEngine;
 /// </summary>
 public class ControlCharacterLocation : Photon.PunBehaviour {
 
-    private bool _firtsTurn = true;
+    public bool _firtsTurn = true;
     
     private void OnEnable()
     {
