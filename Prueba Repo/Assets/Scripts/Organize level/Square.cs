@@ -15,6 +15,10 @@ public class Square : Photon.PunBehaviour {
     private int _index;
 
     private bool _isWall = false;
+    private bool _isEmpty = true;
+
+    private GameObject _player;
+
     [SerializeField] private bool _itsOnEdge;
 
     public Sprite BoardSquareBlue
@@ -118,6 +122,32 @@ public class Square : Photon.PunBehaviour {
         set
         {
             _itsOnEdge = value;
+        }
+    }
+
+    public bool IsEmpty
+    {
+        get
+        {
+            return _isEmpty;
+        }
+
+        set
+        {
+            _isEmpty = value;
+        }
+    }
+
+    public GameObject Player
+    {
+        get
+        {
+            return _player;
+        }
+
+        set
+        {
+            _player = value;
         }
     }
 

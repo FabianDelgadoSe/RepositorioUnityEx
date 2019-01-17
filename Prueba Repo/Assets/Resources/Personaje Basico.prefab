@@ -20,12 +20,13 @@ GameObject:
   m_Component:
   - component: {fileID: 4949880931733758}
   - component: {fileID: 212178553762076432}
-  - component: {fileID: 114949666520535312}
   - component: {fileID: 61800843185934962}
   - component: {fileID: 50568271412804432}
-  - component: {fileID: 114140107208382484}
   - component: {fileID: 114568856631415348}
-  m_Layer: 0
+  - component: {fileID: 114949666520535312}
+  - component: {fileID: 114206352545360460}
+  - component: {fileID: 114140107208382484}
+  m_Layer: 8
   m_Name: Personaje Basico
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39,7 +40,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1009991447637910}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.8091362, y: -2.4146276, z: 0}
+  m_LocalPosition: {x: -6.72132, y: -0.45872754, z: 0}
   m_LocalScale: {x: 0.20115902, y: 0.22068901, z: 0.279}
   m_Children: []
   m_Father: {fileID: 0}
@@ -112,11 +113,30 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 114949666520535312}
   - {fileID: 114568856631415348}
+  - {fileID: 114206352545360460}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1
   currentMasterID: -1
   isRuntimeInstantiated: 0
+--- !u!114 &114206352545360460
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1009991447637910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1a9e92ff9ce54444bd0c9697f6a8c9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characters:
+  - {fileID: 11400000, guid: cdfddce7d11eb974e9177e167cc4c7da, type: 2}
+  - {fileID: 11400000, guid: 668a172055e42594183029439864775d, type: 2}
+  - {fileID: 11400000, guid: 1c642311ccf41b245a62548198c38bdb, type: 2}
+  - {fileID: 11400000, guid: 2b681b2b527b5e4409e12e60c0b0b3b0, type: 2}
+  - {fileID: 11400000, guid: 81f63d5ee3b212e4395a651b07f0012e, type: 2}
+  - {fileID: 11400000, guid: 9e2906e7d463ceb4ab02dfa4d0c6463b, type: 2}
 --- !u!114 &114568856631415348
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -205,7 +225,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5294a1b00e78be74fab0c26f7af3cc38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isMoving: 0
+  _panelConfimatio: {fileID: 1553950309880426, guid: e48c78702c694104ea12485a654c7c60,
+    type: 2}
 --- !u!212 &212178553762076432
 SpriteRenderer:
   m_ObjectHideFlags: 1

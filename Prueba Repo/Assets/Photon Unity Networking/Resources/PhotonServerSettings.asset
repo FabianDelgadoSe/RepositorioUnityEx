@@ -54,4 +54,5 @@ MonoBehaviour:
   - setCharacterSelector
   - setCharacterSelection
   - removeCharacterToPlayer
+  - loadDataObjets
   DisableAutoOpenWizard: 1

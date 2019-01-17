@@ -6,8 +6,10 @@ using UnityEngine.UI;
 public class locateCharacter : Photon.PunBehaviour
 {
 
-    public bool _isMoving = false;
-
+    private bool _isMoving = false;
+    [SerializeField] private GameObject _panelConfimatio;
+    private GameObject aux;
+    private bool _panelConfimation = false;
     private void Start()
     {
         
@@ -40,12 +42,16 @@ public class locateCharacter : Photon.PunBehaviour
             if (collision.gameObject.GetComponent<Square>().ItsOnEdge && !_isMoving)
             {
                 transform.position = collision.gameObject.transform.position;
-                Destroy(gameObject.GetComponent<locateCharacter>());
+
+                if (aux == null)
+                {
+                    aux = Instantiate(_panelConfimatio, new Vector3(0, 0, 0), Quaternion.identity);
+                    aux.GetComponent<ControlLocationConfirmationPanel>().Player = gameObject;
+                }
+                
             }
         }
     }
 
-   
 
-   
 }

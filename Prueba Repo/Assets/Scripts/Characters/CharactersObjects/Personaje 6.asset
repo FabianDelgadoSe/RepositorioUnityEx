@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Name: Personaje 6
   m_EditorClassIdentifier: 
   _name: Personaje 6
+  _IDCharacter: 6
   _iconUnSelected: {fileID: 21300000, guid: 2cd8a5cdb2586ed4e952a43ab88f82be, type: 3}
   _iconSelected: {fileID: 21300000, guid: 1c61724bba54ca047ab902429c5c7ff9, type: 3}

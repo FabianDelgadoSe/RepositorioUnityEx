@@ -18,7 +18,7 @@ public class ControlCharacterLocation : Photon.PunBehaviour {
         }
         else
         {
-            // este else sera usado para cuando se tenga que reubicar la pieza por que esta sobre un muro
+            //este else sera usado para cuando se tenga que reubicar la pieza por que esta sobre un muro
         }
 
         gameObject.GetComponent<ControlCharacterLocation>().enabled = false;   
