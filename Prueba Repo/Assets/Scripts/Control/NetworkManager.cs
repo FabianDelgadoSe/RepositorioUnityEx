@@ -20,7 +20,7 @@ public class NetworkManager : Photon.MonoBehaviour
     {
         if (_roomName.text != "")
             PhotonNetwork.ConnectUsingSettings(_version);
-       
+
     }
 
     /// <summary>
@@ -47,7 +47,7 @@ public class NetworkManager : Photon.MonoBehaviour
     /// </summary>
     void OnJoinedRoom()
     {
-        
+
         Debug.Log("entre a la sala");
         SceneManager.LoadScene("Lobby");
 
@@ -61,3 +61,4 @@ public class NetworkManager : Photon.MonoBehaviour
 
 
 }
+

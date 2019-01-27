@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
-public class locateCharacter : Photon.PunBehaviour
+/// <summary>
+/// Controla el movimiento del personaje cuando sigue el cursor
+/// </summary>
+public class locateCharacter : Photon.MonoBehaviour
 {
 
     private bool _isMoving = false;
@@ -43,10 +45,11 @@ public class locateCharacter : Photon.PunBehaviour
             {
                 transform.position = collision.gameObject.transform.position;
 
-                if (aux == null)
+                if (aux == null && FindObjectOfType<ControlTurn>().FirstTurn)
                 {
                     aux = Instantiate(_panelConfimatio, new Vector3(0, 0, 0), Quaternion.identity);
                     aux.GetComponent<ControlLocationConfirmationPanel>().Player = gameObject;
+                    aux.GetComponent<ControlLocationConfirmationPanel>().Square = collision.gameObject;
                 }
                 
             }

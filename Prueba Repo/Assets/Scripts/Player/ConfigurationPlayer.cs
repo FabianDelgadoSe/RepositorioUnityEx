@@ -17,8 +17,6 @@ public class ConfigurationPlayer : Photon.PunBehaviour
     [PunRPC]
     private void loadDataObjets(int IDcharacter)
     {
-        SSTools.ShowMessage((IDcharacter - 1).ToString(), SSTools.Position.top, SSTools.Time.threeSecond);
-        SSTools.ShowMessage((IDcharacter - 1).ToString(),SSTools.Position.bottom,SSTools.Time.threeSecond);
         GetComponent<SpriteRenderer>().sprite = characters[IDcharacter-1]._iconUnSelected;
     }
 }

@@ -17,9 +17,112 @@ public class Square : Photon.PunBehaviour {
     private bool _isWall = false;
     private bool _isEmpty = true;
 
-    private GameObject _player;
+    public GameObject _player = null;
+    public GameObject _squareUp;
+    public GameObject _squareDown;
+    public GameObject _squareLeft;
+    public GameObject _squareRigh;
+    private const float COLLIDER_RADIO = 0.2f;
+    private PhotonPlayer _playerOwner = null;
 
     [SerializeField] private bool _itsOnEdge;
+
+    private void Start()
+    {
+
+        if (Physics2D.OverlapCircle(new Vector2(_squareUp.transform.position.x, _squareUp.transform.position.y), COLLIDER_RADIO) != null)
+            _squareUp = Physics2D.OverlapCircle(new Vector2(_squareUp.transform.position.x, _squareUp.transform.position.y), COLLIDER_RADIO).gameObject;
+        else
+            _squareUp = null;
+
+        if (Physics2D.OverlapCircle(new Vector2(_squareDown.transform.position.x, _squareDown.transform.position.y), COLLIDER_RADIO) != null)
+            _squareDown = Physics2D.OverlapCircle(new Vector2(_squareDown.transform.position.x, _squareDown.transform.position.y), COLLIDER_RADIO).gameObject;
+        else
+            _squareDown = null;
+
+        if (Physics2D.OverlapCircle(new Vector2(_squareLeft.transform.position.x, _squareLeft.transform.position.y), COLLIDER_RADIO) != null)
+            _squareLeft = Physics2D.OverlapCircle(new Vector2(_squareLeft.transform.position.x, _squareLeft.transform.position.y), COLLIDER_RADIO).gameObject;
+        else
+            _squareLeft = null;
+
+        if (Physics2D.OverlapCircle(new Vector2(_squareRigh.transform.position.x, _squareRigh.transform.position.y), COLLIDER_RADIO) != null)
+            _squareRigh = Physics2D.OverlapCircle(new Vector2(_squareRigh.transform.position.x, _squareRigh.transform.position.y), COLLIDER_RADIO).gameObject;
+        else
+            _squareRigh = null;
+
+    }
+
+    /// <summary>
+    /// recibe el propietario de esta casilla del tablero
+    /// </summary>
+    /// <param name="photonPlayer"></param>
+    [PunRPC]
+    public void changerPlayerOwner(PhotonPlayer photonPlayer)
+    {
+        this.PlayerOwner = photonPlayer;
+    }
+
+    /// <summary>
+    /// Tiene el proposito de configurar el objeto dependiendo de un index
+    /// </summary>
+    [PunRPC]
+    public void changeSprite()
+    {
+        switch (Index)
+        {
+            case 1:
+                GetComponent<SpriteRenderer>().sprite = BoardSquareBlue;
+                IsWall = false;
+                break;
+
+            case 2:
+                GetComponent<SpriteRenderer>().sprite = BoardSquareGreen;
+                IsWall = false;
+                break;
+
+            case 3:
+                GetComponent<SpriteRenderer>().sprite = BoardSquareRed;
+                IsWall = false;
+                break;
+
+            case 4:
+                GetComponent<SpriteRenderer>().sprite = BoardSquareYellow;
+                IsWall = false;
+                break;
+
+            case 5:
+                GetComponent<SpriteRenderer>().sprite = BoardSquareWall;
+                IsWall = true;
+                break;
+                
+            default:
+                Debug.Log("salio del rango " + Index);
+                break;
+
+        }
+    }
+    
+    /// <summary>
+    /// Recibe los datos de el index y si la casilla es un muro
+    /// </summary>
+    /// <param name="stream"></param>
+    /// <param name="info"></param>
+    void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.isWriting)
+        {
+            Debug.Log("envie algo");
+            stream.SendNext(Index);
+            stream.SendNext(_isWall);
+        }
+        else
+        {
+            Debug.Log("recibi algo");
+            Index = (int)stream.ReceiveNext();
+            _isWall = (bool)stream.ReceiveNext();
+            photonView.RPC("changeSprite", PhotonTargets.All);
+        }
+    }
 
     public Sprite BoardSquareBlue
     {
@@ -151,69 +254,16 @@ public class Square : Photon.PunBehaviour {
         }
     }
 
-    /// <summary>
-    /// Tiene el proposito de configurar el objeto dependiendo de un index
-    /// </summary>
-    [PunRPC]
-    public void changeSprite()
+    public PhotonPlayer PlayerOwner
     {
-        switch (Index)
+        get
         {
-            case 1:
-                GetComponent<SpriteRenderer>().sprite = BoardSquareBlue;
-                IsWall = false;
-                break;
+            return _playerOwner;
+        }
 
-            case 2:
-                GetComponent<SpriteRenderer>().sprite = BoardSquareGreen;
-                IsWall = false;
-                break;
-
-            case 3:
-                GetComponent<SpriteRenderer>().sprite = BoardSquareRed;
-                IsWall = false;
-                break;
-
-            case 4:
-                GetComponent<SpriteRenderer>().sprite = BoardSquareYellow;
-                IsWall = false;
-                break;
-
-            case 5:
-                GetComponent<SpriteRenderer>().sprite = BoardSquareWall;
-                IsWall = true;
-                break;
-                
-            default:
-                Debug.Log("salio del rango " + Index);
-                break;
-
+        set
+        {
+            _playerOwner = value;
         }
     }
-
-   
-    
-    /// <summary>
-    /// Recibe los datos de el index y si la casilla es un muro
-    /// </summary>
-    /// <param name="stream"></param>
-    /// <param name="info"></param>
-    void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        if (stream.isWriting)
-        {
-            Debug.Log("envie algo");
-            stream.SendNext(Index);
-            stream.SendNext(_isWall);
-        }
-        else
-        {
-            Debug.Log("recibi algo");
-            Index = (int)stream.ReceiveNext();
-            _isWall = (bool)stream.ReceiveNext();
-            photonView.RPC("changeSprite", PhotonTargets.All);
-        }
-    }
-
-    
 }

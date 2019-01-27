@@ -55,4 +55,12 @@ MonoBehaviour:
   - setCharacterSelection
   - removeCharacterToPlayer
   - loadDataObjets
+  - enviarObjeto
+  - receiveNumberOfSteps
+  - saveOwener
+  - receiveAdress
+  - calculatePointToMove
+  - changerPlayerOwner
+  - dragOrder
+  - pushOrder
   DisableAutoOpenWizard: 1

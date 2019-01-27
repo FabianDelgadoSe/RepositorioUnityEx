@@ -37,10 +37,7 @@ public class CharacterSelectionable : Photon.PunBehaviour
 
     private void assignCharacterToPlayer()
     {
-     
             _playerData[0].CharacterSelected = _character;
-
-
     }
 
     [PunRPC]
