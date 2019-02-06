@@ -63,4 +63,5 @@ MonoBehaviour:
   - changerPlayerOwner
   - dragOrder
   - pushOrder
+  - llegar
   DisableAutoOpenWizard: 1

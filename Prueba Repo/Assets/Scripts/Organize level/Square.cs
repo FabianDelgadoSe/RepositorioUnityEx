@@ -57,7 +57,7 @@ public class Square : Photon.PunBehaviour {
     /// </summary>
     /// <param name="photonPlayer"></param>
     [PunRPC]
-    public void changerPlayerOwner(PhotonPlayer photonPlayer)
+    public void changerPlayerOwner(PhotonPlayer photonPlayer = null)
     {
         this.PlayerOwner = photonPlayer;
     }

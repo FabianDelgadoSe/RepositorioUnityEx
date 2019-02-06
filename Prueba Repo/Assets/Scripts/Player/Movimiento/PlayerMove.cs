@@ -251,7 +251,8 @@ public class PlayerMove : Photon.PunBehaviour
                         }
                         else
                         {
-                            photonView.RPC("pushOrder", Square.GetComponent<Square>()._squareRigh.GetComponent<Square>().PlayerOwner, adress, PhotonNetwork.player);
+                           
+                           photonView.RPC("pushOrder", Square.GetComponent<Square>()._squareRigh.GetComponent<Square>().PlayerOwner, adress, PhotonNetwork.player);
                         }
                     }
                     else
@@ -287,12 +288,13 @@ public class PlayerMove : Photon.PunBehaviour
         this.adress = adress;
 
         _starPoint = transform.position;
-        SSTools.ShowMessage("me empujan",SSTools.Position.top, SSTools.Time.twoSecond);
+        SSTools.ShowMessage("me empujan a la " + adress,SSTools.Position.top, SSTools.Time.twoSecond);
         switch (adress)
         {
             case Arrow.adress.DOWN:
                 if (Square.GetComponent<Square>()._squareDown != null && !Square.GetComponent<Square>()._squareDown.GetComponent<Square>().IsWall)
                 {
+                    SSTools.ShowMessage(" entre al primer if", SSTools.Position.bottom, SSTools.Time.twoSecond);
                     if (Square.GetComponent<Square>()._squareDown.GetComponent<Square>().PlayerOwner == null)
                     {
                         _endPoint = Square.GetComponent<Square>()._squareDown.transform.position;
@@ -308,6 +310,7 @@ public class PlayerMove : Photon.PunBehaviour
                     }
                     else
                     {
+                        //si tiene a alguien al frente empujarlo tambien
                         photonView.RPC("pushOrder", Square.GetComponent<Square>()._squareDown.GetComponent<Square>().PlayerOwner, adress, PhotonNetwork.player);
                     }
                 }
@@ -321,6 +324,8 @@ public class PlayerMove : Photon.PunBehaviour
             case Arrow.adress.UP:
                 if (Square.GetComponent<Square>()._squareUp != null && !Square.GetComponent<Square>()._squareUp.GetComponent<Square>().IsWall)
                 {
+                    SSTools.ShowMessage(" entre al primer if", SSTools.Position.bottom, SSTools.Time.twoSecond);
+
                     if (Square.GetComponent<Square>()._squareUp.GetComponent<Square>().PlayerOwner == null)
                     {
                         _endPoint = Square.GetComponent<Square>()._squareUp.transform.position;
@@ -351,6 +356,7 @@ public class PlayerMove : Photon.PunBehaviour
             case Arrow.adress.LEFT:
                 if (Square.GetComponent<Square>()._squareLeft != null && !Square.GetComponent<Square>()._squareLeft.GetComponent<Square>().IsWall)
                 {
+                    SSTools.ShowMessage(" entre al primer if", SSTools.Position.bottom, SSTools.Time.twoSecond);
                     if (Square.GetComponent<Square>()._squareLeft.GetComponent<Square>().PlayerOwner == null)
                     {
                         _endPoint = Square.GetComponent<Square>()._squareLeft.transform.position;
@@ -378,8 +384,10 @@ public class PlayerMove : Photon.PunBehaviour
                 break;
 
             case Arrow.adress.RIGHT:
+                SSTools.ShowMessage(Square.GetComponent<Square>()._squareRigh + " " + !Square.GetComponent<Square>()._squareRigh.GetComponent<Square>().IsWall, SSTools.Position.bottom, SSTools.Time.twoSecond);
                 if (Square.GetComponent<Square>()._squareRigh != null && !Square.GetComponent<Square>()._squareRigh.GetComponent<Square>().IsWall)
                 {
+                    
                     if (Square.GetComponent<Square>()._squareRigh.GetComponent<Square>().PlayerOwner == null)
                     {
                         _endPoint = Square.GetComponent<Square>()._squareRigh.transform.position;

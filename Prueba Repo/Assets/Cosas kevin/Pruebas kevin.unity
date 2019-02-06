@@ -803,6 +803,10 @@ Prefab:
       propertyPath: instantiationId
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 1009991447637910, guid: 54821084335ef964fbf9c7dd1891dc7e, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 54821084335ef964fbf9c7dd1891dc7e, type: 2}
   m_IsPrefabAsset: 0
@@ -1407,7 +1411,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 411990911}
-        m_MethodName: envio
+        m_MethodName: presionar
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1484,7 +1488,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &1702808685
 SpriteRenderer:
   m_ObjectHideFlags: 0
