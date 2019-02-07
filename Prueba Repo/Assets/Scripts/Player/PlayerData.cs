@@ -10,6 +10,7 @@ public class PlayerData : Photon.PunBehaviour
 
     private string _playerName;
 
+    [SerializeField] private GameObject _playerInGame;
 
     private void Awake()
     {
@@ -53,6 +54,19 @@ public class PlayerData : Photon.PunBehaviour
         set
         {
             _playerName = value;
+        }
+    }
+
+    public GameObject PlayerInGame
+    {
+        get
+        {
+            return _playerInGame;
+        }
+
+        set
+        {
+            _playerInGame = value;
         }
     }
 }

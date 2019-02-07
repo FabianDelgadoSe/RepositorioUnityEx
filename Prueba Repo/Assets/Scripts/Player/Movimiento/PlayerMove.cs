@@ -17,6 +17,7 @@ public class PlayerMove : Photon.PunBehaviour
     private Vector3 _endPoint;  // punto final de movimiento
     private float _rapeVelocity;  // guarda el calculo del movimiento para el lerp
     private float _time = 0;  // tiempo es usado para el lerp de movimiento
+    private const float VELOCITY_MOVE = 3; // Velocidad con la que se mueve el personaje
 
     private void Start()
     {
@@ -37,6 +38,7 @@ public class PlayerMove : Photon.PunBehaviour
 
             if (_time >= 1)
             {
+                
                 _time = 0;
                 calculatePointToMove();
 
@@ -131,6 +133,7 @@ public class PlayerMove : Photon.PunBehaviour
     /// </summary>
     public void calculatePointToMove()
     {
+        SSTools.ShowMessage("entre al move " + NumberSteps, SSTools.Position.top, SSTools.Time.twoSecond);
         if (NumberSteps >= 1)
         {
             _starPoint = transform.position;
@@ -251,8 +254,8 @@ public class PlayerMove : Photon.PunBehaviour
                         }
                         else
                         {
-                           
-                           photonView.RPC("pushOrder", Square.GetComponent<Square>()._squareRigh.GetComponent<Square>().PlayerOwner, adress, PhotonNetwork.player);
+
+                            photonView.RPC("antes", Square.GetComponent<Square>()._squareRigh.GetComponent<Square>().PlayerOwner, adress, PhotonNetwork.player);
                         }
                     }
                     else
@@ -271,10 +274,25 @@ public class PlayerMove : Photon.PunBehaviour
         }
         else
         {
+            
             Move = false;
         }
 
 
+
+    }
+
+    [PunRPC]
+    public void antes(Arrow.adress adress, PhotonPlayer photonPlayer)
+    {
+        SSTools.ShowMessage("antes", SSTools.Position.bottom, SSTools.Time.twoSecond);
+        FindObjectOfType<PlayerData>().PlayerInGame.GetComponent<PlayerMove>().pushOrder(adress, photonPlayer);
+    }
+
+    [PunRPC]
+    public void antesArrastrar()
+    {
+        FindObjectOfType<PlayerData>().PlayerInGame.GetComponent<PlayerMove>().dragOrder();
 
     }
 
@@ -288,8 +306,9 @@ public class PlayerMove : Photon.PunBehaviour
         this.adress = adress;
 
         _starPoint = transform.position;
-        SSTools.ShowMessage("me empujan a la " + adress,SSTools.Position.top, SSTools.Time.twoSecond);
-        switch (adress)
+        
+
+        switch (Adress)
         {
             case Arrow.adress.DOWN:
                 if (Square.GetComponent<Square>()._squareDown != null && !Square.GetComponent<Square>()._squareDown.GetComponent<Square>().IsWall)
@@ -384,12 +403,13 @@ public class PlayerMove : Photon.PunBehaviour
                 break;
 
             case Arrow.adress.RIGHT:
-                SSTools.ShowMessage(Square.GetComponent<Square>()._squareRigh + " " + !Square.GetComponent<Square>()._squareRigh.GetComponent<Square>().IsWall, SSTools.Position.bottom, SSTools.Time.twoSecond);
+               
                 if (Square.GetComponent<Square>()._squareRigh != null && !Square.GetComponent<Square>()._squareRigh.GetComponent<Square>().IsWall)
                 {
-                    
-                    if (Square.GetComponent<Square>()._squareRigh.GetComponent<Square>().PlayerOwner == null)
+                    SSTools.ShowMessage(Square.GetComponent<Square>()._squareRigh.GetComponent<Square>().PlayerOwner.ToString(), SSTools.Position.bottom, SSTools.Time.twoSecond);
+                   if (Square.GetComponent<Square>()._squareRigh.GetComponent<Square>().PlayerOwner == null|| Square.GetComponent<Square>()._squareRigh.GetComponent<Square>().PlayerOwner == PhotonNetwork.player)
                     {
+                           
                         _endPoint = Square.GetComponent<Square>()._squareRigh.transform.position;
                         Move = true;
                         _rapeVelocity = 1f / Vector3.Distance(_starPoint, _endPoint) * 5;
@@ -399,7 +419,7 @@ public class PlayerMove : Photon.PunBehaviour
                         Square = Square.GetComponent<Square>()._squareRigh;
                         Square.GetComponent<Square>().Player = gameObject;
                         Square.GetComponent<Square>().photonView.RPC("changerPlayerOwner", PhotonTargets.All, PhotonNetwork.player);
-                        photonView.RPC("dragOrder", photonPlayer);
+                        photonView.RPC("antesArrastrar", photonPlayer);
 
 
                     }
@@ -413,7 +433,7 @@ public class PlayerMove : Photon.PunBehaviour
                     Move = false;
                     SSTools.ShowMessage("pierdo " + NumberSteps + " de puntos", SSTools.Position.bottom, SSTools.Time.twoSecond);
                 }
-
+                
 
                 break;
 

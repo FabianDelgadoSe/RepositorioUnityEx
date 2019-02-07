@@ -64,4 +64,6 @@ MonoBehaviour:
   - dragOrder
   - pushOrder
   - llegar
+  - antes
+  - antesArrastrar
   DisableAutoOpenWizard: 1
