@@ -24,6 +24,7 @@ public class Square : Photon.PunBehaviour {
     public GameObject _squareRigh;
     private const float COLLIDER_RADIO = 0.2f;
     private PhotonPlayer _playerOwner = null;
+    private bool _itsBusy = false;
 
     [SerializeField] private bool _itsOnEdge;
 
@@ -52,15 +53,36 @@ public class Square : Photon.PunBehaviour {
 
     }
 
+    private void Update()
+    {
+        if (ItsBusy)
+        {
+            GetComponent<SpriteRenderer>().sprite = _boardSquareWall;
+        }
+        else
+        {
+            changeSprite();
+        }
+    }
+
     /// <summary>
     /// recibe el propietario de esta casilla del tablero
     /// </summary>
     /// <param name="photonPlayer"></param>
     [PunRPC]
-    public void changerPlayerOwner(PhotonPlayer photonPlayer = null)
+    public void changerPlayerOwner(PhotonPlayer photonPlayer )
     {
-        this.PlayerOwner = photonPlayer;
+            this.PlayerOwner = photonPlayer;
+            ItsBusy = true;
+        
     }
+
+    [PunRPC]
+    public void removeOnOwner()
+    {
+        ItsBusy = false;
+    }
+  
 
     /// <summary>
     /// Tiene el proposito de configurar el objeto dependiendo de un index
@@ -114,12 +136,14 @@ public class Square : Photon.PunBehaviour {
             Debug.Log("envie algo");
             stream.SendNext(Index);
             stream.SendNext(_isWall);
+
         }
         else
         {
             Debug.Log("recibi algo");
             Index = (int)stream.ReceiveNext();
             _isWall = (bool)stream.ReceiveNext();
+
             photonView.RPC("changeSprite", PhotonTargets.All);
         }
     }
@@ -264,6 +288,19 @@ public class Square : Photon.PunBehaviour {
         set
         {
             _playerOwner = value;
+        }
+    }
+
+    public bool ItsBusy
+    {
+        get
+        {
+            return _itsBusy;
+        }
+
+        set
+        {
+            _itsBusy = value;
         }
     }
 }

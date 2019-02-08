@@ -66,4 +66,7 @@ MonoBehaviour:
   - llegar
   - antes
   - antesArrastrar
+  - beforePushing
+  - beforeDrag
+  - removeOnOwner
   DisableAutoOpenWizard: 1
