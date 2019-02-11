@@ -10,32 +10,67 @@ public class ChangeScene : Photon.PunBehaviour
 
     private const string LOBBY = "Lobby";
     private const string MAIN = "Main";
-    private const string PRELOBBY = "Pre-Lobby";
+    private const string PRELOBBY = "Pre-lobby";
+    private const string SELECTORCREATE = "SelectOrCreate";
     private const string SELECTROOM = "SelectRoom";
+
 
     public enum Scenes
     {
-        none, Lobby, Main, PreLobby, SelectRoom
+        none, Lobby, Main, PreLobby, SelectOrCreate, SelectRoom
     }
 
-    public Scenes _sceneToChange = Scenes.none;
+    public Scenes _sceneToChange;
 
-    public void chansy()
+
+    public void chanScene()
     {
-    
         switch (_sceneToChange)
         {
             case Scenes.Lobby:
-                photonView.RPC("changeScene", PhotonTargets.All, LOBBY);
+                changeScene(LOBBY);
                 break;
             case Scenes.Main:
-                photonView.RPC("changeScene", PhotonTargets.All, MAIN);
+                changeScene(MAIN); 
                 break;
             case Scenes.PreLobby:
-                photonView.RPC("changeScene", PhotonTargets.All, PRELOBBY);
+                changeScene(PRELOBBY);
+                break;
+            case Scenes.SelectOrCreate:
+                changeScene(SELECTORCREATE);
                 break;
             case Scenes.SelectRoom:
-                photonView.RPC("changeScene", PhotonTargets.All, SELECTROOM);
+                changeScene(SELECTROOM);
+                break;
+            case Scenes.none:
+                //AÑADIR FEEDBACK DE NINGUNA SELECCIÓN
+                break;
+
+        }
+
+        //photonView.RPC("changeScene", PhotonTargets.All);
+    }
+
+
+    public void chansy()
+    {
+
+        switch (_sceneToChange)
+        {
+            case Scenes.Lobby:
+                photonView.RPC("changeSceneSyn", PhotonTargets.All, LOBBY);
+                break;
+            case Scenes.Main:
+                photonView.RPC("changeSceneSyn", PhotonTargets.All, MAIN);
+                break;
+            case Scenes.PreLobby:
+                photonView.RPC("changeSceneSyn", PhotonTargets.All, PRELOBBY);
+                break;
+            case Scenes.SelectOrCreate:
+                photonView.RPC("changeSceneSyn", PhotonTargets.All, SELECTORCREATE);
+                break;
+            case Scenes.SelectRoom:
+                photonView.RPC("changeSceneSyn", PhotonTargets.All, SELECTROOM);
                 break;
             case Scenes.none:
                 //AÑADIR FEEDBACK DE NINGUNA SELECCIÓN
@@ -47,8 +82,94 @@ public class ChangeScene : Photon.PunBehaviour
     }
 
     [PunRPC]
+    void changeSceneSyn(string sceneName)
+    {
+        SceneManager.LoadScene(sceneName);
+    }
+
     void changeScene(string sceneName)
     {
-        SceneManager.LoadScene("Main");
+        SceneManager.LoadScene(sceneName);
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+ 
