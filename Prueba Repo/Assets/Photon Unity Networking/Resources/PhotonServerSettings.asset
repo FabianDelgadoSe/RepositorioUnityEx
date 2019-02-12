@@ -15,7 +15,7 @@ MonoBehaviour:
   VoiceAppID: 
   ChatAppID: 
   HostType: 1
-  PreferredRegion: 1
+  PreferredRegion: 0
   EnabledRegions: -1
   Protocol: 0
   ServerAddress: 
@@ -27,49 +27,37 @@ MonoBehaviour:
   NetworkLogging: 1
   RunInBackground: 1
   RpcList:
+  - calculatePointToMove
+  - changeSceneSyn
+  - changeSprite
   - Chat
   - ColorRpc
   - DestroyRpc
   - DoJump
+  - endSelectionBox
+  - finishTurn
+  - finishTurnOtherComputers
   - Flash
   - InstantiateRpc
+  - llegar
+  - loadDataObjets
   - Marco
+  - mineTurn
   - PickupItemInit
   - Polo
   - PunPickup
   - PunPickupSimple
   - PunRespawn
+  - receiveAdress
+  - receiveNumberOfSteps
+  - removeCharacterToPlayer
   - RequestForPickupItems
   - RequestForPickupTimes
-  - TaggedPlayer
-  - changeSprite
-  - change
   - restarBoard
-  - showPlayersConnected
-  - changeScene
-  - mineTurn
-  - finishTurn
-  - StarTurn
-  - finishTurnOtherComputers
-  - setCharacterSelector
-  - setCharacterSelection
-  - removeCharacterToPlayer
-  - loadDataObjets
-  - enviarObjeto
-  - receiveNumberOfSteps
-  - saveOwener
-  - receiveAdress
-  - calculatePointToMove
-  - changerPlayerOwner
-  - dragOrder
-  - pushOrder
-  - llegar
-  - antes
-  - antesArrastrar
-  - beforePushing
-  - beforeDrag
-  - removeOnOwner
   - saveCurrentPlayer
-  - endSelectionBox
+  - saveOwener
   - selectSquare
+  - setCharacterSelection
+  - showPlayersConnected
+  - TaggedPlayer
   DisableAutoOpenWizard: 1

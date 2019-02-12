@@ -55,13 +55,13 @@ public class CharacterSelectionable : Photon.PunBehaviour
         if (!_isSelected && _playerData[0].CharacterSelected == null)
         {
             assignCharacterToPlayer();
-            photonView.RPC("setCharacterSelection", PhotonTargets.All, PhotonNetwork.player);
+            photonView.RPC("setCharacterSelection", PhotonTargets.AllBuffered , PhotonNetwork.player);
 
         }
         else if (_isSelected && PhotonNetwork.player == _playerSelect)
         {
             _playerData[0].CharacterSelected = null;
-            photonView.RPC("removeCharacterToPlayer", PhotonTargets.All, PhotonNetwork.player);
+            photonView.RPC("removeCharacterToPlayer", PhotonTargets.AllBuffered , PhotonNetwork.player);
         }
     }
 

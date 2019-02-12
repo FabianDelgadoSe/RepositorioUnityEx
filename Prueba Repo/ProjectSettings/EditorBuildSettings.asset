@@ -6,6 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/SelectOrCreate.unity
+    guid: ac4e67de065789e46bd16a47421ade0b
+  - enabled: 1
+    path: Assets/Scenes/SelectRoom.unity
+    guid: 8c68825f6f9aee24eaf37c110f0a68b6
+  - enabled: 1
     path: Assets/Scenes/Pre-lobby.unity
     guid: ec1684c0965d09146a741c0c8cd875e1
   - enabled: 1
