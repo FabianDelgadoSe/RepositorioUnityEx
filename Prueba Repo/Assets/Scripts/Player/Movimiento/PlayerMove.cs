@@ -172,7 +172,7 @@ public class PlayerMove : Photon.PunBehaviour
                     else
                     {
                         Move = false;
-                        SSTools.ShowMessage("pierdo " + NumberSteps + " de puntos", SSTools.Position.bottom, SSTools.Time.twoSecond);
+                        lostPoints();
                     }
                     break;
 
@@ -208,7 +208,7 @@ public class PlayerMove : Photon.PunBehaviour
                     else
                     {
                         Move = false;
-                        SSTools.ShowMessage("pierdo " + NumberSteps + " de puntos", SSTools.Position.bottom, SSTools.Time.twoSecond);
+                        lostPoints();
                     }
                     break;
 
@@ -243,7 +243,7 @@ public class PlayerMove : Photon.PunBehaviour
                     else
                     {
                         Move = false;
-                        SSTools.ShowMessage("pierdo " + NumberSteps + " de puntos", SSTools.Position.bottom, SSTools.Time.twoSecond);
+                        lostPoints();
                     }
                     break;
 
@@ -278,7 +278,7 @@ public class PlayerMove : Photon.PunBehaviour
                     else
                     {
                         Move = false;
-                        SSTools.ShowMessage("pierdo " + NumberSteps + " de puntos", SSTools.Position.bottom, SSTools.Time.twoSecond);
+                        lostPoints();
                     }
 
                     break;
@@ -300,7 +300,19 @@ public class PlayerMove : Photon.PunBehaviour
 
     }
     
-
+    public void lostPoints()
+    {
+        if (PlayerDrag == null)
+        {
+            if(photonView.isMine)
+                SSTools.ShowMessage("pierdo " + NumberSteps + " de puntos", SSTools.Position.bottom, SSTools.Time.twoSecond);
+        }
+        else
+        {
+            PlayerDrag.GetComponent<PlayerMove>().lostPoints();
+            PlayerDrag = null;
+        }
+    }
  
     
     /////////////////////////// GET Y SET ///////////////
