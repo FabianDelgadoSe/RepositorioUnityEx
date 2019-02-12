@@ -28,14 +28,23 @@ public class ControlLocationConfirmationPanel : MonoBehaviour
 
         _player.GetComponent<PlayerMove>().Square = Square;
 
+        _player.GetComponent<locateCharacter>().enabled = false;
+
         Square.GetComponent<Square>().Player = Player;
 
-        Square.GetComponent<Square>().photonView.RPC("changerPlayerOwner", PhotonTargets.All, PhotonNetwork.player);
+        Square.GetComponent<Square>().photonView.RPC("selectSquare",PhotonTargets.All);
+
+        Square.GetComponent<Square>().photonView.RPC("saveCurrentPlayer", PhotonTargets.Others, FindObjectOfType<ControlTurn>().IndexTurn);
+
+        _player.GetComponent<ConfigurationPlayer>().photonView.RPC("endSelectionBox", PhotonTargets.All);
+
+
 
         FindObjectOfType<ControlTurn>().nextTurn();
 
         Destroy(gameObject);
     }//Cierre ConfirmationButton
+
 
     /// <summary>
     /// Es llamado cuando se le al boton de no al panel de confirmacion y ocaciona que el personaje regrese a la posicion donde fue creado 

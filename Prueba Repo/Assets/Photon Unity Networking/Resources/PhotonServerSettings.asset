@@ -69,4 +69,7 @@ MonoBehaviour:
   - beforePushing
   - beforeDrag
   - removeOnOwner
+  - saveCurrentPlayer
+  - endSelectionBox
+  - selectSquare
   DisableAutoOpenWizard: 1

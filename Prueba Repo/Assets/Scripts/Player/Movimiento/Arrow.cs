@@ -57,8 +57,8 @@ public class Arrow : MonoBehaviour {
     private void OnMouseDown()
     {
         
-        _player.GetComponent<PlayerMove>().photonView.RPC("receiveAdress", _player.GetComponent<PlayerMove>().IdOwner, enumAdress);
-        _player.GetComponent<PlayerMove>().photonView.RPC("calculatePointToMove", _player.GetComponent<PlayerMove>().IdOwner);
+        _player.GetComponent<PlayerMove>().photonView.RPC("receiveAdress", PhotonTargets.All, enumAdress);
+        _player.GetComponent<PlayerMove>().photonView.RPC("calculatePointToMove",PhotonTargets.All);
         Arrow[] aux= FindObjectsOfType<Arrow>();
 
         for(int i = 0; i<aux.Length;i++)

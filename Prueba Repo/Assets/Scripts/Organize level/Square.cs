@@ -4,7 +4,8 @@ using UnityEngine;
 /// <summary>
 /// Esta clase tiene el proposito configurar cada cuadrado
 /// </summary>
-public class Square : Photon.PunBehaviour {
+public class Square : Photon.PunBehaviour
+{
 
     private Sprite _boardSquareBlue;
     private Sprite _boardSquareRed;
@@ -24,7 +25,7 @@ public class Square : Photon.PunBehaviour {
     public GameObject _squareRigh;
     private const float COLLIDER_RADIO = 0.2f;
     private PhotonPlayer _playerOwner = null;
-    private bool _itsBusy = false;
+    private bool _isOccupied = false;
 
     [SerializeField] private bool _itsOnEdge;
 
@@ -55,7 +56,7 @@ public class Square : Photon.PunBehaviour {
 
     private void Update()
     {
-        if (ItsBusy)
+        if (IsOccupied)
         {
             GetComponent<SpriteRenderer>().sprite = _boardSquareWall;
         }
@@ -65,24 +66,18 @@ public class Square : Photon.PunBehaviour {
         }
     }
 
-    /// <summary>
-    /// recibe el propietario de esta casilla del tablero
-    /// </summary>
-    /// <param name="photonPlayer"></param>
     [PunRPC]
-    public void changerPlayerOwner(PhotonPlayer photonPlayer )
+    public void saveCurrentPlayer(int indexTurn)
     {
-            this.PlayerOwner = photonPlayer;
-            ItsBusy = true;
-        
+        Player = FindObjectOfType<PlayerData>().CharactersInGame[indexTurn - 1];
+        FindObjectOfType<PlayerData>().CharactersInGame[indexTurn - 1].GetComponent<PlayerMove>().Square = gameObject;
     }
 
     [PunRPC]
-    public void removeOnOwner()
+    public void selectSquare()
     {
-        ItsBusy = false;
+        IsOccupied = true;
     }
-  
 
     /// <summary>
     /// Tiene el proposito de configurar el objeto dependiendo de un index
@@ -116,14 +111,14 @@ public class Square : Photon.PunBehaviour {
                 GetComponent<SpriteRenderer>().sprite = BoardSquareWall;
                 IsWall = true;
                 break;
-                
+
             default:
                 Debug.Log("salio del rango " + Index);
                 break;
 
         }
     }
-    
+
     /// <summary>
     /// Recibe los datos de el index y si la casilla es un muro
     /// </summary>
@@ -135,14 +130,14 @@ public class Square : Photon.PunBehaviour {
         {
             Debug.Log("envie algo");
             stream.SendNext(Index);
-            stream.SendNext(_isWall);
+            stream.SendNext(IsWall);
 
         }
         else
         {
             Debug.Log("recibi algo");
             Index = (int)stream.ReceiveNext();
-            _isWall = (bool)stream.ReceiveNext();
+            IsWall = (bool)stream.ReceiveNext();
 
             photonView.RPC("changeSprite", PhotonTargets.All);
         }
@@ -291,16 +286,16 @@ public class Square : Photon.PunBehaviour {
         }
     }
 
-    public bool ItsBusy
+    public bool IsOccupied
     {
         get
         {
-            return _itsBusy;
+            return _isOccupied;
         }
 
         set
         {
-            _itsBusy = value;
+            _isOccupied = value;
         }
     }
 }

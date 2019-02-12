@@ -18,6 +18,7 @@ public class PlayerMove : Photon.PunBehaviour
     private float _rapeVelocity;  // guarda el calculo del movimiento para el lerp
     private float _time = 0;  // tiempo es usado para el lerp de movimiento
     private const float VELOCITY_MOVE = 5; // Velocidad con la que se mueve el personaje
+    public GameObject _playerDrag;  // para cuando esta empujando saber cual objeto esta detras de el;
 
     private void Start()
     {
@@ -144,24 +145,28 @@ public class PlayerMove : Photon.PunBehaviour
                     if (Square.GetComponent<Square>()._squareDown != null && !Square.GetComponent<Square>()._squareDown.GetComponent<Square>().IsWall)
                     {
                         
-                        if (!Square.GetComponent<Square>()._squareDown.GetComponent<Square>().ItsBusy)
+                        if (!Square.GetComponent<Square>()._squareDown.GetComponent<Square>().IsOccupied)
                         {
                             _endPoint = Square.GetComponent<Square>()._squareDown.transform.position;
                             Move = true;
                             _rapeVelocity = 1f / Vector3.Distance(_starPoint, _endPoint) * VELOCITY_MOVE;
-                            Square.GetComponent<Square>().photonView.RPC("removeOnOwner", PhotonTargets.All);
+                            Square.GetComponent<Square>().IsOccupied = false;
                             Square.GetComponent<Square>().Player = null;
 
                             Square = Square.GetComponent<Square>()._squareDown;
                             Square.GetComponent<Square>().Player = gameObject;
-                            Square.GetComponent<Square>().photonView.RPC("changerPlayerOwner", PhotonTargets.All, PhotonNetwork.player);
+                            Square.GetComponent<Square>().IsOccupied = true;
 
                             NumberSteps--;
                         }
                         else
                         {
+                            GameObject aux = Square.GetComponent<Square>()._squareDown.GetComponent<Square>().Player;
+                            aux.GetComponent<PlayerMove>().NumberSteps = 1;
+                            aux.GetComponent<PlayerMove>().Adress = adress;
+                            aux.GetComponent<PlayerMove>().PlayerDrag = gameObject;
+                            aux.GetComponent<PlayerMove>().calculatePointToMove();
 
-                            photonView.RPC("beforePushing", Square.GetComponent<Square>()._squareDown.GetComponent<Square>().PlayerOwner, adress, PhotonNetwork.player);
                         }
                     }
                     else
@@ -175,24 +180,28 @@ public class PlayerMove : Photon.PunBehaviour
                     if (Square.GetComponent<Square>()._squareUp != null && !Square.GetComponent<Square>()._squareUp.GetComponent<Square>().IsWall)
                     {
                         
-                        if (!Square.GetComponent<Square>()._squareUp.GetComponent<Square>().ItsBusy)
+                        if (!Square.GetComponent<Square>()._squareUp.GetComponent<Square>().IsOccupied)
                         {
                             _endPoint = Square.GetComponent<Square>()._squareUp.transform.position;
                             Move = true;
                             _rapeVelocity = 1f / Vector3.Distance(_starPoint, _endPoint) * VELOCITY_MOVE;
-                            Square.GetComponent<Square>().photonView.RPC("removeOnOwner", PhotonTargets.All);
+                            Square.GetComponent<Square>().IsOccupied = false;
                             Square.GetComponent<Square>().Player = null;
 
                             Square = Square.GetComponent<Square>()._squareUp;
                             Square.GetComponent<Square>().Player = gameObject;
-                            Square.GetComponent<Square>().photonView.RPC("changerPlayerOwner", PhotonTargets.All, PhotonNetwork.player);
+                            Square.GetComponent<Square>().IsOccupied = true;
 
                             NumberSteps--;
                         }
                         else
                         {
 
-                            photonView.RPC("beforePushing", Square.GetComponent<Square>()._squareUp.GetComponent<Square>().PlayerOwner, adress, PhotonNetwork.player);
+                            GameObject aux = Square.GetComponent<Square>()._squareUp.GetComponent<Square>().Player;
+                            aux.GetComponent<PlayerMove>().NumberSteps = 1;
+                            aux.GetComponent<PlayerMove>().Adress = adress;
+                            aux.GetComponent<PlayerMove>().PlayerDrag = gameObject;
+                            aux.GetComponent<PlayerMove>().calculatePointToMove();
                         }
                     }
 
@@ -207,24 +216,28 @@ public class PlayerMove : Photon.PunBehaviour
                     if (Square.GetComponent<Square>()._squareLeft != null && !Square.GetComponent<Square>()._squareLeft.GetComponent<Square>().IsWall)
                     {
                        
-                        if (!Square.GetComponent<Square>()._squareLeft.GetComponent<Square>().ItsBusy)
+                        if (!Square.GetComponent<Square>()._squareLeft.GetComponent<Square>().IsOccupied)
                         {
                             _endPoint = Square.GetComponent<Square>()._squareLeft.transform.position;
                             Move = true;
                             _rapeVelocity = 1f / Vector3.Distance(_starPoint, _endPoint) * VELOCITY_MOVE;
-                            Square.GetComponent<Square>().photonView.RPC("removeOnOwner", PhotonTargets.All);
+                            Square.GetComponent<Square>().IsOccupied = false;
                             Square.GetComponent<Square>().Player = null;
 
                             Square = Square.GetComponent<Square>()._squareLeft;
                             Square.GetComponent<Square>().Player = gameObject;
-                            Square.GetComponent<Square>().photonView.RPC("changerPlayerOwner", PhotonTargets.All, PhotonNetwork.player);
+                            Square.GetComponent<Square>().IsOccupied = true;
 
                             NumberSteps--;
                         }
                         else
                         {
 
-                            photonView.RPC("beforePushing", Square.GetComponent<Square>()._squareLeft.GetComponent<Square>().PlayerOwner, adress, PhotonNetwork.player);
+                            GameObject aux = Square.GetComponent<Square>()._squareLeft.GetComponent<Square>().Player;
+                            aux.GetComponent<PlayerMove>().NumberSteps = 1;
+                            aux.GetComponent<PlayerMove>().Adress = adress;
+                            aux.GetComponent<PlayerMove>().PlayerDrag = gameObject;
+                            aux.GetComponent<PlayerMove>().calculatePointToMove();
                         }
                     }
                     else
@@ -238,24 +251,28 @@ public class PlayerMove : Photon.PunBehaviour
                     if (Square.GetComponent<Square>()._squareRigh != null && !Square.GetComponent<Square>()._squareRigh.GetComponent<Square>().IsWall)
                     {
                        
-                        if (!Square.GetComponent<Square>()._squareRigh.GetComponent<Square>().ItsBusy)
+                        if (!Square.GetComponent<Square>()._squareRigh.GetComponent<Square>().IsOccupied)
                         {
                             _endPoint = Square.GetComponent<Square>()._squareRigh.transform.position;
                             Move = true;
                             _rapeVelocity = 1f / Vector3.Distance(_starPoint, _endPoint) *VELOCITY_MOVE;
-                            Square.GetComponent<Square>().photonView.RPC("removeOnOwner", PhotonTargets.All);
+                            Square.GetComponent<Square>().IsOccupied = false;
                             Square.GetComponent<Square>().Player = null;
 
                             Square = Square.GetComponent<Square>()._squareRigh;
                             Square.GetComponent<Square>().Player = gameObject;
-                            Square.GetComponent<Square>().photonView.RPC("changerPlayerOwner", PhotonTargets.All, PhotonNetwork.player);
+                            Square.GetComponent<Square>().IsOccupied = true;
 
                             NumberSteps--;
                         }
                         else
                         {
 
-                            photonView.RPC("beforePushing", Square.GetComponent<Square>()._squareRigh.GetComponent<Square>().PlayerOwner, adress, PhotonNetwork.player);
+                            GameObject aux = Square.GetComponent<Square>()._squareRigh.GetComponent<Square>().Player;
+                            aux.GetComponent<PlayerMove>().NumberSteps = 1;
+                            aux.GetComponent<PlayerMove>().Adress = adress;
+                            aux.GetComponent<PlayerMove>().PlayerDrag = gameObject;
+                            aux.GetComponent<PlayerMove>().calculatePointToMove();
                         }
                     }
                     else
@@ -264,249 +281,27 @@ public class PlayerMove : Photon.PunBehaviour
                         SSTools.ShowMessage("pierdo " + NumberSteps + " de puntos", SSTools.Position.bottom, SSTools.Time.twoSecond);
                     }
 
-
                     break;
-
             }
-
-
 
         }
         else
         {
             
             Move = false;
+            if (PlayerDrag != null)
+            {
+                PlayerDrag.GetComponent<PlayerMove>().calculatePointToMove();
+                PlayerDrag = null;  
+            }
         }
 
 
 
     }
     
-    [PunRPC]
-    public void beforePushing(Arrow.adress adress, PhotonPlayer photonPlayer)
-    {
 
-        FindObjectOfType<PlayerData>().PlayerInGame.GetComponent<PlayerMove>().push(adress, photonPlayer);
-    }
-
-    [PunRPC]
-    public void beforeDrag()
-    {
-        FindObjectOfType<PlayerData>().PlayerInGame.GetComponent<PlayerMove>().dragOrder();
-
-    }
-
-    /// <summary>
-    /// es llamado cuando hay un personaje enfrente y tiene que ser movido
-    /// </summary>
-    /// <param name="adress"></param>
-    public void push(Arrow.adress adress, PhotonPlayer photonPlayer)
-    {
-        this.adress = adress;
-
-        _starPoint = transform.position;
-        
-
-        switch (Adress)
-        {
-            case Arrow.adress.DOWN:
-                if (Square.GetComponent<Square>()._squareDown != null && !Square.GetComponent<Square>()._squareDown.GetComponent<Square>().IsWall)
-                {
-                    SSTools.ShowMessage(" entre al primer if", SSTools.Position.bottom, SSTools.Time.twoSecond);
-                    if (!Square.GetComponent<Square>()._squareDown.GetComponent<Square>().ItsBusy)
-                    {
-                        _endPoint = Square.GetComponent<Square>()._squareDown.transform.position;
-                        Move = true;
-                        _rapeVelocity = 1f / Vector3.Distance(_starPoint, _endPoint) * VELOCITY_MOVE;
-                        Square.GetComponent<Square>().photonView.RPC("removeOnOwner", PhotonTargets.All);
-                        Square.GetComponent<Square>().Player = null;
-
-                        Square = Square.GetComponent<Square>()._squareDown;
-                        Square.GetComponent<Square>().Player = gameObject;
-                        Square.GetComponent<Square>().photonView.RPC("changerPlayerOwner", PhotonTargets.All, PhotonNetwork.player);
-                        photonView.RPC("beforeDrag", photonPlayer);
-                    }
-                    else
-                    {
-                        //si tiene a alguien al frente empujarlo tambien
-                        photonView.RPC("beforePushing", Square.GetComponent<Square>()._squareDown.GetComponent<Square>().PlayerOwner, adress, PhotonNetwork.player);
-                    }
-                }
-                else
-                {
-                    Move = false;
-                    // LLAMAR METODO PERDER PUNTOS DEL COMPUTADOR QUE ARRASTRA
-                }
-                break;
-
-            case Arrow.adress.UP:
-                if (Square.GetComponent<Square>()._squareUp != null && !Square.GetComponent<Square>()._squareUp.GetComponent<Square>().IsWall)
-                {
-                    SSTools.ShowMessage(" entre al primer if", SSTools.Position.bottom, SSTools.Time.twoSecond);
-
-                    if (!Square.GetComponent<Square>()._squareUp.GetComponent<Square>().ItsBusy)
-                    {
-                        _endPoint = Square.GetComponent<Square>()._squareUp.transform.position;
-                        Move = true;
-                        _rapeVelocity = 1f / Vector3.Distance(_starPoint, _endPoint) * VELOCITY_MOVE;
-                        Square.GetComponent<Square>().photonView.RPC("removeOnOwner", PhotonTargets.All);
-                        Square.GetComponent<Square>().Player = null;
-
-                        Square = Square.GetComponent<Square>()._squareUp;
-                        Square.GetComponent<Square>().Player = gameObject;
-                        Square.GetComponent<Square>().photonView.RPC("changerPlayerOwner", PhotonTargets.All, PhotonNetwork.player);
-                        photonView.RPC("beforeDrag", photonPlayer);
-
-                    }
-                    else
-                    {
-                        photonView.RPC("beforePushing", Square.GetComponent<Square>()._squareUp.GetComponent<Square>().PlayerOwner, adress, PhotonNetwork.player);
-                    }
-                }
-
-                else
-                {
-                    Move = false;
-                    SSTools.ShowMessage("pierdo " + NumberSteps + " de puntos", SSTools.Position.bottom, SSTools.Time.twoSecond);
-                }
-                break;
-
-            case Arrow.adress.LEFT:
-                if (Square.GetComponent<Square>()._squareLeft != null && !Square.GetComponent<Square>()._squareLeft.GetComponent<Square>().IsWall)
-                {
-                    SSTools.ShowMessage(" entre al primer if", SSTools.Position.bottom, SSTools.Time.twoSecond);
-                    if (!Square.GetComponent<Square>()._squareLeft.GetComponent<Square>().ItsBusy)
-                    {
-                        _endPoint = Square.GetComponent<Square>()._squareLeft.transform.position;
-                        Move = true;
-                        _rapeVelocity = 1f / Vector3.Distance(_starPoint, _endPoint) * VELOCITY_MOVE;
-                        Square.GetComponent<Square>().photonView.RPC("removeOnOwner", PhotonTargets.All);
-                        Square.GetComponent<Square>().Player = null;
-
-                        Square = Square.GetComponent<Square>()._squareLeft;
-                        Square.GetComponent<Square>().Player = gameObject;
-                        Square.GetComponent<Square>().photonView.RPC("changerPlayerOwner", PhotonTargets.All, PhotonNetwork.player);
-                        photonView.RPC("beforeDrag", photonPlayer);
-
-                    }
-                    else
-                    {
-                        photonView.RPC("beforePushing", Square.GetComponent<Square>()._squareLeft.GetComponent<Square>().PlayerOwner, adress, PhotonNetwork.player);
-                    }
-                }
-                else
-                {
-                    Move = false;
-                    SSTools.ShowMessage("pierdo " + NumberSteps + " de puntos", SSTools.Position.bottom, SSTools.Time.twoSecond);
-                }
-                break;
-
-            case Arrow.adress.RIGHT:
-               
-                if (Square.GetComponent<Square>()._squareRigh != null && !Square.GetComponent<Square>()._squareRigh.GetComponent<Square>().IsWall)
-                {
-                    SSTools.ShowMessage(Square.GetComponent<Square>()._squareRigh.GetComponent<Square>().PlayerOwner.ToString(), SSTools.Position.bottom, SSTools.Time.twoSecond);
-                   if (!Square.GetComponent<Square>()._squareRigh.GetComponent<Square>().ItsBusy)
-                    {
-                           
-                        _endPoint = Square.GetComponent<Square>()._squareRigh.transform.position;
-                        Move = true;
-                        _rapeVelocity = 1f / Vector3.Distance(_starPoint, _endPoint) * VELOCITY_MOVE;
-                        Square.GetComponent<Square>().photonView.RPC("removeOnOwner", PhotonTargets.All);
-                        Square.GetComponent<Square>().Player = null;
-
-                        Square = Square.GetComponent<Square>()._squareRigh;
-                        Square.GetComponent<Square>().Player = gameObject;
-                        Square.GetComponent<Square>().photonView.RPC("changerPlayerOwner", PhotonTargets.All, PhotonNetwork.player);
-                        photonView.RPC("beforeDrag", photonPlayer);
-
-
-                    }
-                    else
-                    {
-                        photonView.RPC("beforePushing", Square.GetComponent<Square>()._squareRigh.GetComponent<Square>().PlayerOwner, adress, PhotonNetwork.player);
-                    }
-                }
-                else
-                {
-                    Move = false;
-                    SSTools.ShowMessage("pierdo " + NumberSteps + " de puntos", SSTools.Position.bottom, SSTools.Time.twoSecond);
-                }
-                
-
-                break;
-
-        }
-
-    }
-
-
-    
-    public void dragOrder()
-    {
-        _starPoint = transform.position;
-        NumberSteps--;
-        SSTools.ShowMessage("Me arrasta", SSTools.Position.bottom,SSTools.Time.twoSecond);
-        switch (adress)
-        {
-            case Arrow.adress.DOWN:
-
-                _endPoint = Square.GetComponent<Square>()._squareDown.transform.position;
-                Move = true;
-                _rapeVelocity = 1f / Vector3.Distance(_starPoint, _endPoint) * VELOCITY_MOVE;
-                Square.GetComponent<Square>().photonView.RPC("removeOnOwner", PhotonTargets.All);
-                Square.GetComponent<Square>().Player = null;
-
-                Square = Square.GetComponent<Square>()._squareDown;
-                Square.GetComponent<Square>().Player = gameObject;
-                Square.GetComponent<Square>().photonView.RPC("changerPlayerOwner", PhotonTargets.All, PhotonNetwork.player);
-
-                break;
-
-            case Arrow.adress.UP:
-
-                _endPoint = Square.GetComponent<Square>()._squareUp.transform.position;
-                Move = true;
-                _rapeVelocity = 1f / Vector3.Distance(_starPoint, _endPoint) * VELOCITY_MOVE;
-                Square.GetComponent<Square>().photonView.RPC("removeOnOwner", PhotonTargets.All);
-                Square.GetComponent<Square>().Player = null;
-
-                Square = Square.GetComponent<Square>()._squareUp;
-                Square.GetComponent<Square>().Player = gameObject;
-                Square.GetComponent<Square>().photonView.RPC("changerPlayerOwner", PhotonTargets.All, PhotonNetwork.player);
-
-                break;
-
-            case Arrow.adress.LEFT:
-
-                _endPoint = Square.GetComponent<Square>()._squareLeft.transform.position;
-                Move = true;
-                _rapeVelocity = 1f / Vector3.Distance(_starPoint, _endPoint) * VELOCITY_MOVE;
-                Square.GetComponent<Square>().photonView.RPC("removeOnOwner", PhotonTargets.All);
-                Square.GetComponent<Square>().Player = null;
-
-                Square = Square.GetComponent<Square>()._squareLeft;
-                Square.GetComponent<Square>().Player = gameObject;
-                Square.GetComponent<Square>().photonView.RPC("changerPlayerOwner", PhotonTargets.All, PhotonNetwork.player);
-
-                break;
-
-            case Arrow.adress.RIGHT:
-
-                _endPoint = Square.GetComponent<Square>()._squareRigh.transform.position;
-                Move = true;
-                _rapeVelocity = 1f / Vector3.Distance(_starPoint, _endPoint) * VELOCITY_MOVE;
-                Square.GetComponent<Square>().photonView.RPC("removeOnOwner", PhotonTargets.All);
-                Square.GetComponent<Square>().Player = null;
-
-                Square = Square.GetComponent<Square>()._squareRigh;
-                Square.GetComponent<Square>().Player = gameObject;
-                Square.GetComponent<Square>().photonView.RPC("changerPlayerOwner", PhotonTargets.All, PhotonNetwork.player);
-
-                break;
-
-        }
-    }
+ 
     
     /////////////////////////// GET Y SET ///////////////
 
@@ -593,6 +388,16 @@ public class PlayerMove : Photon.PunBehaviour
         }
     }
 
+    public GameObject PlayerDrag
+    {
+        get
+        {
+            return _playerDrag;
+        }
 
-
+        set
+        {
+            _playerDrag = value;
+        }
+    }
 }

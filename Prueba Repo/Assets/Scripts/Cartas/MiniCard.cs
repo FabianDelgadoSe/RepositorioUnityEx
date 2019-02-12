@@ -22,19 +22,6 @@ public class MiniCard : MonoBehaviour
         }
     }
 
-    public int NumberSteps
-    {
-        get
-        {
-            return _numberSteps;
-        }
-
-        set
-        {
-            _numberSteps = value;
-        }
-    }
-
    
     void Update()
     {
@@ -46,7 +33,7 @@ public class MiniCard : MonoBehaviour
             {
                 Card.GetComponent<Card>().deselectCard(false);
 
-                _player.GetComponent<PlayerMove>().photonView.RPC("receiveNumberOfSteps", _player.GetComponent<PlayerMove>().IdOwner, _numberSteps);
+                _player.GetComponent<PlayerMove>().photonView.RPC("receiveNumberOfSteps", PhotonTargets.All, _numberSteps);
                 _player.GetComponent<PlayerMove>().createMovementDirections();
 
             }
@@ -79,6 +66,20 @@ public class MiniCard : MonoBehaviour
                 _player = null;
 
             }
+        }
+    }
+
+
+    public int NumberSteps
+    {
+        get
+        {
+            return _numberSteps;
+        }
+
+        set
+        {
+            _numberSteps = value;
         }
     }
 }

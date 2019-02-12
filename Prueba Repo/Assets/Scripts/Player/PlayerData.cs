@@ -10,7 +10,7 @@ public class PlayerData : Photon.PunBehaviour
 
     private string _playerName;
 
-    [SerializeField] private GameObject _playerInGame;
+    [SerializeField] private GameObject[] _charactersInGame;
 
     private void Awake()
     {
@@ -25,8 +25,8 @@ public class PlayerData : Photon.PunBehaviour
         {
             Destroy(this);
         }
-
-        Debug.Log("Se ha logueado el player ID: " + PhotonNetwork.player.ID);
+        CharactersInGame = new GameObject[PhotonNetwork.room.playerCount];
+        
         PlayerName =  PhotonNetwork.player.ID.ToString();
     }
 
@@ -57,16 +57,16 @@ public class PlayerData : Photon.PunBehaviour
         }
     }
 
-    public GameObject PlayerInGame
+    public GameObject[] CharactersInGame
     {
         get
         {
-            return _playerInGame;
+            return _charactersInGame;
         }
 
         set
         {
-            _playerInGame = value;
+            _charactersInGame = value;
         }
     }
 }
