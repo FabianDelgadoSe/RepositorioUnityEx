@@ -6,15 +6,22 @@ using UnityEngine.EventSystems;
 public class PlayerData : Photon.PunBehaviour
 {
 
-    public Character _characterSelected ;
+    public Character _characterSelected;
 
     private string _playerName;
+
+    private PlayerData _instance;
 
     [SerializeField] private GameObject[] _charactersInGame;
 
     private void Awake()
     {
         DontDestroyOnLoad(this.gameObject);
+
+        /*_instance = this;
+
+
+        PlayerName = "Jugador#" + Random.Range(1000, 9999*/ //Asignar el photonplayer, hay que reconfigurar varias cosas para poder usar.
     }
 
     private void Start()
@@ -26,10 +33,10 @@ public class PlayerData : Photon.PunBehaviour
             Destroy(this);
         }
         CharactersInGame = new GameObject[PhotonNetwork.room.playerCount];
-        
-        PlayerName =  PhotonNetwork.player.ID.ToString();
-    }
 
+
+        PlayerName = PhotonNetwork.player.ID.ToString();
+    }
 
     public Character CharacterSelected
     {

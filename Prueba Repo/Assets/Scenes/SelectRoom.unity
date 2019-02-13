@@ -125,7 +125,7 @@ GameObject:
   - component: {fileID: 200917211}
   - component: {fileID: 200917210}
   m_Layer: 0
-  m_Name: Scroll View
+  m_Name: RoomList
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -398,6 +398,7 @@ GameObject:
   - component: {fileID: 766302055}
   - component: {fileID: 766302057}
   - component: {fileID: 766302056}
+  - component: {fileID: 766302058}
   m_Layer: 0
   m_Name: RoomLayoutGroup
   m_TagString: Untagged
@@ -458,6 +459,19 @@ MonoBehaviour:
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 0
   m_ChildControlHeight: 0
+--- !u!114 &766302058
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 766302054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 499e0449835ab57439057123de71e933, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _roomListingPrefab: {fileID: 1922382086373086, guid: 40980886ddecf2d46b711657035f3cab,
+    type: 2}
 --- !u!1 &766952120
 GameObject:
   m_ObjectHideFlags: 0

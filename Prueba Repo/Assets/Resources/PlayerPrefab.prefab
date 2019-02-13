@@ -78,3 +78,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f50e6f15cbee7f24296fe5871018fbf0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _characterSelected: {fileID: 0}
+  _charactersInGame: []

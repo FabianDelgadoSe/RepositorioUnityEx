@@ -259,6 +259,7 @@ GameObject:
   - component: {fileID: 77816872}
   - component: {fileID: 77816871}
   - component: {fileID: 77816870}
+  - component: {fileID: 77816873}
   m_Layer: 5
   m_Name: Conectar
   m_TagString: Untagged
@@ -371,6 +372,18 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 77816868}
   m_CullTransparentMesh: 0
+--- !u!114 &77816873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 77816868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dfe3d16adae4c245a6d8e3b0ecd8f85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _sceneToChange: 1
 --- !u!1001 &141384016
 Prefab:
   m_ObjectHideFlags: 0

@@ -23,6 +23,9 @@ public class ChangeScene : Photon.PunBehaviour
     public Scenes _sceneToChange;
 
 
+    /// <summary>
+    /// ChangeScene personal
+    /// </summary>
     public void chanScene()
     {
         switch (_sceneToChange)
@@ -48,10 +51,11 @@ public class ChangeScene : Photon.PunBehaviour
 
         }
 
-        //photonView.RPC("changeScene", PhotonTargets.All);
     }
 
-
+    /// <summary>
+    /// ChangeScene que es llamado por un RPC, para que lo muestre a todos
+    /// </summary>
     public void chansy()
     {
 
@@ -73,12 +77,10 @@ public class ChangeScene : Photon.PunBehaviour
                 photonView.RPC("changeSceneSyn", PhotonTargets.All, SELECTROOM);
                 break;
             case Scenes.none:
-                //AÑADIR FEEDBACK DE NINGUNA SELECCIÓN
                 break;
 
         }
 
-        //photonView.RPC("changeScene", PhotonTargets.All);
     }
 
     [PunRPC]
