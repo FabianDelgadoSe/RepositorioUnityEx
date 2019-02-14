@@ -54,17 +54,7 @@ public class Square : Photon.PunBehaviour
 
     }
 
-    private void Update()
-    {
-        if (IsOccupied)
-        {
-            GetComponent<SpriteRenderer>().sprite = _boardSquareWall;
-        }
-        else
-        {
-            changeSprite();
-        }
-    }
+
 
     [PunRPC]
     public void saveCurrentPlayer(int indexTurn)

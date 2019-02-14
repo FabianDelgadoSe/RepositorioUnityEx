@@ -29,7 +29,7 @@ public class ControlTurn : Photon.PunBehaviour
     /// </summary>
     void Start()
     {
-
+        
         _mineId = PhotonNetwork.player.ID;
 
         createdOthersPlayers();
@@ -80,19 +80,20 @@ public class ControlTurn : Photon.PunBehaviour
     /// </summary>
     public void nextTurn()
     {
-        finishTurn();
-        //photonView.RPC("finishTurn", PhotonPlayer.Find(_indexTurn));
-        if (IndexTurn != PhotonNetwork.room.playerCount)
-        {
-            IndexTurn++;
-        }// cierre if
-        else
-        {
-            IndexTurn = 1;
-        }// cierre else
+        if (!FindObjectOfType<LevelManager>().AllowMove || FindObjectOfType<LevelManager>().NumberOfCardsUsed > 0 || FirstTurn) {
+            finishTurn();
+            //photonView.RPC("finishTurn", PhotonPlayer.Find(_indexTurn));
+            if (IndexTurn != PhotonNetwork.room.playerCount)
+            {
+                IndexTurn++;
+            }// cierre if
+            else
+            {
+                IndexTurn = 1;
+            }// cierre else
 
-        photonView.RPC("mineTurn", PhotonTargets.All, IndexTurn);
-
+            photonView.RPC("mineTurn", PhotonTargets.All, IndexTurn);
+        }
     }// cierre nextTurn
 
 
@@ -101,13 +102,22 @@ public class ControlTurn : Photon.PunBehaviour
     /// </summary>
     void StarTurn()
     {
-        _myTurn = true;
-        _myturn.active = true;
+        if (!FindObjectOfType<LevelManager>().endOfTheRound())
+        {
+            _myTurn = true;
+            _myturn.active = true;
+            FindObjectOfType<LevelManager>().AllowMove = true;    //permite usar las cartas de movimientos
 
-        if (FirstTurn)// para crear el personaje y posicionarlo
-            gameObject.GetComponent<ControlCharacterLocation>().enabled = true;
-
-
+            if (FirstTurn)// para crear el personaje y posicionarlo
+                gameObject.GetComponent<ControlCharacterLocation>().enabled = true;
+        }
+        else
+        {
+            FindObjectOfType<LevelManager>().reactiveMovementsCards(); 
+            FindObjectOfType<ConfigurationBoard>().changeColorBoardSquares();
+            FindObjectOfType<ConfigurationBoard>().generateWalls();
+            nextTurn();
+        }
 
     }//cierre starTurn
 

@@ -20,6 +20,9 @@ public class PlayerMove : Photon.PunBehaviour
     private const float VELOCITY_MOVE = 5; // Velocidad con la que se mueve el personaje
     public GameObject _playerDrag;  // para cuando esta empujando saber cual objeto esta detras de el;
 
+    /// <summary>
+    /// revisa si el player pertenerce a esta pantalla
+    /// </summary>
     private void Start()
     {
         if (isMyPlayer())
@@ -29,6 +32,10 @@ public class PlayerMove : Photon.PunBehaviour
         }
     }
 
+
+    /// <summary>
+    /// Mueve el player siempre que move sea true
+    /// </summary>
     private void Update()
     {
 
@@ -172,6 +179,13 @@ public class PlayerMove : Photon.PunBehaviour
                     else
                     {
                         Move = false;
+                        FindObjectOfType<LevelManager>().AllowMove = false; // no deja seguir moviendo
+
+                        if (FindObjectOfType<ControlTurn>().MyTurn)
+                        {
+                            FindObjectOfType<LevelManager>().useLetter();
+                        }
+
                         lostPoints();
                     }
                     break;
@@ -208,6 +222,13 @@ public class PlayerMove : Photon.PunBehaviour
                     else
                     {
                         Move = false;
+                        FindObjectOfType<LevelManager>().AllowMove = false;
+
+                        if (FindObjectOfType<ControlTurn>().MyTurn)
+                        {
+                            FindObjectOfType<LevelManager>().useLetter();
+                        }
+
                         lostPoints();
                     }
                     break;
@@ -243,6 +264,13 @@ public class PlayerMove : Photon.PunBehaviour
                     else
                     {
                         Move = false;
+                        FindObjectOfType<LevelManager>().AllowMove = false;
+
+                        if (FindObjectOfType<ControlTurn>().MyTurn)
+                        {
+                            FindObjectOfType<LevelManager>().useLetter();
+                        }
+
                         lostPoints();
                     }
                     break;
@@ -278,6 +306,13 @@ public class PlayerMove : Photon.PunBehaviour
                     else
                     {
                         Move = false;
+                        FindObjectOfType<LevelManager>().AllowMove = false;
+
+                        if (FindObjectOfType<ControlTurn>().MyTurn)
+                        {
+                            FindObjectOfType<LevelManager>().useLetter();
+                        }
+
                         lostPoints();
                     }
 
@@ -289,6 +324,12 @@ public class PlayerMove : Photon.PunBehaviour
         {
             
             Move = false;
+            FindObjectOfType<LevelManager>().AllowMove = false; // evita que se use otra carta de movimiento
+            if (FindObjectOfType<ControlTurn>().MyTurn)
+            {
+                FindObjectOfType<LevelManager>().useLetter();
+            }
+
             if (PlayerDrag != null)
             {
                 PlayerDrag.GetComponent<PlayerMove>().calculatePointToMove();
@@ -300,6 +341,9 @@ public class PlayerMove : Photon.PunBehaviour
 
     }
     
+    /// <summary>
+    /// revisa si este es el objeto que tiene que perder puntos y si este pertenece a este dispositivo
+    /// </summary>
     public void lostPoints()
     {
         if (PlayerDrag == null)

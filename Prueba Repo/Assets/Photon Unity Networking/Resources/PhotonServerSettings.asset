@@ -60,4 +60,5 @@ MonoBehaviour:
   - setCharacterSelection
   - showPlayersConnected
   - TaggedPlayer
+  - newPlayerWithoutMovements
   DisableAutoOpenWizard: 1

@@ -12,6 +12,10 @@ public class locateCharacter : Photon.MonoBehaviour
     [SerializeField] private GameObject _panelConfimatio;
     private GameObject aux;
     private bool _panelConfimation = false;
+
+    /// <summary>
+    /// permite que solo el dispositivo que lo creo pueda moverlo
+    /// </summary>
     private void Start()
     {
         
@@ -22,6 +26,9 @@ public class locateCharacter : Photon.MonoBehaviour
         
     }
 
+    /// <summary>
+    /// sigue el cursor cuando se le arrastra este objeto
+    /// </summary>
     private void OnMouseDrag()
     {
 
@@ -30,13 +37,19 @@ public class locateCharacter : Photon.MonoBehaviour
 
     }
 
+    /// <summary>
+    /// cuando se levanta el clic deja de seguir el cursor
+    /// </summary>
     private void OnMouseUp()
     {
 
         _isMoving = false;
     }
 
-
+    /// <summary>
+    /// cuando queda sobre una casilla sale el mensaje de confirmacion para saber si esta es la casilla donde quiere iniciar
+    /// </summary>
+    /// <param name="collision"></param>
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.CompareTag("Square"))
