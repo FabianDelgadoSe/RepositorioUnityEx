@@ -27,16 +27,17 @@ public class PlayerData : Photon.PunBehaviour
     private void Start()
     {
 
-
         if (!photonView.isMine)
         {
-            Destroy(this);
+            SSTools.ShowMessage("ID Jugador: " + PhotonNetwork.player.ID.ToString(), SSTools.Position.bottom, SSTools.Time.threeSecond);
+            //Destroy(this);
         }
         CharactersInGame = new GameObject[PhotonNetwork.room.playerCount];
 
-
         PlayerName = PhotonNetwork.player.ID.ToString();
     }
+
+
 
     public Character CharacterSelected
     {

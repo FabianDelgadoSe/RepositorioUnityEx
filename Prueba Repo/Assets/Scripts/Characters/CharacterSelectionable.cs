@@ -10,7 +10,7 @@ public class CharacterSelectionable : Photon.PunBehaviour
 
     [SerializeField] Character _character;
 
-    PlayerData[] _playerData;
+    PlayerData _playerData;
     private PlayerData _currentPlayer;
     public bool _isSelected = false;
     [SerializeField] private TextMeshProUGUI _name;
@@ -21,8 +21,8 @@ public class CharacterSelectionable : Photon.PunBehaviour
     {
         GetComponent<Image>().sprite = _character._iconUnSelected;
         _name.text = _character._name;
-        _playerData = FindObjectsOfType<PlayerData>();
-        Debug.Log(_playerData[0].CharacterSelected);
+        _playerData = FindObjectOfType<PlayerData>();
+        Debug.Log(_playerData.CharacterSelected);
     }
 
     [PunRPC]
@@ -37,7 +37,7 @@ public class CharacterSelectionable : Photon.PunBehaviour
 
     private void assignCharacterToPlayer()
     {
-            _playerData[0].CharacterSelected = _character;
+            _playerData.CharacterSelected = _character;
     }
 
     [PunRPC]
@@ -52,7 +52,7 @@ public class CharacterSelectionable : Photon.PunBehaviour
 
     public void characterClicked()
     {
-        if (!_isSelected && _playerData[0].CharacterSelected == null)
+        if (!_isSelected && _playerData.CharacterSelected == null)
         {
             assignCharacterToPlayer();
             photonView.RPC("setCharacterSelection", PhotonTargets.AllBuffered , PhotonNetwork.player);
@@ -60,11 +60,11 @@ public class CharacterSelectionable : Photon.PunBehaviour
         }
         else if (_isSelected && PhotonNetwork.player == _playerSelect)
         {
-            _playerData[0].CharacterSelected = null;
+            _playerData.CharacterSelected = null;
             photonView.RPC("removeCharacterToPlayer", PhotonTargets.AllBuffered , PhotonNetwork.player);
         }
     }
 
-
+    
 
 }

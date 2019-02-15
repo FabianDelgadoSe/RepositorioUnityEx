@@ -18,8 +18,11 @@ public class NetworkManager : Photon.MonoBehaviour
     /// </summary>
 	public void startConnection()
     {
-        if (_roomName.text != "")
-            PhotonNetwork.ConnectUsingSettings(_version);
+        /*if (_roomName.text != "")
+            PhotonNetwork.ConnectUsingSettings(_version);*/
+
+
+        PhotonNetwork.CreateRoom(_roomName.text, new RoomOptions() { maxPlayers = 6 }, null);
 
     }
 
@@ -30,7 +33,7 @@ public class NetworkManager : Photon.MonoBehaviour
     {
         // nombre de la sala, opciones de la sala y algo que no se que es
         PhotonNetwork.JoinOrCreateRoom(_roomName.text, new RoomOptions() { maxPlayers = 6 }, null);
-
+        
     }
 
     /// <summary>
