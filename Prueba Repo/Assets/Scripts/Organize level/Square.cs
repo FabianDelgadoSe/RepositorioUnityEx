@@ -121,7 +121,6 @@ public class Square : Photon.PunBehaviour
             Debug.Log("envie algo");
             stream.SendNext(Index);
             stream.SendNext(IsWall);
-
         }
         else
         {
