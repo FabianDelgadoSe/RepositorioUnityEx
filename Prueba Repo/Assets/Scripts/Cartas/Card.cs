@@ -16,7 +16,7 @@ public class Card : MonoBehaviour
     /// </summary>
     public void moveCard()
     {
-        if (FindObjectOfType<ControlTurn>().MyTurn && FindObjectOfType<LevelManager>().AllowMove)
+        if (FindObjectOfType<ControlTurn>().MyTurn && FindObjectOfType<ControlRound>().AllowMove)
         {
             GameObject aux;
             aux = Instantiate(_miniCard, Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10)), Quaternion.identity);

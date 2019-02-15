@@ -80,9 +80,8 @@ public class ControlTurn : Photon.PunBehaviour
     /// </summary>
     public void nextTurn()
     {
-        if (!FindObjectOfType<LevelManager>().AllowMove || FindObjectOfType<LevelManager>().NumberOfCardsUsed > 0 || FirstTurn) {
+        if (!FindObjectOfType<ControlRound>().AllowMove || FindObjectOfType<ControlRound>().NumberOfCardsUsed > 0 || FirstTurn) {
             finishTurn();
-            //photonView.RPC("finishTurn", PhotonPlayer.Find(_indexTurn));
             if (IndexTurn != PhotonNetwork.room.playerCount)
             {
                 IndexTurn++;
@@ -102,18 +101,18 @@ public class ControlTurn : Photon.PunBehaviour
     /// </summary>
     void StarTurn()
     {
-        if (!FindObjectOfType<LevelManager>().endOfTheRound())
+        if (!FindObjectOfType<ControlRound>().endOfTheRound())
         {
             _myTurn = true;
             _myturn.active = true;
-            FindObjectOfType<LevelManager>().AllowMove = true;    //permite usar las cartas de movimientos
+            FindObjectOfType<ControlRound>().AllowMove = true;    //permite usar las cartas de movimientos
 
             if (FirstTurn)// para crear el personaje y posicionarlo
                 gameObject.GetComponent<ControlCharacterLocation>().enabled = true;
         }
         else
         {
-            FindObjectOfType<LevelManager>().reactiveMovementsCards(); 
+            FindObjectOfType<ControlRound>().reactiveMovementsCards(); 
             FindObjectOfType<ConfigurationBoard>().changeColorBoardSquares();
             FindObjectOfType<ConfigurationBoard>().generateWalls();
             nextTurn();

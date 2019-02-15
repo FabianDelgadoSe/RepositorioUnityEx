@@ -61,4 +61,6 @@ MonoBehaviour:
   - showPlayersConnected
   - TaggedPlayer
   - newPlayerWithoutMovements
+  - getToken
+  - newToken
   DisableAutoOpenWizard: 1

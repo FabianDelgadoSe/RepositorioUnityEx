@@ -4,7 +4,7 @@ using UnityEngine;
 /// <summary>
 /// Contendra toda la informacion de la partida 
 /// </summary>
-public class LevelManager : Photon.PunBehaviour {
+public class ControlRound : Photon.PunBehaviour {
 
     private bool _allowMove = false; // controla que solo pueda usar una carta de movimiento por turno
     public int _noMovementPlayes = 0;
@@ -24,7 +24,11 @@ public class LevelManager : Photon.PunBehaviour {
 
         _noMovementPlayes = 0;
         _numberOfCardsUsed = 0;
+
+        GetComponent<ControlTokens>().resetTokens(); // quita los tokens obtenidos esta ronda
     }
+
+    
 
     public void useLetter()
     {

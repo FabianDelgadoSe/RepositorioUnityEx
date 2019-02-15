@@ -149,10 +149,11 @@ public class PlayerMove : Photon.PunBehaviour
             switch (adress)
             {
                 case Arrow.adress.DOWN:
+                    //si la casilla no esta en el borde o es un muro pierdo punto de una vez
                     if (Square.GetComponent<Square>()._squareDown != null && !Square.GetComponent<Square>()._squareDown.GetComponent<Square>().IsWall)
                     {
-                        
-                        if (!Square.GetComponent<Square>()._squareDown.GetComponent<Square>().IsOccupied)
+                        // si hay un player en la siguiente casilla lo mueve sino yo me muevo normalmente
+                        if (!Square.GetComponent<Square>()._squareDown.GetComponent<Square>().IsOccupied) 
                         {
                             _endPoint = Square.GetComponent<Square>()._squareDown.transform.position;
                             Move = true;
@@ -179,11 +180,12 @@ public class PlayerMove : Photon.PunBehaviour
                     else
                     {
                         Move = false;
-                        FindObjectOfType<LevelManager>().AllowMove = false; // no deja seguir moviendo
+                        FindObjectOfType<ControlRound>().AllowMove = false; // no deja seguir moviendo
 
                         if (FindObjectOfType<ControlTurn>().MyTurn)
                         {
-                            FindObjectOfType<LevelManager>().useLetter();
+                            FindObjectOfType<ControlRound>().useLetter();
+                            FindObjectOfType<ControlTokens>().drawMyTokensValues();
                         }
 
                         lostPoints();
@@ -222,11 +224,12 @@ public class PlayerMove : Photon.PunBehaviour
                     else
                     {
                         Move = false;
-                        FindObjectOfType<LevelManager>().AllowMove = false;
+                        FindObjectOfType<ControlRound>().AllowMove = false;
 
                         if (FindObjectOfType<ControlTurn>().MyTurn)
                         {
-                            FindObjectOfType<LevelManager>().useLetter();
+                            FindObjectOfType<ControlRound>().useLetter();
+                            FindObjectOfType<ControlTokens>().drawMyTokensValues();
                         }
 
                         lostPoints();
@@ -264,11 +267,12 @@ public class PlayerMove : Photon.PunBehaviour
                     else
                     {
                         Move = false;
-                        FindObjectOfType<LevelManager>().AllowMove = false;
+                        FindObjectOfType<ControlRound>().AllowMove = false;
 
                         if (FindObjectOfType<ControlTurn>().MyTurn)
                         {
-                            FindObjectOfType<LevelManager>().useLetter();
+                            FindObjectOfType<ControlRound>().useLetter();
+                            FindObjectOfType<ControlTokens>().drawMyTokensValues();
                         }
 
                         lostPoints();
@@ -306,11 +310,12 @@ public class PlayerMove : Photon.PunBehaviour
                     else
                     {
                         Move = false;
-                        FindObjectOfType<LevelManager>().AllowMove = false;
+                        FindObjectOfType<ControlRound>().AllowMove = false;
 
                         if (FindObjectOfType<ControlTurn>().MyTurn)
                         {
-                            FindObjectOfType<LevelManager>().useLetter();
+                            FindObjectOfType<ControlRound>().useLetter();
+                            FindObjectOfType<ControlTokens>().drawMyTokensValues();
                         }
 
                         lostPoints();
@@ -324,16 +329,22 @@ public class PlayerMove : Photon.PunBehaviour
         {
             
             Move = false;
-            FindObjectOfType<LevelManager>().AllowMove = false; // evita que se use otra carta de movimiento
+            FindObjectOfType<ControlRound>().AllowMove = false; // evita que se use otra carta de movimiento
+            
+
             if (FindObjectOfType<ControlTurn>().MyTurn)
             {
-                FindObjectOfType<LevelManager>().useLetter();
+                FindObjectOfType<ControlRound>().useLetter();
             }
 
             if (PlayerDrag != null)
             {
                 PlayerDrag.GetComponent<PlayerMove>().calculatePointToMove();
-                PlayerDrag = null;  
+                PlayerDrag = null;
+            }
+            else
+            {
+                FindObjectOfType<ControlTokens>().drawMyTokensValues(); // hace que solo el player que se movio primero sea el que sume una gema
             }
         }
 
@@ -348,7 +359,7 @@ public class PlayerMove : Photon.PunBehaviour
     {
         if (PlayerDrag == null)
         {
-            if(photonView.isMine)
+            if(FindObjectOfType<ControlTurn>().MyTurn)
                 SSTools.ShowMessage("pierdo " + NumberSteps + " de puntos", SSTools.Position.bottom, SSTools.Time.twoSecond);
         }
         else

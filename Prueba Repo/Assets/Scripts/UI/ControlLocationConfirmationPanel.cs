@@ -15,7 +15,8 @@ public class ControlLocationConfirmationPanel : MonoBehaviour
     private void Start()
     {
         transform.SetParent(FindObjectOfType<Canvas>().transform,false);
-        
+        _player.GetComponent<locateCharacter>().enabled = false;
+
     }//Cierre Start
 
     /// <summary>
@@ -53,6 +54,7 @@ public class ControlLocationConfirmationPanel : MonoBehaviour
     public void denyButton()
     {
         _player.transform.position = new Vector3(-6, 2, 0);
+        _player.GetComponent<locateCharacter>().enabled = true;
         Destroy(gameObject);
     }//Cierre DenyButton
 

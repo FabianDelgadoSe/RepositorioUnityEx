@@ -12,6 +12,7 @@ public class ConfigurationPlayer : Photon.PunBehaviour
         if (photonView.isMine)
         {
             photonView.RPC("loadDataObjets", PhotonTargets.All, _currentPlayer.CharacterSelected._IDCharacter);
+            FindObjectOfType<ControlTokens>().Player = gameObject; // le envia al control de tokens a que player tiene que revisar 
 
         }
         else
