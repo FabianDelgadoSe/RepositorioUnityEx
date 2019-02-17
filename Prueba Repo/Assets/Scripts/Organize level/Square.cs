@@ -29,6 +29,17 @@ public class Square : Photon.PunBehaviour
 
     [SerializeField] private bool _itsOnEdge;
 
+    private typesSquares _enumTypesSquares;
+
+    public enum typesSquares
+    {
+        RED,
+        BLUE,
+        GREEN,
+        YELLOW,
+        WALL,
+    }
+
     private void Start()
     {
 
@@ -81,26 +92,31 @@ public class Square : Photon.PunBehaviour
             case 1:
                 GetComponent<SpriteRenderer>().sprite = BoardSquareBlue;
                 IsWall = false;
+                EnumTypesSquares = typesSquares.BLUE;
                 break;
 
             case 2:
                 GetComponent<SpriteRenderer>().sprite = BoardSquareGreen;
                 IsWall = false;
+                EnumTypesSquares = typesSquares.GREEN;
                 break;
 
             case 3:
                 GetComponent<SpriteRenderer>().sprite = BoardSquareRed;
                 IsWall = false;
+                EnumTypesSquares = typesSquares.RED;
                 break;
 
             case 4:
                 GetComponent<SpriteRenderer>().sprite = BoardSquareYellow;
                 IsWall = false;
+                EnumTypesSquares = typesSquares.YELLOW;
                 break;
 
             case 5:
                 GetComponent<SpriteRenderer>().sprite = BoardSquareWall;
                 IsWall = true;
+                EnumTypesSquares = typesSquares.WALL;
                 break;
 
             default:
@@ -264,6 +280,19 @@ public class Square : Photon.PunBehaviour
         set
         {
             _isOccupied = value;
+        }
+    }
+
+    public typesSquares EnumTypesSquares
+    {
+        get
+        {
+            return _enumTypesSquares;
+        }
+
+        set
+        {
+            _enumTypesSquares = value;
         }
     }
 }

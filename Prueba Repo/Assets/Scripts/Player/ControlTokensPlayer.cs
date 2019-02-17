@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// Controla el numero de tokens obtenidos por un jugador en una ronda
+/// </summary>
 public class ControlTokensPlayer : Photon.PunBehaviour {
 
     public int _redToken = 0;
@@ -9,37 +11,32 @@ public class ControlTokensPlayer : Photon.PunBehaviour {
     public int _greenToken = 0;
     public int _yellowToken = 0;
     public int _indexSquare = 0;
-    private GameObject _playerData;
-    private GameObject _controlTurn;
-    private GameObject _player;
 
-    private void Start()
-    {
-        _playerData = FindObjectOfType<PlayerData>().gameObject;
-        _controlTurn = FindObjectOfType<ControlTurn>().gameObject;
-    }
 
+    /// <summary>
+    /// decide a que contodor aumentarle uan gema
+    /// </summary>
     public void newToken()
     {
 
-        switch (GetComponent<PlayerMove>().Square.GetComponent<Square>().Index)
+        switch (GetComponent<PlayerMove>().Square.GetComponent<Square>().EnumTypesSquares)
         {
-            case 1:
+            case Square.typesSquares.BLUE:
                 _blueToken++;
     
                 break;
 
-            case 2:
+            case Square.typesSquares.GREEN:
                 _greenToken++;
    
                 break;
 
-            case 3:
+            case Square.typesSquares.RED:
                 _redToken++;
 
                 break;
 
-            case 4:
+            case Square.typesSquares.YELLOW:
                 _yellowToken++;
 
                 break;
@@ -50,6 +47,7 @@ public class ControlTokensPlayer : Photon.PunBehaviour {
         }
 
     }
+
 
 
     void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

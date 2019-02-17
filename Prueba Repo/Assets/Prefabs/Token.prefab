@@ -21,7 +21,8 @@ GameObject:
   - component: {fileID: 4772701220239400}
   - component: {fileID: 212140006136612762}
   - component: {fileID: 95801733420358558}
-  - component: {fileID: 114830517334230952}
+  - component: {fileID: 114763634312598696}
+  - component: {fileID: 114104591856169028}
   m_Layer: 8
   m_Name: Token
   m_TagString: Untagged
@@ -36,7 +37,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1515698357475530}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.4381378, y: 2.1578648, z: 0}
+  m_LocalPosition: {x: 0.7, y: -0.96, z: 0}
   m_LocalScale: {x: 0.49654788, y: 0.59852225, z: 0.44305682}
   m_Children: []
   m_Father: {fileID: 0}
@@ -60,7 +61,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &114830517334230952
+--- !u!114 &114104591856169028
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -68,7 +69,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 1515698357475530}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b034a18e0712fc5489cac6d7271a311f, type: 3}
+  m_Script: {fileID: 11500000, guid: bfc885916a03e3a44bb930dcc79fa3e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _redGem: {fileID: 21300000, guid: 974179e041088bf499bc19061a2b4587, type: 3}
+  _blueGem: {fileID: 21300000, guid: 1f04e6698a2045543af40467b6817d29, type: 3}
+  _greenGem: {fileID: 21300000, guid: e3f7d3f2bbbdd2d4e82d93615cd1ebab, type: 3}
+  _yellowGem: {fileID: 21300000, guid: 238773d1e9a31924fa40c40df1ea9bdd, type: 3}
+--- !u!114 &114763634312598696
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1515698357475530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8321c485f023314399bc5d02eced3c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   time: 1
@@ -106,7 +122,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 238773d1e9a31924fa40c40df1ea9bdd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
