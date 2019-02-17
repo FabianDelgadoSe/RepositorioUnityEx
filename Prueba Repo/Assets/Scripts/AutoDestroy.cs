@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AutoDisable : MonoBehaviour {
+public class AutoDestroy : MonoBehaviour {
 
     [SerializeField] float time;
 	// Use this for initialization
 	void Start () {
-        Invoke("disable", time);
+        Invoke("destroy", time);
 	}
 
 
-    private void disable()
+    private void destroy()
     {
         gameObject.SetActive(false);
     }

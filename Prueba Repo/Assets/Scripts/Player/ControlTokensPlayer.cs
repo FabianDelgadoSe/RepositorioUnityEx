@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class ControlTokensPlayer : Photon.PunBehaviour {
 
-    private int _redToken = 0;
-    private int _blueToken = 0;
-    private int _greenToken = 0;
-    private int _yellowToken = 0;
-    private int _indexSquare = 0;
+    public int _redToken = 0;
+    public int _blueToken = 0;
+    public int _greenToken = 0;
+    public int _yellowToken = 0;
+    public int _indexSquare = 0;
     private GameObject _playerData;
     private GameObject _controlTurn;
     private GameObject _player;
@@ -21,8 +21,6 @@ public class ControlTokensPlayer : Photon.PunBehaviour {
 
     public void newToken()
     {
-
-        _player = _playerData.GetComponent<PlayerData>().CharactersInGame[_controlTurn.GetComponent<ControlTurn>().IndexTurn-1];
 
         switch (GetComponent<PlayerMove>().Square.GetComponent<Square>().Index)
         {
@@ -51,11 +49,26 @@ public class ControlTokensPlayer : Photon.PunBehaviour {
                 break;
         }
 
-        
-        if (_player.GetComponent<PhotonView>().isMine)
-            FindObjectOfType<ControlTokens>().drawMyTokensValues();
     }
 
+
+    void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.isWriting) {
+            stream.SendNext(_blueToken);
+            stream.SendNext(_redToken);
+            stream.SendNext(_greenToken);
+            stream.SendNext(_yellowToken);
+        }
+        else
+        {
+            _blueToken = (int)stream.ReceiveNext();
+            _redToken = (int)stream.ReceiveNext();
+            _greenToken = (int)stream.ReceiveNext();
+            _yellowToken = (int)stream.ReceiveNext();
+        }
+    
+    }
 
     public int RedToken
     {

@@ -11,12 +11,23 @@ public class ControlTokens : Photon.PunBehaviour {
     [SerializeField] private Image _blueTokens;
     [SerializeField] private Image _yellowTokens;
 
+    [Header("FeedBack visual de token obtenido")]
+    [SerializeField] private GameObject _token;
     private GameObject _player;
 
-    public void drawMyTokensValues()
+    public void earnToken()
     {
-        /*_player = FindObjectOfType<PlayerData>().CharactersInGame[GetComponent<ControlTurn>().IndexTurn - 1];
-        _player.GetComponent<ControlTokensPlayer>().newToken();
+        if (FindObjectOfType<ControlTurn>().MyTurn)
+        {
+            _player.GetComponent<ControlTokensPlayer>().newToken();
+            Instantiate(_token,_player.transform.position,Quaternion.identity);
+            drawMyTokensValues();
+        }
+    }
+
+    public void drawMyTokensValues()
+    { 
+
         if (_player.GetComponent<PhotonView>().isMine)
         {
             _redTokens.GetComponentInChildren<TMP_Text>().text = "x" + Player.GetComponent<ControlTokensPlayer>().RedToken;
@@ -25,7 +36,7 @@ public class ControlTokens : Photon.PunBehaviour {
             _yellowTokens.GetComponentInChildren<TMP_Text>().text = "x" + Player.GetComponent<ControlTokensPlayer>().YellowToken;
         }
 
-    */
+    
     }
 
     public void resetTokens()

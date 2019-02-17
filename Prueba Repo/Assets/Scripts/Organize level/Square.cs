@@ -73,8 +73,9 @@ public class Square : Photon.PunBehaviour
     /// Tiene el proposito de configurar el objeto dependiendo de un index
     /// </summary>
     [PunRPC]
-    public void changeSprite()
+    public void changeSprite(int codeColor)
     {
+        Index = codeColor;
         switch (Index)
         {
             case 1:
@@ -109,28 +110,6 @@ public class Square : Photon.PunBehaviour
         }
     }
 
-    /// <summary>
-    /// Recibe los datos de el index y si la casilla es un muro
-    /// </summary>
-    /// <param name="stream"></param>
-    /// <param name="info"></param>
-    void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        if (stream.isWriting)
-        {
-            Debug.Log("envie algo");
-            stream.SendNext(Index);
-            stream.SendNext(IsWall);
-        }
-        else
-        {
-            Debug.Log("recibi algo");
-            Index = (int)stream.ReceiveNext();
-            IsWall = (bool)stream.ReceiveNext();
-
-            photonView.RPC("changeSprite", PhotonTargets.All);
-        }
-    }
 
     public Sprite BoardSquareBlue
     {
