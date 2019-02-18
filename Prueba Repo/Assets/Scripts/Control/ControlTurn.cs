@@ -146,19 +146,35 @@ public class ControlTurn : Photon.PunBehaviour
     /// </summary>
     /// <param name="ID"></param>
     [PunRPC]
-    void mineTurn(int ID)
+    public void mineTurn(int ID)
     {
         this.IndexTurn = ID;
-        if (ID == this._mineId)
-        {
-            StarTurn();
-        }//cierre if
-        else
-        {
-            _otherPlayersList[ID - 1].gameObject.GetComponent<OthersPlayersData>().starTurn();
-        }//cierre else
+
+        if (preparationound()) {
+            if (ID == this._mineId)
+            {
+                StarTurn();
+            }//cierre if
+            else
+            {
+                _otherPlayersList[ID - 1].gameObject.GetComponent<OthersPlayersData>().starTurn();
+            }//cierre else
+        }
     }//cierre mineTurn
 
+    
+    public bool preparationound()
+    {
+        if (FindObjectOfType<ControlBet>().BetMade)
+        {
+            return true;
+        }
+        else
+        {
+            FindObjectOfType<ControlBet>().starBet();
+            return false;
+        }
+    }
 
     /// <summary>
     /// Es usado para informar a los otros jugadores que termino el turno de alguien que no son ellos

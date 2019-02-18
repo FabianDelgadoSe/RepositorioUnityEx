@@ -24,7 +24,7 @@ public class ControlRound : Photon.PunBehaviour {
 
         _noMovementPlayes = 0;
         _numberOfCardsUsed = 0;
-
+        
         GetComponent<ControlTokens>().resetTokens(); // quita los tokens obtenidos esta ronda
     }
 

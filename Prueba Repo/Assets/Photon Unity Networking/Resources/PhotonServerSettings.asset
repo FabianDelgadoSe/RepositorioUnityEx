@@ -63,4 +63,5 @@ MonoBehaviour:
   - newPlayerWithoutMovements
   - getToken
   - newToken
+  - selectBet
   DisableAutoOpenWizard: 1

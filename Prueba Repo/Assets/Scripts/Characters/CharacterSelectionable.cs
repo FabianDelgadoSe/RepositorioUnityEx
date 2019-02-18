@@ -22,7 +22,6 @@ public class CharacterSelectionable : Photon.PunBehaviour
         GetComponent<Image>().sprite = _character._iconUnSelected;
         _name.text = _character._name;
         _playerData = FindObjectOfType<PlayerData>();
-        Debug.Log(_playerData.CharacterSelected);
     }
 
     [PunRPC]
@@ -55,13 +54,13 @@ public class CharacterSelectionable : Photon.PunBehaviour
         if (!_isSelected && _playerData.CharacterSelected == null)
         {
             assignCharacterToPlayer();
-            photonView.RPC("setCharacterSelection", PhotonTargets.AllBuffered , PhotonNetwork.player);
+            photonView.RPC("setCharacterSelection", PhotonTargets.AllBufferedViaServer , PhotonNetwork.player);
 
         }
         else if (_isSelected && PhotonNetwork.player == _playerSelect)
         {
             _playerData.CharacterSelected = null;
-            photonView.RPC("removeCharacterToPlayer", PhotonTargets.AllBuffered , PhotonNetwork.player);
+            photonView.RPC("removeCharacterToPlayer", PhotonTargets.AllBufferedViaServer , PhotonNetwork.player);
         }
     }
 

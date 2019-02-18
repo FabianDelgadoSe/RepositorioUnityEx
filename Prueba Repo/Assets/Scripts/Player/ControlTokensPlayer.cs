@@ -14,12 +14,14 @@ public class ControlTokensPlayer : Photon.PunBehaviour {
 
 
     /// <summary>
-    /// decide a que contodor aumentarle uan gema
+    /// decide a que contodor aumentarle uan gema de pendiendo del enum enviado
     /// </summary>
-    public void newToken()
+    /// <param name="typesSquares"></param>
+    [PunRPC]
+    public void newToken(Square.typesSquares typesSquares)
     {
 
-        switch (GetComponent<PlayerMove>().Square.GetComponent<Square>().EnumTypesSquares)
+        switch (typesSquares)
         {
             case Square.typesSquares.BLUE:
                 _blueToken++;
@@ -48,25 +50,6 @@ public class ControlTokensPlayer : Photon.PunBehaviour {
 
     }
 
-
-
-    void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        if (stream.isWriting) {
-            stream.SendNext(_blueToken);
-            stream.SendNext(_redToken);
-            stream.SendNext(_greenToken);
-            stream.SendNext(_yellowToken);
-        }
-        else
-        {
-            _blueToken = (int)stream.ReceiveNext();
-            _redToken = (int)stream.ReceiveNext();
-            _greenToken = (int)stream.ReceiveNext();
-            _yellowToken = (int)stream.ReceiveNext();
-        }
-    
-    }
 
     public int RedToken
     {
