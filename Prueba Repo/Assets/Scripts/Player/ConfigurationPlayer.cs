@@ -21,11 +21,13 @@ public class ConfigurationPlayer : Photon.PunBehaviour
         }
 
         if(FindObjectOfType<PlayerData>().CharactersInGame.Length != PhotonNetwork.room.PlayerCount)
-            FindObjectOfType<PlayerData>().CharactersInGame = new GameObject[PhotonNetwork.room.PlayerCount];
-
-        FindObjectOfType<PlayerData>().CharactersInGame[FindObjectOfType<ControlTurn>().IndexTurn - 1] = gameObject;
+            FindObjectOfType<PlayerData>().CharactersInGame = new PlayerInformation[PhotonNetwork.room.PlayerCount];
 
 
+        FindObjectOfType<PlayerData>().CharactersInGame[FindObjectOfType<ControlTurn>().IndexTurn-1] = new PlayerInformation();
+        FindObjectOfType<PlayerData>().CharactersInGame[FindObjectOfType<ControlTurn>().IndexTurn - 1].Character = gameObject;
+
+        
 
     }
 

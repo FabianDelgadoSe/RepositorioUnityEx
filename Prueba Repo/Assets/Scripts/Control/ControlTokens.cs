@@ -43,7 +43,7 @@ public class ControlTokens : Photon.PunBehaviour
         }
 
         GameObject aux = Instantiate(_token); // crea un gema y la guarda en una variable
-        aux.GetComponent<CollectedToken>().Player = _playerData.CharactersInGame[_controlTurn.IndexTurn - 1];
+        aux.GetComponent<CollectedToken>().Player = _playerData.CharactersInGame[_controlTurn.IndexTurn - 1].Character;
 
         switch (_lastTokenObtained)
         {
