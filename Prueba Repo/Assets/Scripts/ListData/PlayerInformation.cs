@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerInformation : MonoBehaviour {
+public class PlayerInformation {
 
     private int _redTokens;
     private int _blueTokens;
@@ -98,4 +98,6 @@ public class PlayerInformation : MonoBehaviour {
             _character = value;
         }
     }
+
+
 }

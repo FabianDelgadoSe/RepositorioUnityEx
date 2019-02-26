@@ -32,18 +32,11 @@ public class PlayerData : Photon.PunBehaviour
             SSTools.ShowMessage("ID Jugador: " + PhotonNetwork.player.ID.ToString(), SSTools.Position.bottom, SSTools.Time.threeSecond);
             //Destroy(this);
         }
+
         CharactersInGame = new PlayerInformation[PhotonNetwork.room.playerCount];
+ 
 
         PlayerName = PhotonNetwork.player.ID.ToString();
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Debug.Log("1 : rojo" + CharactersInGame[0].RedTokens + "azul " + CharactersInGame[0].BlueTokens + " verde " + CharactersInGame[0].GreenTokens + "amarillo" + CharactersInGame[0].YellowTokens);
-            Debug.Log("2 : rojo" + CharactersInGame[1].RedTokens + "azul " + CharactersInGame[1].BlueTokens + " verde " + CharactersInGame[1].GreenTokens + "amarillo" + CharactersInGame[1].YellowTokens);
-        }
     }
 
     public Character CharacterSelected

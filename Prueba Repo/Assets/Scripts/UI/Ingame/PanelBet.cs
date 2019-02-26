@@ -29,19 +29,23 @@ public class PanelBet : MonoBehaviour {
         switch (gem)
         {
             case "RED":
-                _controlBet.Bet = Square.typesSquares.RED;
+                _controlBet.photonView.RPC("selectBet", PhotonTargets.All, Square.typesSquares.RED, FindObjectOfType<ControlTurn>().MineId);
+                FindObjectOfType<BetImage>().showMyBet(Square.typesSquares.RED);
                 _bet.SetActive(false);
                 break;
             case "GREEN":
-                _controlBet.Bet = Square.typesSquares.GREEN;
+                _controlBet.photonView.RPC("selectBet", PhotonTargets.All, Square.typesSquares.GREEN, FindObjectOfType<ControlTurn>().MineId);
+                FindObjectOfType<BetImage>().showMyBet(Square.typesSquares.GREEN);
                 _bet.SetActive(false);
                 break;
             case "BLUE":
-                _controlBet.Bet = Square.typesSquares.BLUE;
+                _controlBet.photonView.RPC("selectBet", PhotonTargets.All, Square.typesSquares.BLUE, FindObjectOfType<ControlTurn>().MineId);
+                FindObjectOfType<BetImage>().showMyBet(Square.typesSquares.BLUE);
                 _bet.SetActive(false);
                 break;
             case "YELLOW":
-                _controlBet.Bet = Square.typesSquares.YELLOW;
+                _controlBet.photonView.RPC("selectBet", PhotonTargets.All, Square.typesSquares.YELLOW,FindObjectOfType<ControlTurn>().MineId);
+                FindObjectOfType<BetImage>().showMyBet(Square.typesSquares.YELLOW);
                 _bet.SetActive(false);
                 break;
             default:
@@ -49,7 +53,7 @@ public class PanelBet : MonoBehaviour {
                 break;
         }
 
-        _controlBet.photonView.RPC("selectBet", PhotonTargets.All);
+        
     }
 
 }

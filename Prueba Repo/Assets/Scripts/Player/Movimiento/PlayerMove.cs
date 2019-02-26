@@ -185,7 +185,7 @@ public class PlayerMove : Photon.PunBehaviour
                         if (FindObjectOfType<ControlTurn>().MyTurn)
                         {
                             FindObjectOfType<ControlRound>().useLetter();
-                            FindObjectOfType<ControlTokens>().earnToken();
+                            FindObjectOfType<ControlTokens>().earnToken(Square.GetComponent<Square>().EnumTypesSquares);
                         }
 
                         lostPoints();
@@ -229,7 +229,7 @@ public class PlayerMove : Photon.PunBehaviour
                         if (FindObjectOfType<ControlTurn>().MyTurn)
                         {
                             FindObjectOfType<ControlRound>().useLetter();
-                            FindObjectOfType<ControlTokens>().earnToken();
+                            FindObjectOfType<ControlTokens>().earnToken(Square.GetComponent<Square>().EnumTypesSquares);
                         }
 
                         lostPoints();
@@ -272,7 +272,7 @@ public class PlayerMove : Photon.PunBehaviour
                         if (FindObjectOfType<ControlTurn>().MyTurn)
                         {
                             FindObjectOfType<ControlRound>().useLetter();
-                            FindObjectOfType<ControlTokens>().earnToken();
+                            FindObjectOfType<ControlTokens>().earnToken(Square.GetComponent<Square>().EnumTypesSquares);
                         }
 
                         lostPoints();
@@ -315,7 +315,7 @@ public class PlayerMove : Photon.PunBehaviour
                         if (FindObjectOfType<ControlTurn>().MyTurn)
                         {
                             FindObjectOfType<ControlRound>().useLetter();
-                            FindObjectOfType<ControlTokens>().earnToken();
+                            FindObjectOfType<ControlTokens>().earnToken(Square.GetComponent<Square>().EnumTypesSquares);
                         }
 
                         lostPoints();
@@ -344,7 +344,7 @@ public class PlayerMove : Photon.PunBehaviour
             }
             else
             {
-                FindObjectOfType<ControlTokens>().earnToken(); // hace que solo el player que se movio primero sea el que sume una gema
+                FindObjectOfType<ControlTokens>().earnToken(Square.GetComponent<Square>().EnumTypesSquares); // hace que solo el player que se movio primero sea el que sume una gema
             }
         }
 
