@@ -46,7 +46,7 @@ public class PlayerMove : Photon.PunBehaviour
 
             if (_time >= 1)
             {
-                
+
                 _time = 0;
                 calculatePointToMove();
 
@@ -141,7 +141,7 @@ public class PlayerMove : Photon.PunBehaviour
     /// </summary>
     public void calculatePointToMove()
     {
-        
+
         if (NumberSteps >= 1)
         {
             _starPoint = transform.position;
@@ -153,7 +153,7 @@ public class PlayerMove : Photon.PunBehaviour
                     if (Square.GetComponent<Square>()._squareDown != null && !Square.GetComponent<Square>()._squareDown.GetComponent<Square>().IsWall)
                     {
                         // si hay un player en la siguiente casilla lo mueve sino yo me muevo normalmente
-                        if (!Square.GetComponent<Square>()._squareDown.GetComponent<Square>().IsOccupied) 
+                        if (!Square.GetComponent<Square>()._squareDown.GetComponent<Square>().IsOccupied)
                         {
                             _endPoint = Square.GetComponent<Square>()._squareDown.transform.position;
                             Move = true;
@@ -195,7 +195,7 @@ public class PlayerMove : Photon.PunBehaviour
                 case Arrow.adress.UP:
                     if (Square.GetComponent<Square>()._squareUp != null && !Square.GetComponent<Square>()._squareUp.GetComponent<Square>().IsWall)
                     {
-                        
+
                         if (!Square.GetComponent<Square>()._squareUp.GetComponent<Square>().IsOccupied)
                         {
                             _endPoint = Square.GetComponent<Square>()._squareUp.transform.position;
@@ -239,7 +239,7 @@ public class PlayerMove : Photon.PunBehaviour
                 case Arrow.adress.LEFT:
                     if (Square.GetComponent<Square>()._squareLeft != null && !Square.GetComponent<Square>()._squareLeft.GetComponent<Square>().IsWall)
                     {
-                       
+
                         if (!Square.GetComponent<Square>()._squareLeft.GetComponent<Square>().IsOccupied)
                         {
                             _endPoint = Square.GetComponent<Square>()._squareLeft.transform.position;
@@ -282,12 +282,12 @@ public class PlayerMove : Photon.PunBehaviour
                 case Arrow.adress.RIGHT:
                     if (Square.GetComponent<Square>()._squareRigh != null && !Square.GetComponent<Square>()._squareRigh.GetComponent<Square>().IsWall)
                     {
-                       
+
                         if (!Square.GetComponent<Square>()._squareRigh.GetComponent<Square>().IsOccupied)
                         {
                             _endPoint = Square.GetComponent<Square>()._squareRigh.transform.position;
                             Move = true;
-                            _rapeVelocity = 1f / Vector3.Distance(_starPoint, _endPoint) *VELOCITY_MOVE;
+                            _rapeVelocity = 1f / Vector3.Distance(_starPoint, _endPoint) * VELOCITY_MOVE;
                             Square.GetComponent<Square>().IsOccupied = false;
                             Square.GetComponent<Square>().Player = null;
 
@@ -327,10 +327,10 @@ public class PlayerMove : Photon.PunBehaviour
         }
         else
         {
-            
+
             Move = false;
             FindObjectOfType<ControlRound>().AllowMove = false; // evita que se use otra carta de movimiento
-            
+
 
             if (FindObjectOfType<ControlTurn>().MyTurn)
             {
@@ -351,7 +351,7 @@ public class PlayerMove : Photon.PunBehaviour
 
 
     }
-    
+
     /// <summary>
     /// revisa si este es el objeto que tiene que perder puntos y si este pertenece a este dispositivo
     /// </summary>
@@ -359,8 +359,10 @@ public class PlayerMove : Photon.PunBehaviour
     {
         if (PlayerDrag == null)
         {
-            if(FindObjectOfType<ControlTurn>().MyTurn)
+            if (FindObjectOfType<ControlTurn>().MyTurn)
+            {
                 SSTools.ShowMessage("pierdo " + NumberSteps + " de puntos", SSTools.Position.bottom, SSTools.Time.twoSecond);
+            }
         }
         else
         {
@@ -368,8 +370,8 @@ public class PlayerMove : Photon.PunBehaviour
             PlayerDrag = null;
         }
     }
- 
-    
+
+
     /////////////////////////// GET Y SET ///////////////
 
     /// <summary>

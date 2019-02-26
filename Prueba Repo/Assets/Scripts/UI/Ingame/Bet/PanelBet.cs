@@ -7,6 +7,8 @@ public class PanelBet : MonoBehaviour {
     [SerializeField] private GameObject _panelBet;
     [SerializeField] private GameObject _bet;
     private ControlBet _controlBet;
+
+    [SerializeField] private GameObject _buttonShowData;
     private void Start()
     {
         _controlBet = FindObjectOfType<ControlBet>();
@@ -53,6 +55,7 @@ public class PanelBet : MonoBehaviour {
                 break;
         }
 
+        _buttonShowData.SetActive(true);
         
     }
 
