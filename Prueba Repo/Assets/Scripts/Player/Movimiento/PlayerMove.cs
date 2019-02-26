@@ -189,6 +189,7 @@ public class PlayerMove : Photon.PunBehaviour
                         }
 
                         lostPoints();
+                        NumberSteps = 0;
                     }
                     break;
 
@@ -233,6 +234,7 @@ public class PlayerMove : Photon.PunBehaviour
                         }
 
                         lostPoints();
+                        NumberSteps = 0;
                     }
                     break;
 
@@ -276,6 +278,7 @@ public class PlayerMove : Photon.PunBehaviour
                         }
 
                         lostPoints();
+                        NumberSteps = 0;
                     }
                     break;
 
@@ -319,6 +322,7 @@ public class PlayerMove : Photon.PunBehaviour
                         }
 
                         lostPoints();
+                        NumberSteps = 0;
                     }
 
                     break;
