@@ -284,6 +284,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _roomNameText: {fileID: 114289618135758776}
+  _connectingTextPrefab: {fileID: 1891276973206088, guid: 8c0ac2981e531504aa1e0bd12f2cb7de,
+    type: 2}
 --- !u!222 &222499093155829956
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -333,5 +335,5 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 139.49, y: 24.38}
+  m_SizeDelta: {x: 218.02, y: 24.38}
   m_Pivot: {x: 0.5, y: 0.5}

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Square
   - CheckBoxes
+  - Canvas
   layers:
   - Default
   - TransparentFX

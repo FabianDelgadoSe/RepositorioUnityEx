@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class LobbyNetwork : MonoBehaviour
 {
+    public GameObject _panelConectando;
 
     void Start()
     {
@@ -21,7 +22,7 @@ public class LobbyNetwork : MonoBehaviour
 
     private void OnJoinedLobby()
     {
-
+        _panelConectando.SetActive(false);
         Debug.Log("Joined to Default Lobby");
 
     }

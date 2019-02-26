@@ -6,6 +6,7 @@ using TMPro;
 public class RoomListing : MonoBehaviour {
 
     [SerializeField] private TextMeshProUGUI _roomNameText;
+    [SerializeField] private GameObject _connectingTextPrefab;
 
     public bool Update { get; set; }
 
@@ -25,6 +26,8 @@ public class RoomListing : MonoBehaviour {
     public void OnClickJoinRoom()
     {
         Debug.Log("Entrando al room: " + _roomName);
+        Instantiate(_connectingTextPrefab);
+
         PhotonNetwork.JoinRoom(_roomName);
     }
 

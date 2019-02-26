@@ -12,17 +12,21 @@ public class NetworkManager : Photon.MonoBehaviour
 
     public string _version;
     [SerializeField] private Text _roomName;
+    [SerializeField] private GameObject _connectingTextPrefab;
 
     /// <summary>
     /// se conecta con el servidor con la version que se le pase
     /// </summary>
 	public void startConnection()
     {
-        /*if (_roomName.text != "")
-            PhotonNetwork.ConnectUsingSettings(_version);*/
+        if (_roomName.text != "")
+        {
+            PhotonNetwork.CreateRoom(_roomName.text, new RoomOptions() { maxPlayers = 6 }, null);
+            _connectingTextPrefab.SetActive(true);         
+        }
+            //PhotonNetwork.ConnectUsingSettings(_version);
 
-
-        PhotonNetwork.CreateRoom(_roomName.text, new RoomOptions() { maxPlayers = 6 }, null);
+        
 
     }
 
@@ -32,7 +36,7 @@ public class NetworkManager : Photon.MonoBehaviour
     void OnConnectedToMaster()
     {
         // nombre de la sala, opciones de la sala y algo que no se que es
-        PhotonNetwork.JoinOrCreateRoom(_roomName.text, new RoomOptions() { maxPlayers = 6 }, null);
+        PhotonNetwork.CreateRoom(_roomName.text, new RoomOptions() { maxPlayers = 6 }, null);
         
     }
 
