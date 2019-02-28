@@ -10,8 +10,8 @@ public class CharacterSelectionable : Photon.PunBehaviour
 
     [SerializeField] Character _character;
 
-    PlayerData _playerData;
-    private PlayerData _currentPlayer;
+    PlayerDataInGame _playerData;
+    private PlayerDataInGame _currentPlayer;
     public bool _isSelected = false;
     [SerializeField] private TextMeshProUGUI _name;
     private PhotonPlayer _playerSelect;
@@ -21,7 +21,7 @@ public class CharacterSelectionable : Photon.PunBehaviour
     {
         GetComponent<Image>().sprite = _character._iconUnSelected;
         _name.text = _character._name;
-        _playerData = FindObjectOfType<PlayerData>();
+        _playerData = FindObjectOfType<PlayerDataInGame>();
     }
 
     [PunRPC]
@@ -30,7 +30,7 @@ public class CharacterSelectionable : Photon.PunBehaviour
         _playerSelect = Player;
         _isSelected = true;
         GetComponent<Image>().sprite = _character._iconSelected;
-        _name.text = Player.ID.ToString();
+        _name.text = Player.name.ToString();
     }
 
 

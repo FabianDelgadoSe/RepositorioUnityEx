@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class ConfigurationPlayer : Photon.PunBehaviour
 {
-    private PlayerData _currentPlayer;
+    private PlayerDataInGame _currentPlayer;
     [SerializeField] private Character[] characters;
     private void Start()
     {
-        _currentPlayer = FindObjectOfType<PlayerData>();
+        _currentPlayer = FindObjectOfType<PlayerDataInGame>();
         if (photonView.isMine)
         {
             photonView.RPC("loadDataObjets", PhotonTargets.All, _currentPlayer.CharacterSelected._IDCharacter);
@@ -20,12 +20,12 @@ public class ConfigurationPlayer : Photon.PunBehaviour
             GetComponent<SpriteRenderer>().enabled = false;
         }
 
-        if(FindObjectOfType<PlayerData>().CharactersInGame.Length != PhotonNetwork.room.PlayerCount)
-            FindObjectOfType<PlayerData>().CharactersInGame = new PlayerInformation[PhotonNetwork.room.PlayerCount];
+        if(FindObjectOfType<PlayerDataInGame>().CharactersInGame.Length != PhotonNetwork.room.PlayerCount)
+            FindObjectOfType<PlayerDataInGame>().CharactersInGame = new PlayerInformation[PhotonNetwork.room.PlayerCount];
 
 
-        FindObjectOfType<PlayerData>().CharactersInGame[FindObjectOfType<ControlTurn>().IndexTurn-1] = new PlayerInformation();
-        FindObjectOfType<PlayerData>().CharactersInGame[FindObjectOfType<ControlTurn>().IndexTurn - 1].Character = gameObject;
+        FindObjectOfType<PlayerDataInGame>().CharactersInGame[FindObjectOfType<ControlTurn>().IndexTurn-1] = new PlayerInformation();
+        FindObjectOfType<PlayerDataInGame>().CharactersInGame[FindObjectOfType<ControlTurn>().IndexTurn - 1].Character = gameObject;
 
         
 

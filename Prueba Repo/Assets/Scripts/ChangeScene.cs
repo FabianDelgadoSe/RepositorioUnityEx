@@ -13,11 +13,12 @@ public class ChangeScene : Photon.PunBehaviour
     private const string PRELOBBY = "Pre-lobby";
     private const string SELECTORCREATE = "SelectOrCreate";
     private const string SELECTROOM = "SelectRoom";
+    private const string INGAME = "InGame";
 
 
     public enum Scenes
     {
-        none, Lobby, Main, PreLobby, SelectOrCreate, SelectRoom
+        none, Lobby, Main, PreLobby, SelectOrCreate, SelectRoom, InGame
     }
 
     public Scenes _sceneToChange;
@@ -44,6 +45,9 @@ public class ChangeScene : Photon.PunBehaviour
                 break;
             case Scenes.SelectRoom:
                 changeScene(SELECTROOM);
+                break;
+            case Scenes.InGame:
+                changeScene(INGAME);
                 break;
             case Scenes.none:
                 //AÑADIR FEEDBACK DE NINGUNA SELECCIÓN
@@ -75,6 +79,9 @@ public class ChangeScene : Photon.PunBehaviour
                 break;
             case Scenes.SelectRoom:
                 photonView.RPC("changeSceneSyn", PhotonTargets.All, SELECTROOM);
+                break;
+            case Scenes.InGame:
+                photonView.RPC("changeSceneSyn", PhotonTargets.All, INGAME);
                 break;
             case Scenes.none:
                 break;

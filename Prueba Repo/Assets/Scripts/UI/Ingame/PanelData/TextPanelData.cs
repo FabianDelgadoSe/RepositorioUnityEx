@@ -9,7 +9,7 @@ public class TextPanelData : MonoBehaviour
     [SerializeField] private enumTypeData _typeData;
 
     private int _indexPlayer;
-    private PlayerData _playerData;
+    private PlayerDataInGame _playerData;
 
     public enum enumTypeData{
         NAME_PLAYER,
@@ -21,7 +21,7 @@ public class TextPanelData : MonoBehaviour
     }
     private void OnEnable()
     {
-        _playerData = FindObjectOfType<PlayerData>();
+        _playerData = FindObjectOfType<PlayerDataInGame>();
 
         switch (_typeData)
         {

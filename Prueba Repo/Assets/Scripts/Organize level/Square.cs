@@ -70,7 +70,7 @@ public class Square : Photon.PunBehaviour
     [PunRPC]
     public void saveCurrentPlayer(int indexTurn)
     {
-        Player = FindObjectOfType<PlayerData>().CharactersInGame[indexTurn - 1].Character;
+        Player = FindObjectOfType<PlayerDataInGame>().CharactersInGame[indexTurn - 1].Character;
         Player.GetComponent<PlayerMove>().Square = gameObject;
     }
 

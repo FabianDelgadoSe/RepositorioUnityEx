@@ -366,7 +366,7 @@ public class PlayerMove : Photon.PunBehaviour
             if (FindObjectOfType<ControlTurn>().MyTurn)
             {
                 SSTools.ShowMessage("pierdo " + NumberSteps + " de puntos", SSTools.Position.bottom, SSTools.Time.twoSecond);
-                FindObjectOfType<PlayerData>().CharactersInGame[idOwner.ID - 1].Score -= NumberSteps;
+                FindObjectOfType<PlayerDataInGame>().CharactersInGame[idOwner.ID - 1].Score -= NumberSteps;
             }
         }
         else

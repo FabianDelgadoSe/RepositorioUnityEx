@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class PlayerData : Photon.PunBehaviour
+public class PlayerDataInGame : Photon.PunBehaviour
 {
 
     public Character _characterSelected;
 
     private string _playerName;
 
-    private PlayerData _instance;
+    private PlayerDataInGame _instance;
 
     [SerializeField] private PlayerInformation[] _charactersInGame;
 
@@ -18,10 +18,9 @@ public class PlayerData : Photon.PunBehaviour
     {
         DontDestroyOnLoad(this.gameObject);
 
-        /*_instance = this;
+        //_instance = this;
 
 
-        PlayerName = "Jugador#" + Random.Range(1000, 9999*/ //Asignar el photonplayer, hay que reconfigurar varias cosas para poder usar.
     }
 
     private void Start()

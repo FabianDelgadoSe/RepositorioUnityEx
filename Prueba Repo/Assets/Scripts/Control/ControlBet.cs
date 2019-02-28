@@ -9,13 +9,13 @@ public class ControlBet : Photon.PunBehaviour {
     private int _numberPlayerWithBet = 0;
     private bool _betMade = false;
     private ControlTurn _controlTurn;
-    private PlayerData _playerdata;
+    private PlayerDataInGame _playerdata;
     private Square.typesSquares _winningBet = Square.typesSquares.WALL;
 
     private void Start()
     {
         _controlTurn = FindObjectOfType<ControlTurn>();
-        _playerdata = FindObjectOfType<PlayerData>();
+        _playerdata = FindObjectOfType<PlayerDataInGame>();
         _bets = new Square.typesSquares[PhotonNetwork.room.PlayerCount];
     }
 

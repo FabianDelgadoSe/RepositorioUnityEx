@@ -15,7 +15,7 @@ public class ControlTokens : Photon.PunBehaviour
     [Header("FeedBack visual de token obtenido")]
     [SerializeField] private GameObject _token;
     private GameObject _player;                   // se carga cuando se crea el player 
-    private PlayerData _playerData;
+    private PlayerDataInGame _playerData;
     private ControlTurn _controlTurn;
 
     private int _totalRedTokens = 0;
@@ -25,7 +25,7 @@ public class ControlTokens : Photon.PunBehaviour
 
     private void Start()
     {
-        _playerData = FindObjectOfType<PlayerData>();
+        _playerData = FindObjectOfType<PlayerDataInGame>();
         _controlTurn = FindObjectOfType<ControlTurn>();
     }
     /// <summary>
