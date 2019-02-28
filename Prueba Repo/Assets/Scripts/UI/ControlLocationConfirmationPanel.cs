@@ -29,7 +29,7 @@ public class ControlLocationConfirmationPanel : MonoBehaviour
 
         _player.GetComponent<PlayerMove>().Square = Square;
 
-        _player.GetComponent<locateCharacter>().enabled = false;
+        Destroy(_player.GetComponent<locateCharacter>());
 
         Square.GetComponent<Square>().Player = Player;
 

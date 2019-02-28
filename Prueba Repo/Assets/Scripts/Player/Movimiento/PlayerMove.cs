@@ -189,7 +189,7 @@ public class PlayerMove : Photon.PunBehaviour
                         }
 
                         lostPoints();
-                        NumberSteps = 0;
+                       
                     }
                     break;
 
@@ -234,7 +234,7 @@ public class PlayerMove : Photon.PunBehaviour
                         }
 
                         lostPoints();
-                        NumberSteps = 0;
+                        
                     }
                     break;
 
@@ -278,7 +278,7 @@ public class PlayerMove : Photon.PunBehaviour
                         }
 
                         lostPoints();
-                        NumberSteps = 0;
+                        
                     }
                     break;
 
@@ -322,7 +322,7 @@ public class PlayerMove : Photon.PunBehaviour
                         }
 
                         lostPoints();
-                        NumberSteps = 0;
+                        
                     }
 
                     break;
@@ -366,6 +366,7 @@ public class PlayerMove : Photon.PunBehaviour
             if (FindObjectOfType<ControlTurn>().MyTurn)
             {
                 SSTools.ShowMessage("pierdo " + NumberSteps + " de puntos", SSTools.Position.bottom, SSTools.Time.twoSecond);
+                FindObjectOfType<PlayerData>().CharactersInGame[idOwner.ID - 1].Score -= NumberSteps;
             }
         }
         else
@@ -373,6 +374,8 @@ public class PlayerMove : Photon.PunBehaviour
             PlayerDrag.GetComponent<PlayerMove>().lostPoints();
             PlayerDrag = null;
         }
+
+        NumberSteps = 0;
     }
 
 
