@@ -17,6 +17,7 @@ public class PlayerDataInGame : Photon.PunBehaviour
     private void Awake()
     {
         DontDestroyOnLoad(this.gameObject);
+        
 
         //_instance = this;
 

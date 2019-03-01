@@ -35,7 +35,7 @@ public class ChangeScene : Photon.PunBehaviour
                 changeScene(LOBBY);
                 break;
             case Scenes.Main:
-                changeScene(MAIN); 
+                changeScene(MAIN);
                 break;
             case Scenes.PreLobby:
                 changeScene(PRELOBBY);
@@ -180,5 +180,4 @@ public class ChangeScene : Photon.PunBehaviour
 
 
 
- 
- 
+
