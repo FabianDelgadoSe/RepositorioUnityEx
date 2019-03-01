@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PanelData : Photon.PunBehaviour {
-   
+public class PanelData : Photon.PunBehaviour
+{
+
     private List<GameObject> _scorePlayers = new List<GameObject>();
     [Header("prefab de score")]
-    [SerializeField]private GameObject _objScore;
+    [SerializeField] private GameObject[] _objScore;
     [Header("prefab de token")]
     [SerializeField] private GameObject[] _objRedToken;
     [SerializeField] private GameObject[] _objBlueToken;
     [SerializeField] private GameObject[] _objGreenToken;
     [SerializeField] private GameObject[] _objYellowToken;
-    [Header ("objeto padre que tiene a los scores")]
+    [Header("objeto padre que tiene a los scores")]
     [SerializeField] private GameObject _fatherScore;
     [Header("panel que contiene todo")]
     [SerializeField] private GameObject _panelData;
@@ -37,20 +38,22 @@ public class PanelData : Photon.PunBehaviour {
     {
         _panelData.SetActive(true);
 
-
-        for (int i = 0; i < _numberPlayers; i++)
+        if (!_createdScore)
         {
-            _scorePlayers.Add(Instantiate(_objScore));
-            _scorePlayers[i].transform.SetParent(_fatherScore.transform);
-            _scorePlayers[i].GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
-            _scorePlayers[i].GetComponent<RectTransform>().position = new Vector3(0,0,0);
-            _scorePlayers[i].GetComponentInChildren<TextPanelData>().IndexPlayer = i;
+            for (int i = 0; i < _numberPlayers; i++)
+            {
+                _objScore[i].SetActive(true);
+            }
+
+            _createdScore = true;
         }
+
         activeObjectTokens();
     }
     public void activeObjectTokens()
     {
-        if (!_createdTokens) {
+        if (!_createdTokens)
+        {
             for (int i = 0; i < _numberPlayers; i++)
             {
                 _objRedToken[i].SetActive(true);
