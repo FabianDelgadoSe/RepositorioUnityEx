@@ -14,17 +14,6 @@ public class PanelBet : MonoBehaviour {
         _controlBet = FindObjectOfType<ControlBet>();
     }
 
-    public void hidePanel()
-    {
-        if (_panelBet.GetActive())
-        {
-            _panelBet.SetActive(false);
-        }
-        else
-        {
-            _panelBet.SetActive(true);
-        }
-    }
 
     public void selectBet(string gem)
     {
