@@ -31,6 +31,12 @@ public class OthersPlayersData : MonoBehaviour {
 
 
 
+    public void selectMovements(int movement)
+    {
+        _movements[movement - 1].SetActive(false);
+    }
+
+
 
     public int IdOfThePlayerThatRepresents
     {

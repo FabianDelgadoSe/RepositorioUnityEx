@@ -43,5 +43,7 @@ public class ConfigurationPlayer : Photon.PunBehaviour
     {
         GetComponent<PhotonTransformView>().enabled = false;
         GetComponent<SpriteRenderer>().enabled = true;
+
+     
     }
 }

@@ -19,6 +19,7 @@ public class PlayerMove : Photon.PunBehaviour
     private float _time = 0;  // tiempo es usado para el lerp de movimiento
     private const float VELOCITY_MOVE = 5; // Velocidad con la que se mueve el personaje
     public GameObject _playerDrag;  // para cuando esta empujando saber cual objeto esta detras de el;
+    private GameObject _portraitThatRepresents;  //marco que muestra la informacion de los otros players
 
     /// <summary>
     /// revisa si el player pertenerce a esta pantalla
@@ -61,7 +62,6 @@ public class PlayerMove : Photon.PunBehaviour
     [PunRPC]
     public void saveOwener(PhotonPlayer player)
     {
-        SSTools.ShowMessage("recibi el id " + player.ID, SSTools.Position.bottom, SSTools.Time.twoSecond);
         IdOwner = player;
     }
 
@@ -97,6 +97,22 @@ public class PlayerMove : Photon.PunBehaviour
     [PunRPC]
     public void receiveNumberOfSteps(int steps)
     {
+        int index = FindObjectOfType<ControlTurn>().IndexTurn;
+
+        if(index != FindObjectOfType<ControlTurn>().MineId)
+        {
+            OthersPlayersData[] aux = FindObjectsOfType<OthersPlayersData>();
+
+            for (int i = 0; i < aux.Length; i++)
+            {
+                if (aux[i].IdOfThePlayerThatRepresents == index)
+                {
+                    aux[i].selectMovements(steps);
+                }
+            }
+        }
+            
+
         NumberSteps = steps;
     }
 
@@ -474,6 +490,19 @@ public class PlayerMove : Photon.PunBehaviour
         set
         {
             _playerDrag = value;
+        }
+    }
+
+    public GameObject PortraitThatRepresents
+    {
+        get
+        {
+            return _portraitThatRepresents;
+        }
+
+        set
+        {
+            _portraitThatRepresents = value;
         }
     }
 }
