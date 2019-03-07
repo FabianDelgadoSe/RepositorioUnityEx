@@ -4,7 +4,8 @@
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -15,3 +16,4 @@ MonoBehaviour:
   _IDCharacter: 4
   _iconUnSelected: {fileID: 21300000, guid: f1d2ff52709a42a4db87224d07e98eee, type: 3}
   _iconSelected: {fileID: 21300000, guid: 1c61724bba54ca047ab902429c5c7ff9, type: 3}
+  _faceCharacter: {fileID: 21300000, guid: dff8076e2e7588d46a072528db641ee4, type: 3}

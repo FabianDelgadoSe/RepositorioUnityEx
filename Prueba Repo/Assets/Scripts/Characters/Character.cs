@@ -9,5 +9,5 @@ public class Character : ScriptableObject {
     public int _IDCharacter;
     public Sprite _iconUnSelected;
     public Sprite _iconSelected;
-
+    public Sprite _faceCharacter;
 }

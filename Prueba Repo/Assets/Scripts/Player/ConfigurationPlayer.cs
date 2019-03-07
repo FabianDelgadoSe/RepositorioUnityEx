@@ -35,14 +35,6 @@ public class ConfigurationPlayer : Photon.PunBehaviour
     private void loadDataObjets(int IDcharacter)
     {
         GetComponent<SpriteRenderer>().sprite = characters[IDcharacter-1]._iconUnSelected;
-    }
-
-
-    [PunRPC]
-    public void endSelectionBox()
-    {
-        GetComponent<PhotonTransformView>().enabled = false;
-        GetComponent<SpriteRenderer>().enabled = true;
 
         if (!FindObjectOfType<ControlTurn>().MyTurn)
         {
@@ -53,8 +45,18 @@ public class ConfigurationPlayer : Photon.PunBehaviour
                 if (aux[i].IdOfThePlayerThatRepresents == FindObjectOfType<ControlTurn>().IndexTurn)
                 {
                     GetComponent<ControlTokensPlayer>().PortraitThatRepresents = aux[i].gameObject;
+                    aux[i].Character = characters[IDcharacter - 1];
+                    aux[i].assignFace();
                 }
             }
         }
+    }
+
+
+    [PunRPC]
+    public void endSelectionBox()
+    {
+        GetComponent<PhotonTransformView>().enabled = false;
+        GetComponent<SpriteRenderer>().enabled = true;
     }
 }

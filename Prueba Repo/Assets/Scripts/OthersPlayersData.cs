@@ -19,14 +19,19 @@ public class OthersPlayersData : MonoBehaviour {
     [SerializeField] private Sprite _sprtGreenToken;
     [SerializeField] private Sprite _sprtYellowToken;
 
+    private Character _character;
 
+    [Header("GameObject que muestra la cara")]
+    [SerializeField] private GameObject _face;
+    [Header("GameObject marco")]
+    [SerializeField] private GameObject _pictureFrame;
     /// <summary>
     /// Es llamado cuando inicie el turno del jugador al cual representa
     /// </summary>
     public void starTurn(int ID)
     {
         if(ID == _idOfThePlayerThatRepresents)
-            GetComponent<Image>().color = Color.green;
+            _pictureFrame.GetComponent<Image>().color = Color.green;
     }
 
     /// <summary>
@@ -34,7 +39,7 @@ public class OthersPlayersData : MonoBehaviour {
     /// </summary>
     public void finishTurn()
     {
-        GetComponent<Image>().color = Color.white;
+        _pictureFrame.GetComponent<Image>().color = Color.white;
     }
 
 
@@ -77,6 +82,12 @@ public class OthersPlayersData : MonoBehaviour {
     }
 
 
+    public void assignFace()
+    {
+        _face.GetComponent<Image>().sprite = Character._faceCharacter;
+        _face.GetComponent<Image>().enabled = true;
+    }
+
     public int IdOfThePlayerThatRepresents
     {
         get
@@ -90,6 +101,16 @@ public class OthersPlayersData : MonoBehaviour {
         }
     }
 
+    public Character Character
+    {
+        get
+        {
+            return _character;
+        }
 
-
+        set
+        {
+            _character = value;
+        }
+    }
 }
