@@ -1,22 +1,24 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 /// <summary>
 /// Clase que contendra la informacion de otros jugadore
 /// </summary>
 public class OthersPlayersData : MonoBehaviour {
 
-    [SerializeField] private Sprite _sprtMineturn;
-    [SerializeField] private Sprite _sprtNotMyturn;
+  
+    [SerializeField] private GameObject[] _movements;
     private int _idOfThePlayerThatRepresents;
 
 
     /// <summary>
     /// Es llamado cuando inicie el turno del jugador al cual representa
     /// </summary>
-    public void starTurn()
+    public void starTurn(int ID)
     {
-        GetComponent<SpriteRenderer>().sprite = _sprtMineturn;
+        if(ID == _idOfThePlayerThatRepresents)
+            GetComponent<Image>().color = Color.green;
     }
 
     /// <summary>
@@ -24,8 +26,11 @@ public class OthersPlayersData : MonoBehaviour {
     /// </summary>
     public void finishTurn()
     {
-        GetComponent<SpriteRenderer>().sprite = _sprtNotMyturn;
+        GetComponent<Image>().color = Color.white;
     }
+
+
+
 
     public int IdOfThePlayerThatRepresents
     {
@@ -39,5 +44,7 @@ public class OthersPlayersData : MonoBehaviour {
             _idOfThePlayerThatRepresents = value;
         }
     }
+
+
 
 }

@@ -3,66 +3,51 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Prueba : Photon.MonoBehaviour
+public class prueba : Photon.MonoBehaviour
 {
-    Arrow.adress adress = Arrow.adress.RIGHT;
-    PhotonPlayer photonPlayer;
+    public int tamaño;
+    public int ID;
+    public int creados = 0;
 
 
-    private void Start()
+    private void Update()
     {
-        photonPlayer = PhotonNetwork.player;
-        startConnection();
-    }
-    /// <summary>
-    /// se conecta con el servidor con la version que se le pase
-    /// </summary>
-	public void startConnection()
-    {
-        
-         PhotonNetwork.ConnectUsingSettings("1");
-
+        if (Input.GetKeyDown(KeyCode.Space))
+            operacion();
     }
 
-    /// <summary>
-    /// Tiene el proposito de crear una sala
-    /// </summary>
-    void OnConnectedToMaster()
+    public void operacion()
     {
-        // nombre de la sala, opciones de la sala y algo que no se que es
-        PhotonNetwork.JoinOrCreateRoom("kevin", new RoomOptions() { maxPlayers = 6 }, null);
+        bool bandera = true;
+        for (int i = 1; creados < tamaño-1; i++)
+        {
 
-    }
+            if (ID == tamaño)
+            {
+                Debug.Log(i);
+            }
+            else
+            {
+                if (ID + i <= tamaño && bandera)
+                {
+                    Debug.Log(ID + i);
+                }
+                else if(bandera)
+                {
+                    i = 1;
+                    Debug.Log(i);
+                    bandera = false;
+                }
+                else
+                {
+                    Debug.Log(i);
+                }
 
-    /// <summary>
-    /// Se llama cuando se crear un nuevo cuadro
-    /// </summary>
-    void OnCreatedRoom()
-    {
-        Debug.Log("cree sala");
-    }
+            }
 
-    /// <summary>
-    /// Se llama cuando se entra a una sala,
-    /// contiene una funcion para que se sincroniza todas las scenas de la room
-    /// </summary>
-    void OnJoinedRoom()
-    {
-        photonPlayer = PhotonNetwork.player;
-    }
+            creados++;
 
-
-    public void presionar()
-    {
-        photonView.RPC("llegar",PhotonTargets.Others,adress,null);
-    }
-
-
-    [PunRPC]
-    public void llegar(Arrow.adress adress, PhotonPlayer photonPlayer)
-    {
-        this.photonPlayer = photonPlayer;
-        SSTools.ShowMessage(adress + " player " + this.photonPlayer,SSTools.Position.bottom,SSTools.Time.twoSecond);
+        }//cierre f
     }
 
 }

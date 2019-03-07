@@ -11,16 +11,18 @@ public class ControlTurn : Photon.PunBehaviour
 
     [Header("Objetos que muestran la informacion de otros jugadores")]
     [SerializeField] private GameObject _otherPlayer; // prefab que representa a otros players
+    [SerializeField] private GameObject[] _fatherOtherPlayersLeft;
+    [SerializeField] private GameObject[] _fatherOtherPlayersRigth;
 
     [Header("Objeto padre de todas las cartas")]
     [SerializeField] private GameObject _cards; //objeto padre de todas las Cartas
 
-    private List<GameObject> _otherPlayersList = new List<GameObject>(); // imagenes que representan a los otros player
+    private List<GameObject> _otherPlayersList = new List<GameObject>();// imagenes que representan a los otros player
     private int _indexTurn; // el numero de la persona que tiene el turno
     private int _mineId;  // minumero de turno
     private bool _myTurn = false; // confirma si es mi turno
     private bool _firstTurn = true; // variable usada para saber si es el primer turno
-    private const float INICIAL_POSITION_X = -4.85f;  // donde se comienza a crear las imagenes que representan a los otros players
+
 
 
     /// <summary>
@@ -29,7 +31,7 @@ public class ControlTurn : Photon.PunBehaviour
     /// </summary>
     void Start()
     {
-        
+
         _mineId = PhotonNetwork.player.ID;
 
         createdOthersPlayers();
@@ -54,19 +56,56 @@ public class ControlTurn : Photon.PunBehaviour
     void createdOthersPlayers()
     {
         GameObject aux = new GameObject();
+        _otherPlayersList.Add(aux);
+        bool _flag = true;
 
-        for (int i = 1; i < PhotonNetwork.room.playerCount + 1; i++)
+        for (int i = 1; _otherPlayersList.Count - 1 < PhotonNetwork.room.playerCount - 1; i++)
         {
-            if (i != _mineId)
+            if ((_otherPlayersList.Count - 1) * 2 < (PhotonNetwork.room.playerCount - 1))
             {
-                aux = Instantiate(_otherPlayer, new Vector3(INICIAL_POSITION_X + (i * 1.01f), 4.5f, 0), Quaternion.identity);
-                aux.GetComponent<OthersPlayersData>().IdOfThePlayerThatRepresents = i;
-
-            }// cierre 
+                aux = _fatherOtherPlayersLeft[i - 1];
+                aux.SetActive(true);
+            }
             else
             {
-                aux = null;
+
+                if (!_fatherOtherPlayersRigth[0].activeInHierarchy)
+                {
+                    aux = _fatherOtherPlayersRigth[0];
+                    aux.SetActive(true);
+                }
+                else
+                {
+                    aux = _fatherOtherPlayersRigth[1];
+                    aux.SetActive(true);
+                }
+
             }
+
+            
+
+            if (MineId == PhotonNetwork.room.playerCount)
+            {
+                aux.GetComponent<OthersPlayersData>().IdOfThePlayerThatRepresents = i;
+            }
+            else
+            {
+                if (MineId + i <= PhotonNetwork.room.playerCount && _flag)
+                {
+                    aux.GetComponent<OthersPlayersData>().IdOfThePlayerThatRepresents = MineId + i;
+                }
+                else if (_flag)
+                {
+                    i = 1;
+                    aux.GetComponent<OthersPlayersData>().IdOfThePlayerThatRepresents = i;
+                    _flag = false;
+                }
+                else
+                {
+                    aux.GetComponent<OthersPlayersData>().IdOfThePlayerThatRepresents = i;
+                }
+            }
+
             _otherPlayersList.Add(aux);
 
         }//cierre for
@@ -80,7 +119,8 @@ public class ControlTurn : Photon.PunBehaviour
     /// </summary>
     public void nextTurn()
     {
-        if (!FindObjectOfType<ControlRound>().AllowMove || FindObjectOfType<ControlRound>().NumberOfCardsUsed > 0 || FirstTurn) {
+        if (!FindObjectOfType<ControlRound>().AllowMove || FindObjectOfType<ControlRound>().NumberOfCardsUsed > 0 || FirstTurn)
+        {
             finishTurn();
             if (IndexTurn != PhotonNetwork.room.playerCount)
             {
@@ -112,7 +152,7 @@ public class ControlTurn : Photon.PunBehaviour
         }
         else
         {
-            FindObjectOfType<ControlRound>().reactiveMovementsCards(); 
+            FindObjectOfType<ControlRound>().reactiveMovementsCards();
             FindObjectOfType<ConfigurationBoard>().changeColorBoardSquares();
             FindObjectOfType<ConfigurationBoard>().generateWalls();
             nextTurn();
@@ -150,19 +190,24 @@ public class ControlTurn : Photon.PunBehaviour
     {
         this.IndexTurn = ID;
 
-        if (preparationound()) {
+        if (preparationound())
+        {
             if (ID == this._mineId)
             {
+
                 StarTurn();
             }//cierre if
             else
             {
-                _otherPlayersList[ID - 1].gameObject.GetComponent<OthersPlayersData>().starTurn();
+                for (int i = 1; i < _otherPlayersList.Count; i++)
+                {
+                    _otherPlayersList[i].GetComponent<OthersPlayersData>().starTurn(ID);
+                }
             }//cierre else
         }
     }//cierre mineTurn
 
-    
+
     public bool preparationound()
     {
         if (FindObjectOfType<ControlBet>().BetMade)
@@ -183,7 +228,10 @@ public class ControlTurn : Photon.PunBehaviour
     [PunRPC]
     void finishTurnOtherComputers(int ID)
     {
-        _otherPlayersList[ID - 1].gameObject.GetComponent<OthersPlayersData>().finishTurn();
+        for (int i = 1; i < _otherPlayersList.Count; i++)
+        {
+            _otherPlayersList[i].GetComponent<OthersPlayersData>().finishTurn();
+        }
     }//cierre finishTurnOtherComputers
 
 
