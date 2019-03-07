@@ -44,6 +44,17 @@ public class ConfigurationPlayer : Photon.PunBehaviour
         GetComponent<PhotonTransformView>().enabled = false;
         GetComponent<SpriteRenderer>().enabled = true;
 
-     
+        if (!FindObjectOfType<ControlTurn>().MyTurn)
+        {
+            OthersPlayersData[] aux = FindObjectsOfType<OthersPlayersData>();
+
+            for (int i = 0; i < aux.Length; i++)
+            {
+                if (aux[i].IdOfThePlayerThatRepresents == FindObjectOfType<ControlTurn>().IndexTurn)
+                {
+                    GetComponent<ControlTokensPlayer>().PortraitThatRepresents = aux[i].gameObject;
+                }
+            }
+        }
     }
 }

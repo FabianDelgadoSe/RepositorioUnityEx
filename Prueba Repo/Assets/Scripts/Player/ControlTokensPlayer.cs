@@ -11,7 +11,7 @@ public class ControlTokensPlayer : Photon.PunBehaviour {
     public int _greenToken = 0;
     public int _yellowToken = 0;
     public int _indexSquare = 0;
-
+    private GameObject _portraitThatRepresents;  //marco que muestra la informacion de los otros players
 
     /// <summary>
     /// decide a que contodor aumentarle uan gema de pendiendo del enum enviado
@@ -47,6 +47,9 @@ public class ControlTokensPlayer : Photon.PunBehaviour {
                 Debug.Log("salio del rango " + _indexSquare);
                 break;
         }
+
+        if(!FindObjectOfType<ControlTurn>().MyTurn)
+            PortraitThatRepresents.GetComponent<OthersPlayersData>().getToken(typesSquares);           
 
     }
 
@@ -100,6 +103,19 @@ public class ControlTokensPlayer : Photon.PunBehaviour {
         set
         {
             _greenToken = value;
+        }
+    }
+
+    public GameObject PortraitThatRepresents
+    {
+        get
+        {
+            return _portraitThatRepresents;
+        }
+
+        set
+        {
+            _portraitThatRepresents = value;
         }
     }
 }

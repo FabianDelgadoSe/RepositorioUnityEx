@@ -68,7 +68,7 @@ public class ControlTokens : Photon.PunBehaviour
     /// </summary>
     public void drawMyTokensValues()
     {
-
+        Debug.Log("este player no es " + _player.GetComponent<PhotonView>().isMine);
         if (_player.GetComponent<PhotonView>().isMine)
         {
             _redTokens.GetComponentInChildren<TMP_Text>().text = "x" + Player.GetComponent<ControlTokensPlayer>().RedToken;

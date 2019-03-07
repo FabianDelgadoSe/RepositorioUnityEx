@@ -19,7 +19,7 @@ public class PlayerMove : Photon.PunBehaviour
     private float _time = 0;  // tiempo es usado para el lerp de movimiento
     private const float VELOCITY_MOVE = 5; // Velocidad con la que se mueve el personaje
     public GameObject _playerDrag;  // para cuando esta empujando saber cual objeto esta detras de el;
-    private GameObject _portraitThatRepresents;  //marco que muestra la informacion de los otros players
+   
 
     /// <summary>
     /// revisa si el player pertenerce a esta pantalla
@@ -99,7 +99,7 @@ public class PlayerMove : Photon.PunBehaviour
     {
         int index = FindObjectOfType<ControlTurn>().IndexTurn;
 
-        if(index != FindObjectOfType<ControlTurn>().MineId)
+        if(!FindObjectOfType<ControlTurn>().MyTurn)
         {
             OthersPlayersData[] aux = FindObjectsOfType<OthersPlayersData>();
 
@@ -493,16 +493,4 @@ public class PlayerMove : Photon.PunBehaviour
         }
     }
 
-    public GameObject PortraitThatRepresents
-    {
-        get
-        {
-            return _portraitThatRepresents;
-        }
-
-        set
-        {
-            _portraitThatRepresents = value;
-        }
-    }
 }

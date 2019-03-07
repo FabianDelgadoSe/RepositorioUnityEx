@@ -3440,7 +3440,7 @@ MonoBehaviour:
   group: 0
   OwnerShipWasTransfered: 0
   prefixBackup: -1
-  synchronization: 3
+  synchronization: 0
   onSerializeTransformOption: 3
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
@@ -11183,11 +11183,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Retrato
       objectReference: {fileID: 0}
-    - target: {fileID: 6047894650971465977, guid: 93d4522d46c9ab940a58af7bb87d9dea,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4812742416715726530, guid: 93d4522d46c9ab940a58af7bb87d9dea,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -12732,7 +12727,7 @@ PrefabInstance:
     - target: {fileID: 224806252486780948, guid: e00dae385ef0ab446ba5da3d1953d5b2,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -23.48242
+      value: -23.482422
       objectReference: {fileID: 0}
     - target: {fileID: 224806252486780948, guid: e00dae385ef0ab446ba5da3d1953d5b2,
         type: 3}
