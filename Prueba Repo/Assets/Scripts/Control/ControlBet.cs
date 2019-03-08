@@ -73,6 +73,10 @@ public class ControlBet : Photon.PunBehaviour {
                 }
             }
         }
+
+        // despues de encontrar a al ganador de la apuesta se reinician los valores para la apuesta
+        _betMade = false;
+        _numberPlayerWithBet = 0;
     }
     
     

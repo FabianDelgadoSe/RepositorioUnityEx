@@ -125,7 +125,20 @@ public class ControlTokens : Photon.PunBehaviour
             _playerData.CharactersInGame[i].Character.GetComponent<ControlTokensPlayer>().GreenToken = 0;
             _playerData.CharactersInGame[i].Character.GetComponent<ControlTokensPlayer>().BlueToken = 0;
             _playerData.CharactersInGame[i].Character.GetComponent<ControlTokensPlayer>().YellowToken = 0;
+
+            // borra la imagen de los tokens que representa los otros jugadores
+            if(_playerData.CharactersInGame[i].Character.GetComponent<ControlTokensPlayer>().PortraitThatRepresents != null)
+                _playerData.CharactersInGame[i].Character.GetComponent<ControlTokensPlayer>().PortraitThatRepresents.GetComponent<OthersPlayersData>().deleteObtainedTokens();
         }
+
+        // borra mis tokens
+        for (int i = 0; i < _tokensBoxes.Length; i++)
+        {
+            _tokensBoxes[i].GetComponent<Image>().enabled = false;
+            Debug.Log("se desactivaron las de mi pantalla");
+        }
+        _numberTokens = 0;
+
     }
 
     /// <summary>

@@ -49,6 +49,16 @@ public class OthersPlayersData : MonoBehaviour {
         _movements[movement - 1].SetActive(false);
     }
 
+    public void deleteObtainedTokens()
+    {
+        for (int i = 0; i< _tokensArray.Length; i++)
+        {
+            _tokensArray[i].SetActive(false);
+            Debug.Log("se desactivaron las del marco");
+        }
+        _numberTokens = 0;
+    }
+
 
     public void getToken(Square.typesSquares typesSquares)
     {

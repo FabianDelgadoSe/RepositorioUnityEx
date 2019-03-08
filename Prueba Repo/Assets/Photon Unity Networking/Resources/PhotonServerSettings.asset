@@ -66,4 +66,5 @@ MonoBehaviour:
   - newToken
   - selectBet
   - SetLobbyUI
+  - reactiveMovementsCards
   DisableAutoOpenWizard: 1

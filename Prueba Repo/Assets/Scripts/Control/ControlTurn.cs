@@ -159,7 +159,7 @@ public class ControlTurn : Photon.PunBehaviour
         }
         else
         {
-            FindObjectOfType<ControlRound>().reactiveMovementsCards();
+            FindObjectOfType<ControlRound>().photonView.RPC("reactiveMovementsCards",PhotonTargets.All);
             FindObjectOfType<ConfigurationBoard>().changeColorBoardSquares();
             FindObjectOfType<ConfigurationBoard>().generateWalls();
             nextTurn();

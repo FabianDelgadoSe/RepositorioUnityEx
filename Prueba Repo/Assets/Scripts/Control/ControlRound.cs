@@ -11,7 +11,7 @@ public class ControlRound : Photon.PunBehaviour {
     public int _numberOfCardsUsed = 0;
     [SerializeField] GameObject[] _movementsCards;
 
-
+    [PunRPC]
     /// <summary>
     /// vuelve a activar las cartas de movimiento
     /// </summary>
