@@ -144,11 +144,18 @@ public class ControlTurn : Photon.PunBehaviour
         if (!FindObjectOfType<ControlRound>().endOfTheRound())
         {
             _myTurn = true;
-            _myturn.active = true;
-            FindObjectOfType<ControlRound>().AllowMove = true;    //permite usar las cartas de movimientos
+            _myturn.SetActive(true);
+               //permite usar las cartas de movimientos
 
-            if (FirstTurn)// para crear el personaje y posicionarlo
+            if (FirstTurn)
+            {
+                // para crear el personaje y posicionarlo
                 gameObject.GetComponent<ControlCharacterLocation>().enabled = true;
+            }
+            else
+            {
+                FindObjectOfType<ControlRound>().AllowMove = true;
+            }
         }
         else
         {

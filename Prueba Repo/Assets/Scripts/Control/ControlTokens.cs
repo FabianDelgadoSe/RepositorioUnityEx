@@ -6,11 +6,15 @@ using TMPro;
 
 public class ControlTokens : Photon.PunBehaviour
 {
+    [Header("sprites de las gemas")]
+    [SerializeField] private Sprite _redToken;   //imagen de la gema 
+    [SerializeField] private Sprite _greenToken;
+    [SerializeField] private Sprite _blueToken;
+    [SerializeField] private Sprite _yellowToken;
 
-    [SerializeField] private Image _redTokens;   //imagen de la gema de hijo tienen el text
-    [SerializeField] private Image _greenTokens;
-    [SerializeField] private Image _blueTokens;
-    [SerializeField] private Image _yellowTokens;
+    [Header("Array que contiene todas las gemas")]
+    [SerializeField] private GameObject[] _tokensBoxes;
+    private int _numberTokens = 0;
 
     [Header("FeedBack visual de token obtenido")]
     [SerializeField] private GameObject _token;
@@ -38,7 +42,7 @@ public class ControlTokens : Photon.PunBehaviour
             lastTokenObtained = _player.GetComponent<PlayerMove>().Square.GetComponent<Square>().EnumTypesSquares;
             _player.GetComponent<ControlTokensPlayer>().photonView.RPC("newToken", PhotonTargets.All, lastTokenObtained); // hace que aumente la cantidad de gemas obtenidas
 
-            drawMyTokensValues();
+            drawMyTokensValues(lastTokenObtained);
         }
 
         GameObject aux = Instantiate(_token); // crea un gema y la guarda en una variable
@@ -66,15 +70,36 @@ public class ControlTokens : Photon.PunBehaviour
     /// <summary>
     /// Actuliza los valore de la UI de las gemas que se tienen
     /// </summary>
-    public void drawMyTokensValues()
+    public void drawMyTokensValues(Square.typesSquares typesSquares)
     {
         Debug.Log("este player no es " + _player.GetComponent<PhotonView>().isMine);
         if (_player.GetComponent<PhotonView>().isMine)
         {
-            _redTokens.GetComponentInChildren<TMP_Text>().text = "x" + Player.GetComponent<ControlTokensPlayer>().RedToken;
-            _greenTokens.GetComponentInChildren<TMP_Text>().text = "x" + Player.GetComponent<ControlTokensPlayer>().GreenToken;
-            _blueTokens.GetComponentInChildren<TMP_Text>().text = "x" + Player.GetComponent<ControlTokensPlayer>().BlueToken;
-            _yellowTokens.GetComponentInChildren<TMP_Text>().text = "x" + Player.GetComponent<ControlTokensPlayer>().YellowToken;
+            switch (typesSquares)
+            {
+                case Square.typesSquares.BLUE:
+                    _tokensBoxes[_numberTokens].GetComponent<Image>().sprite = _blueToken;
+                    _tokensBoxes[_numberTokens].GetComponent<Image>().enabled = true;
+                    break;
+
+                case Square.typesSquares.RED:
+                    _tokensBoxes[_numberTokens].GetComponent<Image>().sprite = _redToken;
+                    _tokensBoxes[_numberTokens].GetComponent<Image>().enabled = true;
+                    break;
+
+                case Square.typesSquares.GREEN:
+                    _tokensBoxes[_numberTokens].GetComponent<Image>().sprite = _greenToken;
+                    _tokensBoxes[_numberTokens].GetComponent<Image>().enabled = true;
+                    break;
+
+                case Square.typesSquares.YELLOW:
+                    _tokensBoxes[_numberTokens].GetComponent<Image>().sprite = _yellowToken;
+                    _tokensBoxes[_numberTokens].GetComponent<Image>().enabled = true;
+                    break;
+            }
+
+            _numberTokens++;
+
         }
 
 
