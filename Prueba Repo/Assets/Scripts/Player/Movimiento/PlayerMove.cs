@@ -53,6 +53,7 @@ public class PlayerMove : Photon.PunBehaviour
 
             }
         }
+
     }
 
     /// <summary>

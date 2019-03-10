@@ -29,25 +29,25 @@ public class Arrow : MonoBehaviour {
         switch (enumAdress)
         {
             case adress.DOWN:
-                transform.Translate(new Vector3(0, -GAP_Y, 0));
+                transform.Translate(new Vector3(0, -GAP_Y, -1));
                 transform.Rotate(new Vector3(0,0,90));
                 
                 break;
 
             case adress.LEFT:
-                transform.Translate(new Vector3(-GAP_X, 0, 0));
+                transform.Translate(new Vector3(-GAP_X, 0, -1));
                 transform.Rotate(Vector3.zero);
                 
                 break;
 
             case adress.RIGHT:
-                transform.Translate(new Vector3(GAP_X, 0, 0));
+                transform.Translate(new Vector3(GAP_X, 0, -1));
                 transform.Rotate(new Vector3(0, 0, 180));
                
                 break;
 
             case adress.UP:
-                transform.Translate(new Vector3(0, GAP_Y, 0));
+                transform.Translate(new Vector3(0, GAP_Y, -1));
                 transform.Rotate(new Vector3(0, 0, -90));
                
                 break;
@@ -56,7 +56,6 @@ public class Arrow : MonoBehaviour {
 
     private void OnMouseDown()
     {
-        
         _player.GetComponent<PlayerMove>().photonView.RPC("receiveAdress", PhotonTargets.All, enumAdress);
         _player.GetComponent<PlayerMove>().photonView.RPC("calculatePointToMove",PhotonTargets.All);
         Arrow[] aux= FindObjectsOfType<Arrow>();
