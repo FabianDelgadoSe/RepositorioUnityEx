@@ -120,7 +120,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5294a1b00e78be74fab0c26f7af3cc38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _panelConfimatio: {fileID: 1553950309880426, guid: e48c78702c694104ea12485a654c7c60,
+  _prefabPanelConfimation: {fileID: 1553950309880426, guid: e48c78702c694104ea12485a654c7c60,
     type: 3}
 --- !u!114 &114206352545360460
 MonoBehaviour:
@@ -168,8 +168,8 @@ MonoBehaviour:
   - {fileID: 114483186222332104}
   - {fileID: 114090296815552104}
   ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
+  viewIdField: 39
+  instantiationId: 39
   currentMasterID: -1
   isRuntimeInstantiated: 0
 --- !u!114 &114483186222332104

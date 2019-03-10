@@ -25,11 +25,8 @@ public class ControlLocationConfirmationPanel : MonoBehaviour
     /// </summary>
     public void confirmationButton()
     {
-        _player.GetComponent<locateCharacter>().enabled = false;
 
         _player.GetComponent<PlayerMove>().Square = Square;
-
-        Destroy(_player.GetComponent<locateCharacter>());
 
         Square.GetComponent<Square>().Player = Player;
 
@@ -54,8 +51,9 @@ public class ControlLocationConfirmationPanel : MonoBehaviour
     public void denyButton()
     {
         _player.transform.position = new Vector3(-6, 2, 0);
-        _player.GetComponent<locateCharacter>().enabled = true;
-        Destroy(gameObject);
+        _player.AddComponent<locateCharacter>();
+        _player.GetComponent<locateCharacter>().PanelConfirmationInGame = gameObject;
+        gameObject.SetActive(false);
     }//Cierre DenyButton
 
     /// <summary>

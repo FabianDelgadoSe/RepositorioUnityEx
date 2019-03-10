@@ -17,7 +17,7 @@ public class PlayerInformation {
         _blueTokens = 0;
         _greenTokens = 0;
         _yellowTokens = 0;
-        _score = 0;
+        _score = 5;
         _character = null;
     }
 

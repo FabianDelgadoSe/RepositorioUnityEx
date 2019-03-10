@@ -9,9 +9,9 @@ public class locateCharacter : Photon.MonoBehaviour
 {
 
     private bool _isMoving = false;
-    [SerializeField] private GameObject _panelConfimatio;
-    private GameObject aux;
-    private bool _panelConfimation = false;
+    [SerializeField] private GameObject _prefabPanelConfimation;
+    [SerializeField] private GameObject _panelConfirmationInGame;
+
 
     /// <summary>
     /// permite que solo el dispositivo que lo creo pueda moverlo
@@ -54,18 +54,42 @@ public class locateCharacter : Photon.MonoBehaviour
     {
         if (collision.CompareTag("Square"))
         {
+            
             if (collision.gameObject.GetComponent<Square>().ItsOnEdge && !_isMoving)
             {
                 transform.position = collision.gameObject.transform.position;
 
-                if (aux == null && FindObjectOfType<ControlTurn>().FirstTurn)
+                if (FindObjectOfType<ControlTurn>().FirstTurn)
                 {
-                    aux = Instantiate(_panelConfimatio, new Vector3(0, 0, 0), Quaternion.identity);
-                    aux.GetComponent<ControlLocationConfirmationPanel>().Player = gameObject;
-                    aux.GetComponent<ControlLocationConfirmationPanel>().Square = collision.gameObject;
+                    if (PanelConfirmationInGame == null)
+                    {
+                        PanelConfirmationInGame = Instantiate(_prefabPanelConfimation, new Vector3(0, 0, 0), Quaternion.identity);
+                        PanelConfirmationInGame.GetComponent<ControlLocationConfirmationPanel>().Player = gameObject;
+                    }
+                    else
+                    {
+                        PanelConfirmationInGame.SetActive(true);
+                    }
+
+                    PanelConfirmationInGame.GetComponent<ControlLocationConfirmationPanel>().Square = collision.gameObject;
+                    Destroy(GetComponent<locateCharacter>());
                 }
                 
             }
+        }
+    }
+
+
+    public GameObject PanelConfirmationInGame
+    {
+        get
+        {
+            return _panelConfirmationInGame;
+        }
+
+        set
+        {
+            _panelConfirmationInGame = value;
         }
     }
 
