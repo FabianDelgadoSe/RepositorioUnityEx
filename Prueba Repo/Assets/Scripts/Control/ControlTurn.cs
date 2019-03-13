@@ -80,9 +80,7 @@ public class ControlTurn : Photon.PunBehaviour
                     aux.SetActive(true);
                 }
 
-            }
-
-            
+            }            
 
             if (MineId == PhotonNetwork.room.playerCount)
             {
@@ -162,7 +160,8 @@ public class ControlTurn : Photon.PunBehaviour
             FindObjectOfType<ControlRound>().photonView.RPC("reactiveMovementsCards",PhotonTargets.All);
             FindObjectOfType<ConfigurationBoard>().changeColorBoardSquares();
             FindObjectOfType<ConfigurationBoard>().generateWalls();
-            nextTurn();
+            FindObjectOfType<PlayerRepositioning>().ReviewPlayersOnWall = true;
+            FindObjectOfType<PlayerRepositioning>().PlayerInWall();
         }
 
     }//cierre starTurn
@@ -305,6 +304,19 @@ public class ControlTurn : Photon.PunBehaviour
         set
         {
             _mineId = value;
+        }
+    }
+
+    public GameObject Myturn
+    {
+        get
+        {
+            return _myturn;
+        }
+
+        set
+        {
+            _myturn = value;
         }
     }
 }

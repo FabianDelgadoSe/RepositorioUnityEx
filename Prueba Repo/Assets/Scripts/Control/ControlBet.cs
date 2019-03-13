@@ -85,7 +85,7 @@ public class ControlBet : Photon.PunBehaviour {
     {
         _numberPlayerWithBet++;
         Bets[index-1] = bet;
-        Debug.Log("el jugador " + index + " aposto por " + Bets[index-1]);        
+
         
         if (PhotonNetwork.room.PlayerCount == _numberPlayerWithBet)
         {

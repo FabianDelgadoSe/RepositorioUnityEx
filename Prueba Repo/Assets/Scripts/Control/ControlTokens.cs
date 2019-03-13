@@ -64,7 +64,6 @@ public class ControlTokens : Photon.PunBehaviour
                 break;
         }
 
-        Debug.Log("ultuimo token" + lastTokenObtained);
     }
 
     /// <summary>
@@ -72,7 +71,7 @@ public class ControlTokens : Photon.PunBehaviour
     /// </summary>
     public void drawMyTokensValues(Square.typesSquares typesSquares)
     {
-        Debug.Log("este player no es " + _player.GetComponent<PhotonView>().isMine);
+
         if (_player.GetComponent<PhotonView>().isMine)
         {
             switch (typesSquares)
@@ -135,7 +134,6 @@ public class ControlTokens : Photon.PunBehaviour
         for (int i = 0; i < _tokensBoxes.Length; i++)
         {
             _tokensBoxes[i].GetComponent<Image>().enabled = false;
-            Debug.Log("se desactivaron las de mi pantalla");
         }
         _numberTokens = 0;
 

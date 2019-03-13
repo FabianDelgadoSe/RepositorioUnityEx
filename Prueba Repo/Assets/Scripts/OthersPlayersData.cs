@@ -54,7 +54,6 @@ public class OthersPlayersData : MonoBehaviour {
         for (int i = 0; i< _tokensArray.Length; i++)
         {
             _tokensArray[i].SetActive(false);
-            Debug.Log("se desactivaron las del marco");
         }
         _numberTokens = 0;
     }

@@ -5,10 +5,7 @@ using UnityEngine.UI;
 
 public class prueba : Photon.MonoBehaviour
 {
-    public int tamaño;
-    public int ID;
-    public int creados = 0;
-
+    public List<int> a = new List<int>();
 
     private void Update()
     {
@@ -18,36 +15,8 @@ public class prueba : Photon.MonoBehaviour
 
     public void operacion()
     {
-        bool bandera = true;
-        for (int i = 1; creados < tamaño-1; i++)
-        {
-
-            if (ID == tamaño)
-            {
-                Debug.Log(i);
-            }
-            else
-            {
-                if (ID + i <= tamaño && bandera)
-                {
-                    Debug.Log(ID + i);
-                }
-                else if(bandera)
-                {
-                    i = 1;
-                    Debug.Log(i);
-                    bandera = false;
-                }
-                else
-                {
-                    Debug.Log(i);
-                }
-
-            }
-
-            creados++;
-
-        }//cierre f
+        a.RemoveAt(0);
+        Debug.Log("tamaño de la lista" + a);
     }
 
 }

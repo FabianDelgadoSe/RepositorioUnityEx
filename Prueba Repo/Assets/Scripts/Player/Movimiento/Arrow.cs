@@ -6,17 +6,25 @@ using UnityEngine;
 /// </summary>
 public class Arrow : MonoBehaviour {
 
-    public adress enumAdress;
+    private adress enumAdress;
+    [SerializeField]private typeArrow enumTypeArrow;
     private const float GAP_X = 1f;
     private const float GAP_Y = 1.2f;
     private GameObject _player;
-    
+    private PhotonPlayer _playerInTurn;
+
     public enum adress
     {
         LEFT,
         RIGHT,
         UP,
         DOWN
+    }
+
+    public enum typeArrow
+    {
+        NORMAL,
+        SPECIAL
     }
 
     private void Start()
@@ -56,14 +64,41 @@ public class Arrow : MonoBehaviour {
 
     private void OnMouseDown()
     {
-        _player.GetComponent<PlayerMove>().photonView.RPC("receiveAdress", PhotonTargets.All, enumAdress);
-        _player.GetComponent<PlayerMove>().photonView.RPC("calculatePointToMove",PhotonTargets.All);
-        Arrow[] aux= FindObjectsOfType<Arrow>();
+        switch (enumTypeArrow)
+        {
+            case typeArrow.NORMAL:
+                normalMovementPlayer();
+                break;
 
-        for(int i = 0; i<aux.Length;i++)
-            Destroy(aux[i].gameObject);
-
+            case typeArrow.SPECIAL:
+                playerRepositioningMovement();
+                break;
+        }
     }
+
+    public void normalMovementPlayer()
+    {
+
+        _player.GetComponent<PlayerMove>().photonView.RPC("receiveAdress", PhotonTargets.All, enumAdress);
+        _player.GetComponent<PlayerMove>().photonView.RPC("calculatePointToMove", PhotonTargets.All);
+        Arrow[] aux = FindObjectsOfType<Arrow>();
+
+        for (int i = 0; i < aux.Length; i++)
+            Destroy(aux[i].gameObject);
+    }
+
+    public void playerRepositioningMovement()
+    {
+        
+        _player.GetComponent<PlayerMove>().photonView.RPC("repositioning", PhotonTargets.All, enumAdress);
+        FindObjectOfType<PlayerRepositioning>().photonView.RPC("PlayerInWall",PlayerInTurn);
+        Arrow[] aux = FindObjectsOfType<Arrow>();
+
+        for (int i = 0; i < aux.Length; i++)
+            Destroy(aux[i].gameObject);
+    }
+
+
     public GameObject Player
     {
         get
@@ -74,6 +109,32 @@ public class Arrow : MonoBehaviour {
         set
         {
             _player = value;
+        }
+    }
+
+    public PhotonPlayer PlayerInTurn
+    {
+        get
+        {
+            return _playerInTurn;
+        }
+
+        set
+        {
+            _playerInTurn = value;
+        }
+    }
+
+    public adress EnumAdress
+    {
+        get
+        {
+            return enumAdress;
+        }
+
+        set
+        {
+            enumAdress = value;
         }
     }
 }

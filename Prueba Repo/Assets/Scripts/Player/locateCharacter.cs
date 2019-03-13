@@ -10,7 +10,7 @@ public class locateCharacter : Photon.MonoBehaviour
 
     private bool _isMoving = false;
     [SerializeField] private GameObject _prefabPanelConfimation;
-    [SerializeField] private GameObject _panelConfirmationInGame;
+    private GameObject _panelConfirmationInGame;
 
 
     /// <summary>

@@ -19,7 +19,7 @@ public class PlayerMove : Photon.PunBehaviour
     private float _time = 0;  // tiempo es usado para el lerp de movimiento
     private const float VELOCITY_MOVE = 5; // Velocidad con la que se mueve el personaje
     public GameObject _playerDrag;  // para cuando esta empujando saber cual objeto esta detras de el;
-   
+
 
     /// <summary>
     /// revisa si el player pertenerce a esta pantalla
@@ -100,7 +100,9 @@ public class PlayerMove : Photon.PunBehaviour
     {
         int index = FindObjectOfType<ControlTurn>().IndexTurn;
 
-        if(!FindObjectOfType<ControlTurn>().MyTurn)
+        // se hace de esta forma por que muchos jugadores pueden mover una misma ficha entonces nunca se esta seguro de 
+        //cual la esta moviendo
+        if (!FindObjectOfType<ControlTurn>().MyTurn)
         {
             OthersPlayersData[] aux = FindObjectsOfType<OthersPlayersData>();
 
@@ -112,7 +114,7 @@ public class PlayerMove : Photon.PunBehaviour
                 }
             }
         }
-            
+
 
         NumberSteps = steps;
     }
@@ -131,25 +133,34 @@ public class PlayerMove : Photon.PunBehaviour
         GameObject aux;
         // flecha de abajo
         aux = Instantiate(_arrow, transform.position, Quaternion.identity);
-        aux.GetComponent<Arrow>().enumAdress = Arrow.adress.DOWN;
+        aux.GetComponent<Arrow>().EnumAdress = Arrow.adress.DOWN;
         aux.GetComponent<Arrow>().Player = gameObject;
 
         // Flecha de arriba
         aux = Instantiate(_arrow, transform.position, Quaternion.identity);
-        aux.GetComponent<Arrow>().enumAdress = Arrow.adress.UP;
+        aux.GetComponent<Arrow>().EnumAdress = Arrow.adress.UP;
         aux.GetComponent<Arrow>().Player = gameObject;
 
         //Flecha de la derecha
         aux = Instantiate(_arrow, transform.position, Quaternion.identity);
-        aux.GetComponent<Arrow>().enumAdress = Arrow.adress.RIGHT;
+        aux.GetComponent<Arrow>().EnumAdress = Arrow.adress.RIGHT;
         aux.GetComponent<Arrow>().Player = gameObject;
 
         //Flecha de la izquierda
         aux = Instantiate(_arrow, transform.position, Quaternion.identity);
-        aux.GetComponent<Arrow>().enumAdress = Arrow.adress.LEFT;
+        aux.GetComponent<Arrow>().EnumAdress = Arrow.adress.LEFT;
         aux.GetComponent<Arrow>().Player = gameObject;
 
     }
+
+    [PunRPC]
+    public void repositioning(Arrow.adress adress)
+    {
+        this.adress = adress;
+        NumberSteps = 1;
+        calculatePointToMove();
+    }
+        
 
     [PunRPC]
     /// <summary>

@@ -81,7 +81,7 @@ public class ConfigurationBoard : Photon.PunBehaviour {
     {
         int _quantityWalls = Random.RandomRange(1, 5);
         int _indexBoardSquare;
-
+        
         while (_quantityWalls > 0)
         {
             _indexBoardSquare = Random.RandomRange(0, _boardSquaresArray.Length);
@@ -95,6 +95,8 @@ public class ConfigurationBoard : Photon.PunBehaviour {
 
         }//cierre while
         
+    
+
     }// Cierre de generateWalls
     
 }// cierre de la clase 

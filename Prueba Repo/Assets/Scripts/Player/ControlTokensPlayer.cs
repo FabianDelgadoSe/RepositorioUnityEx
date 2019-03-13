@@ -6,11 +6,11 @@ using UnityEngine;
 /// </summary>
 public class ControlTokensPlayer : Photon.PunBehaviour {
 
-    public int _redToken = 0;
-    public int _blueToken = 0;
-    public int _greenToken = 0;
-    public int _yellowToken = 0;
-    public int _indexSquare = 0;
+    private int _redToken = 0;
+    private int _blueToken = 0;
+    private int _greenToken = 0;
+    private int _yellowToken = 0;
+    private int _indexSquare = 0;
     private GameObject _portraitThatRepresents;  //marco que muestra la informacion de los otros players
 
     /// <summary>

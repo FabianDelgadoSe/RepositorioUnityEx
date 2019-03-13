@@ -67,4 +67,7 @@ MonoBehaviour:
   - selectBet
   - SetLobbyUI
   - reactiveMovementsCards
+  - createdEspecialArrows
+  - repositioning
+  - PlayerInWall
   DisableAutoOpenWizard: 1
