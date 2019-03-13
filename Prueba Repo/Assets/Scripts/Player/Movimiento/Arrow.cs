@@ -37,25 +37,25 @@ public class Arrow : MonoBehaviour {
         switch (enumAdress)
         {
             case adress.DOWN:
-                transform.Translate(new Vector3(0, -GAP_Y, -1));
+                transform.Translate(new Vector3(0, -GAP_Y, -3));
                 transform.Rotate(new Vector3(0,0,90));
                 
                 break;
 
             case adress.LEFT:
-                transform.Translate(new Vector3(-GAP_X, 0, -1));
+                transform.Translate(new Vector3(-GAP_X, 0, -3));
                 transform.Rotate(Vector3.zero);
                 
                 break;
 
             case adress.RIGHT:
-                transform.Translate(new Vector3(GAP_X, 0, -1));
+                transform.Translate(new Vector3(GAP_X, 0, -3));
                 transform.Rotate(new Vector3(0, 0, 180));
                
                 break;
 
             case adress.UP:
-                transform.Translate(new Vector3(0, GAP_Y, -1));
+                transform.Translate(new Vector3(0, GAP_Y, -3));
                 transform.Rotate(new Vector3(0, 0, -90));
                
                 break;

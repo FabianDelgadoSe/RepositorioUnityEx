@@ -22,7 +22,7 @@ public class ControlTurn : Photon.PunBehaviour
     private int _mineId;  // minumero de turno
     private bool _myTurn = false; // confirma si es mi turno
     private bool _firstTurn = true; // variable usada para saber si es el primer turno
-
+    private bool _allowSelectCardMove = true; //verifica si ya se seleccionado una carta de movimiento
 
 
     /// <summary>
@@ -117,7 +117,7 @@ public class ControlTurn : Photon.PunBehaviour
     /// </summary>
     public void nextTurn()
     {
-        if (!FindObjectOfType<ControlRound>().AllowMove || FindObjectOfType<ControlRound>().NumberOfCardsUsed > 0 || FirstTurn)
+        if ((!FindObjectOfType<ControlRound>().AllowMove) && (FindObjectOfType<ControlRound>().NumberOfCardsUsed > 0 || FirstTurn))
         {
             finishTurn();
             if (IndexTurn != PhotonNetwork.room.playerCount)
@@ -175,6 +175,7 @@ public class ControlTurn : Photon.PunBehaviour
     {
         _myTurn = false;
         _myturn.active = false;
+        AllowSelectCardMove = true;
         photonView.RPC("finishTurnOtherComputers", PhotonTargets.Others, _mineId);
         if (FirstTurn)
         {
@@ -317,6 +318,19 @@ public class ControlTurn : Photon.PunBehaviour
         set
         {
             _myturn = value;
+        }
+    }
+
+    public bool AllowSelectCardMove
+    {
+        get
+        {
+            return _allowSelectCardMove;
+        }
+
+        set
+        {
+            _allowSelectCardMove = value;
         }
     }
 }

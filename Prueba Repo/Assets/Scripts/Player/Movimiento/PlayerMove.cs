@@ -130,6 +130,7 @@ public class PlayerMove : Photon.PunBehaviour
     /// </summary>
     private void createArrows()
     {
+        FindObjectOfType<ControlTurn>().AllowSelectCardMove = false; // evita que se puedan seleccionar mas movimientos cuando las flechas estan creadas
         GameObject aux;
         // flecha de abajo
         aux = Instantiate(_arrow, transform.position, Quaternion.identity);
