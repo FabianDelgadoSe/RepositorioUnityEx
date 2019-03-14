@@ -150,6 +150,7 @@ public class ControlTurn : Photon.PunBehaviour
             {
                 // para crear el personaje y posicionarlo
                 gameObject.GetComponent<ControlCharacterLocation>().enabled = true;
+                _myturn.GetComponent<Button>().enabled = false;
             }
             else
             {

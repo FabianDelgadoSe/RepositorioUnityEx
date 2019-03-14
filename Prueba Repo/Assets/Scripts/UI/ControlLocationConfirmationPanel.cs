@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 /// <summary>
 /// Cobntrola todo lo que tiene que ver con el panel de confimacion de ubicacion del personaje
 /// </summary>
@@ -36,8 +37,7 @@ public class ControlLocationConfirmationPanel : MonoBehaviour
 
         _player.GetComponent<ConfigurationPlayer>().photonView.RPC("endSelectionBox", PhotonTargets.All);
 
-
-
+        FindObjectOfType<ControlTurn>().Myturn.GetComponent<Button>().enabled = true;
         FindObjectOfType<ControlTurn>().nextTurn();
 
         Destroy(gameObject);
