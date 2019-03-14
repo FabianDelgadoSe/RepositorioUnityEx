@@ -33,8 +33,8 @@ public class ControlRound : Photon.PunBehaviour {
 
         _noMovementPlayes = 0;
         _numberOfCardsUsed = 0;
-        
-        GetComponent<ControlTokens>().resetTokens(); // quita los tokens obtenidos esta ronda
+
+        GetComponent<ControlTokens>().photonView.RPC("resetTokens", PhotonTargets.All);// quita los tokens obtenidos esta ronda
     }
 
     
@@ -43,7 +43,7 @@ public class ControlRound : Photon.PunBehaviour {
     {
         _numberOfCardsUsed++;
 
-        if (_numberOfCardsUsed == 5)
+        if (_numberOfCardsUsed == 1)
         {
             photonView.RPC("newPlayerWithoutMovements",PhotonTargets.All);
         }

@@ -134,25 +134,10 @@ public class ControlTurn : Photon.PunBehaviour
         }
     }// cierre nextTurn
 
-    public void finishBoard()
-    {
-        finishTurn();
-        if (IndexTurn != PhotonNetwork.room.playerCount)
-        {
-            IndexTurn++;
-        }// cierre if
-        else
-        {
-            IndexTurn = 1;
-        }// cierre else
-
-        photonView.RPC("mineTurn", PhotonTargets.All, IndexTurn);
-    }
-
     /// <summary>
     /// Cuando comienza mi turno es llamado este metodo
     /// </summary>
-    void StarTurn()
+    public void StarTurn()
     {
         _myTurn = true;
         _myturn.SetActive(true);

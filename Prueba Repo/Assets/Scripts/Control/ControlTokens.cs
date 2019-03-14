@@ -104,6 +104,7 @@ public class ControlTokens : Photon.PunBehaviour
 
     }
 
+    [PunRPC]
     /// <summary>
     /// Al final de la ronda reinicia los valore de las gemas que tiene cada player
     /// </summary>

@@ -44,7 +44,8 @@ public class PlayerRepositioning : Photon.PunBehaviour
             }
             else
             {
-                FindObjectOfType<ControlTurn>().finishBoard();
+                
+                FindObjectOfType<ControlTurn>().photonView.RPC("mineTurn",PhotonTargets.All, FindObjectOfType<ControlTurn>().IndexTurn); ;
             }
         }
     }
