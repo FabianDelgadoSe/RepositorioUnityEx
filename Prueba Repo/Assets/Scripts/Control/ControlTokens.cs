@@ -64,6 +64,7 @@ public class ControlTokens : Photon.PunBehaviour
                 break;
         }
 
+        Debug.Log("azules " + _totalBlueTokens + "verdes " + _totalGreenTokens + "rojos " + _totalRedTokens + "amarillos " + _totalYellowTokens);
     }
 
     /// <summary>

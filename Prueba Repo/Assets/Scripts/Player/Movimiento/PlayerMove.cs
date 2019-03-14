@@ -204,6 +204,7 @@ public class PlayerMove : Photon.PunBehaviour
                             aux.GetComponent<PlayerMove>().Adress = adress;
                             aux.GetComponent<PlayerMove>().PlayerDrag = gameObject;
                             aux.GetComponent<PlayerMove>().calculatePointToMove();
+                            Move = false; // me dejo de mover hasta que el otro me diga si puedo
 
                         }
                     }
@@ -249,6 +250,7 @@ public class PlayerMove : Photon.PunBehaviour
                             aux.GetComponent<PlayerMove>().Adress = adress;
                             aux.GetComponent<PlayerMove>().PlayerDrag = gameObject;
                             aux.GetComponent<PlayerMove>().calculatePointToMove();
+                            Move = false;
                         }
                     }
 
@@ -294,6 +296,7 @@ public class PlayerMove : Photon.PunBehaviour
                             aux.GetComponent<PlayerMove>().Adress = adress;
                             aux.GetComponent<PlayerMove>().PlayerDrag = gameObject;
                             aux.GetComponent<PlayerMove>().calculatePointToMove();
+                            Move = false;
                         }
                     }
                     else
@@ -338,6 +341,7 @@ public class PlayerMove : Photon.PunBehaviour
                             aux.GetComponent<PlayerMove>().Adress = adress;
                             aux.GetComponent<PlayerMove>().PlayerDrag = gameObject;
                             aux.GetComponent<PlayerMove>().calculatePointToMove();
+                            Move = false;
                         }
                     }
                     else
