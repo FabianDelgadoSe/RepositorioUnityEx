@@ -10,6 +10,7 @@ public class ControlRound : Photon.PunBehaviour {
     public int _noMovementPlayes = 0;
     public int _numberOfCardsUsed = 0;
     [SerializeField] GameObject[] _movementsCards;
+    public OthersPlayersData[] _othersPlayersData;
 
     [PunRPC]
     /// <summary>
@@ -17,9 +18,17 @@ public class ControlRound : Photon.PunBehaviour {
     /// </summary>
     public void reactiveMovementsCards()
     {
+        // mis cartas
         for (int i = 0; i < _movementsCards.Length ; i++)
         {
             _movementsCards[i].SetActive(true);
+        }
+
+        // cardas que de los otros jugadores
+        _othersPlayersData = FindObjectsOfType<OthersPlayersData>();
+        for (int i = 0; i<_othersPlayersData.Length; i++)
+        {
+            _othersPlayersData[i].activeAllMoveCards();
         }
 
         _noMovementPlayes = 0;

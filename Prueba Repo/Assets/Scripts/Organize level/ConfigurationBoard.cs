@@ -94,8 +94,6 @@ public class ConfigurationBoard : Photon.PunBehaviour {
             }// cierre if
 
         }//cierre while
-        
-    
 
     }// Cierre de generateWalls
     

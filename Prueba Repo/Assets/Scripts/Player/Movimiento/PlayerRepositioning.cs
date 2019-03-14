@@ -19,44 +19,45 @@ public class PlayerRepositioning : Photon.PunBehaviour
     [PunRPC]
     public void PlayerInWall()
     {
-        Debug.Log("player en muro?");
+        ;
+        if (FindObjectOfType<ControlTurn>().MyTurn) {
 
-        FindObjectOfType<ControlTurn>().Myturn.SetActive(false); // objeto que aparece cuando es el turno de un jugador
+            FindObjectOfType<ControlTurn>().Myturn.SetActive(false); // objeto que aparece cuando es el turno de un jugador
 
-        if (_reviewPlayersOnWall)
-        {
-            for (int i = 0; i < _playerData.CharactersInGame.Length; i++)
+            if (_reviewPlayersOnWall)
             {
-                if (_playerData.CharactersInGame[i].Character.GetComponent<PlayerMove>().Square.GetComponent<Square>().IsWall)
+                for (int i = 0; i < _playerData.CharactersInGame.Length; i++)
                 {
-                    _charactesInWall.Add(_playerData.CharactersInGame[i].Character);
+                    if (_playerData.CharactersInGame[i].Character.GetComponent<PlayerMove>().Square.GetComponent<Square>().IsWall)
+                    {
+                        _charactesInWall.Add(_playerData.CharactersInGame[i].Character);
+                    }
+
                 }
-
+                _reviewPlayersOnWall = false;
             }
-            _reviewPlayersOnWall = false;
-        }
 
-        if (_charactesInWall.Count > 0)
-        {
-            photonView.RPC("createdEspecialArrows", _charactesInWall[0].GetComponent<PlayerMove>().IdOwner, PhotonNetwork.player);
-            _charactesInWall.RemoveAt(0);
+            if (_charactesInWall.Count > 0)
+            {
+                photonView.RPC("createdEspecialArrows", _charactesInWall[0].GetComponent<PlayerMove>().IdOwner);
+                _charactesInWall.RemoveAt(0);
+            }
+            else
+            {
+                FindObjectOfType<ControlTurn>().finishBoard();
+            }
         }
-        else
-        {
-            FindObjectOfType<ControlTurn>().nextTurn();
-        }
-
     }
 
     /// <summary>
     /// Crea las flechas especiales en la pantalla de la persona propietaria de ese personaje
     /// </summary>
     [PunRPC]
-    public void createdEspecialArrows(PhotonPlayer playerInTurn)
+    public void createdEspecialArrows()
     {
         GameObject arrow;
         GameObject square = _playerData.CharactersInGame[PhotonNetwork.player.ID - 1].Character.GetComponent<PlayerMove>().Square;
-
+  
         if (square.GetComponent<Square>()._squareDown != null)
         {
             if (!square.GetComponent<Square>()._squareDown.GetComponent<Square>().IsWall)
@@ -65,7 +66,7 @@ public class PlayerRepositioning : Photon.PunBehaviour
                 arrow = Instantiate(_especialArrow, _playerData.CharactersInGame[PhotonNetwork.player.ID - 1].Character.transform.position, Quaternion.identity);
                 arrow.GetComponent<Arrow>().EnumAdress = Arrow.adress.DOWN;
                 arrow.GetComponent<Arrow>().Player = _playerData.CharactersInGame[PhotonNetwork.player.ID - 1].Character;
-                arrow.GetComponent<Arrow>().PlayerInTurn = playerInTurn;
+
             }
         }
 
@@ -77,7 +78,7 @@ public class PlayerRepositioning : Photon.PunBehaviour
                 arrow = Instantiate(_especialArrow, _playerData.CharactersInGame[PhotonNetwork.player.ID - 1].Character.transform.position, Quaternion.identity);
                 arrow.GetComponent<Arrow>().EnumAdress = Arrow.adress.UP;
                 arrow.GetComponent<Arrow>().Player = _playerData.CharactersInGame[PhotonNetwork.player.ID - 1].Character;
-                arrow.GetComponent<Arrow>().PlayerInTurn = playerInTurn;
+
             }
         }
 
@@ -89,7 +90,7 @@ public class PlayerRepositioning : Photon.PunBehaviour
                 arrow = Instantiate(_especialArrow, _playerData.CharactersInGame[PhotonNetwork.player.ID - 1].Character.transform.position, Quaternion.identity);
                 arrow.GetComponent<Arrow>().EnumAdress = Arrow.adress.RIGHT;
                 arrow.GetComponent<Arrow>().Player = _playerData.CharactersInGame[PhotonNetwork.player.ID - 1].Character;
-                arrow.GetComponent<Arrow>().PlayerInTurn = playerInTurn;
+
             }
         }
 
@@ -101,7 +102,7 @@ public class PlayerRepositioning : Photon.PunBehaviour
                 arrow = Instantiate(_especialArrow, _playerData.CharactersInGame[PhotonNetwork.player.ID - 1].Character.transform.position, Quaternion.identity);
                 arrow.GetComponent<Arrow>().EnumAdress = Arrow.adress.LEFT;
                 arrow.GetComponent<Arrow>().Player = _playerData.CharactersInGame[PhotonNetwork.player.ID - 1].Character;
-                arrow.GetComponent<Arrow>().PlayerInTurn = playerInTurn;
+
             }
         }
     }

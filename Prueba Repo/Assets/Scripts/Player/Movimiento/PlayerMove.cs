@@ -159,16 +159,17 @@ public class PlayerMove : Photon.PunBehaviour
     {
         this.adress = adress;
         NumberSteps = 1;
-        calculatePointToMove();
+        calculatePointToMove(false); // no es un movimiento normal
     }
-        
 
     [PunRPC]
     /// <summary>
-    /// Obtiene los puntos a los cuales se movera la ficha al igual que todos los valores para 
-    /// imprementar un lerp en el Update
+    ///Obtiene los puntos a los cuales se movera la ficha al igual que todos los valores para 
+    /// imprementar un lerp en el Update, el parametro define si es un movimietno normal o es 
+    /// producto de un reposicionamiento por estar en un muro
     /// </summary>
-    public void calculatePointToMove()
+    /// <param name="normalMove"></param>
+    public void calculatePointToMove(bool normalMove = true)
     {
 
         if (NumberSteps >= 1)
@@ -362,23 +363,26 @@ public class PlayerMove : Photon.PunBehaviour
         {
 
             Move = false;
-            FindObjectOfType<ControlRound>().AllowMove = false; // evita que se use otra carta de movimiento
+            if (normalMove) {
+                FindObjectOfType<ControlRound>().AllowMove = false; // evita que se use otra carta de movimiento
 
 
-            if (FindObjectOfType<ControlTurn>().MyTurn)
-            {
-                FindObjectOfType<ControlRound>().useLetter();
+                if (FindObjectOfType<ControlTurn>().MyTurn)
+                {
+                    FindObjectOfType<ControlRound>().useLetter();
+                }
+
+                if (PlayerDrag != null)
+                {
+                    PlayerDrag.GetComponent<PlayerMove>().calculatePointToMove();
+                    PlayerDrag = null;
+                }
+                else
+                {
+                    FindObjectOfType<ControlTokens>().earnToken(Square.GetComponent<Square>().EnumTypesSquares); // hace que solo el player que se movio primero sea el que sume una gema
+                }
             }
 
-            if (PlayerDrag != null)
-            {
-                PlayerDrag.GetComponent<PlayerMove>().calculatePointToMove();
-                PlayerDrag = null;
-            }
-            else
-            {
-                FindObjectOfType<ControlTokens>().earnToken(Square.GetComponent<Square>().EnumTypesSquares); // hace que solo el player que se movio primero sea el que sume una gema
-            }
         }
 
 
@@ -394,7 +398,6 @@ public class PlayerMove : Photon.PunBehaviour
         {
             if (FindObjectOfType<ControlTurn>().MyTurn)
             {
-                SSTools.ShowMessage("pierdo " + NumberSteps + " de puntos", SSTools.Position.bottom, SSTools.Time.twoSecond);
                 FindObjectOfType<PlayerDataInGame>().CharactersInGame[idOwner.ID - 1].Score -= NumberSteps;
             }
         }

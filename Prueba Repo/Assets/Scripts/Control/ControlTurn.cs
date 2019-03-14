@@ -117,8 +117,9 @@ public class ControlTurn : Photon.PunBehaviour
     /// </summary>
     public void nextTurn()
     {
-        if ((!FindObjectOfType<ControlRound>().AllowMove) && (FindObjectOfType<ControlRound>().NumberOfCardsUsed > 0 || FirstTurn))
+        if ((!FindObjectOfType<ControlRound>().AllowMove) && (FindObjectOfType<ControlRound>().NumberOfCardsUsed > 0 || FirstTurn)) 
         {
+            
             finishTurn();
             if (IndexTurn != PhotonNetwork.room.playerCount)
             {
@@ -133,16 +134,31 @@ public class ControlTurn : Photon.PunBehaviour
         }
     }// cierre nextTurn
 
+    public void finishBoard()
+    {
+        finishTurn();
+        if (IndexTurn != PhotonNetwork.room.playerCount)
+        {
+            IndexTurn++;
+        }// cierre if
+        else
+        {
+            IndexTurn = 1;
+        }// cierre else
+
+        photonView.RPC("mineTurn", PhotonTargets.All, IndexTurn);
+    }
 
     /// <summary>
     /// Cuando comienza mi turno es llamado este metodo
     /// </summary>
     void StarTurn()
     {
+        _myTurn = true;
+        _myturn.SetActive(true);
+
         if (!FindObjectOfType<ControlRound>().endOfTheRound())
         {
-            _myTurn = true;
-            _myturn.SetActive(true);
                //permite usar las cartas de movimientos
 
             if (FirstTurn)
@@ -157,11 +173,14 @@ public class ControlTurn : Photon.PunBehaviour
         }
         else
         {
-            FindObjectOfType<ControlRound>().photonView.RPC("reactiveMovementsCards",PhotonTargets.All);
+            //mira si gano las cosas
+            FindObjectOfType<ControlRound>().photonView.RPC("reactiveMovementsCards", PhotonTargets.All);
+            // reinicia todo
             FindObjectOfType<ConfigurationBoard>().changeColorBoardSquares();
             FindObjectOfType<ConfigurationBoard>().generateWalls();
             FindObjectOfType<PlayerRepositioning>().ReviewPlayersOnWall = true;
             FindObjectOfType<PlayerRepositioning>().PlayerInWall();
+            
         }
 
     }//cierre starTurn
