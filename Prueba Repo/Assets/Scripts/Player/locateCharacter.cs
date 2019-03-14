@@ -55,7 +55,7 @@ public class locateCharacter : Photon.MonoBehaviour
         if (collision.CompareTag("Square"))
         {
             
-            if (collision.gameObject.GetComponent<Square>().ItsOnEdge && !_isMoving)
+            if (collision.gameObject.GetComponent<Square>().ItsOnEdge && !_isMoving && !collision.gameObject.GetComponent<Square>().IsOccupied)
             {
                 transform.position = collision.gameObject.transform.position;
 
