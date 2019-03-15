@@ -402,6 +402,7 @@ public class PlayerMove : Photon.PunBehaviour
         {
             if (FindObjectOfType<ControlTurn>().MyTurn)
             {
+                SSTools.ShowMessage("pierdo " + NumberSteps, SSTools.Position.bottom,SSTools.Time.threeSecond);
                 FindObjectOfType<PlayerDataInGame>().CharactersInGame[idOwner.ID - 1].Score -= NumberSteps;
             }
         }

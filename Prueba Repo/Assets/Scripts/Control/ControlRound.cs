@@ -11,6 +11,8 @@ public class ControlRound : Photon.PunBehaviour {
     public int _numberOfCardsUsed = 0;
     [SerializeField] GameObject[] _movementsCards;
     public OthersPlayersData[] _othersPlayersData;
+    private bool _finishPointProcedures = true;
+    private bool _finishRound = false; 
 
     [PunRPC]
     /// <summary>
@@ -35,6 +37,8 @@ public class ControlRound : Photon.PunBehaviour {
         _numberOfCardsUsed = 0;
 
         GetComponent<ControlTokens>().photonView.RPC("resetTokens", PhotonTargets.All);// quita los tokens obtenidos esta ronda
+
+        
     }
 
     
@@ -43,7 +47,7 @@ public class ControlRound : Photon.PunBehaviour {
     {
         _numberOfCardsUsed++;
 
-        if (_numberOfCardsUsed == 5)
+        if (_numberOfCardsUsed == 1)
         {
             photonView.RPC("newPlayerWithoutMovements",PhotonTargets.All);
         }
@@ -60,6 +64,7 @@ public class ControlRound : Photon.PunBehaviour {
     {
         if (_noMovementPlayes == PhotonNetwork.room.PlayerCount)
         {
+            _finishRound = true;
             return true;
         }
         else
@@ -92,6 +97,32 @@ public class ControlRound : Photon.PunBehaviour {
         set
         {
             _numberOfCardsUsed = value;
+        }
+    }
+
+    public bool FinishPointProcedures
+    {
+        get
+        {
+            return _finishPointProcedures;
+        }
+
+        set
+        {
+            _finishPointProcedures = value;
+        }
+    }
+
+    public bool FinishRound
+    {
+        get
+        {
+            return _finishRound;
+        }
+
+        set
+        {
+            _finishRound = value;
         }
     }
 }

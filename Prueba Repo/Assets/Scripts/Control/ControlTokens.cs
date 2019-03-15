@@ -32,6 +32,28 @@ public class ControlTokens : Photon.PunBehaviour
         _playerData = FindObjectOfType<PlayerDataInGame>();
         _controlTurn = FindObjectOfType<ControlTurn>();
     }
+
+    [PunRPC]
+    public void earnExtraTokens(Square.typesSquares Token, int Id)
+    {
+        switch (Token)
+        {
+            case Square.typesSquares.BLUE:
+                _playerData.CharactersInGame[Id - 1].BlueTokens++;
+                break;
+            case Square.typesSquares.GREEN:
+                _playerData.CharactersInGame[Id - 1].GreenTokens++;
+                break;
+            case Square.typesSquares.RED:
+                _playerData.CharactersInGame[Id - 1].RedTokens++;
+                break;
+            case Square.typesSquares.YELLOW:
+                _playerData.CharactersInGame[Id - 1].YellowTokens++;
+                break;
+        }
+         
+    }
+
     /// <summary>
     /// si es mi turno le llama a las funciones correspondientes para aumentar mi numero de tokens y crea un token que desaparece pasado cierto tiempo
     /// </summary>
@@ -64,7 +86,7 @@ public class ControlTokens : Photon.PunBehaviour
                 break;
         }
 
-        Debug.Log("azules " + _totalBlueTokens + "verdes " + _totalGreenTokens + "rojos " + _totalRedTokens + "amarillos " + _totalYellowTokens);
+
     }
 
     /// <summary>
@@ -138,6 +160,12 @@ public class ControlTokens : Photon.PunBehaviour
             _tokensBoxes[i].GetComponent<Image>().enabled = false;
         }
         _numberTokens = 0;
+
+        if (FindObjectOfType<ControlTurn>().MyTurn)
+        {
+            Debug.Log("Es mi turno");
+            FindObjectOfType<ControlTurn>().StarTurn();
+        }
 
     }
 

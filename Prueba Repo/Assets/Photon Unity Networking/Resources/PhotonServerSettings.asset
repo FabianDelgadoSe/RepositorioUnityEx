@@ -71,4 +71,7 @@ MonoBehaviour:
   - repositioning
   - PlayerInWall
   - resetTokens
+  - selectMision
+  - ReviewMission
+  - earnExtraTokens
   DisableAutoOpenWizard: 1

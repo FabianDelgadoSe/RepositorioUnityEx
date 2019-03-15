@@ -19,7 +19,7 @@ public class PlayerRepositioning : Photon.PunBehaviour
     [PunRPC]
     public void PlayerInWall()
     {
-        ;
+        
         if (FindObjectOfType<ControlTurn>().MyTurn) {
 
             FindObjectOfType<ControlTurn>().Myturn.SetActive(false); // objeto que aparece cuando es el turno de un jugador
