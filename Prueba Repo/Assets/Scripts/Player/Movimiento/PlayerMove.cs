@@ -211,13 +211,14 @@ public class PlayerMove : Photon.PunBehaviour
                     else
                     {
                         Move = false;
-                        FindObjectOfType<ControlRound>().AllowMove = false; // no deja seguir moviendo
+                        FindObjectOfType<ControlRound>().AllowMove = false; // no deja seguir usando cartas de movimiento
 
-                        if (FindObjectOfType<ControlTurn>().MyTurn)
+                        if (PlayerDrag == null &&  FindObjectOfType<ControlTurn>().MyTurn)
                         {
                             FindObjectOfType<ControlRound>().useLetter();
                             FindObjectOfType<ControlTokens>().earnToken(Square.GetComponent<Square>().EnumTypesSquares);
                         }
+
 
                         lostPoints();
                        
@@ -259,11 +260,13 @@ public class PlayerMove : Photon.PunBehaviour
                         Move = false;
                         FindObjectOfType<ControlRound>().AllowMove = false;
 
-                        if (FindObjectOfType<ControlTurn>().MyTurn)
+                        if (PlayerDrag == null && FindObjectOfType<ControlTurn>().MyTurn)
                         {
                             FindObjectOfType<ControlRound>().useLetter();
                             FindObjectOfType<ControlTokens>().earnToken(Square.GetComponent<Square>().EnumTypesSquares);
                         }
+
+
 
                         lostPoints();
                         
@@ -304,12 +307,13 @@ public class PlayerMove : Photon.PunBehaviour
                         Move = false;
                         FindObjectOfType<ControlRound>().AllowMove = false;
 
-                        if (FindObjectOfType<ControlTurn>().MyTurn)
+                        if (PlayerDrag == null && FindObjectOfType<ControlTurn>().MyTurn)
                         {
                             FindObjectOfType<ControlRound>().useLetter();
                             FindObjectOfType<ControlTokens>().earnToken(Square.GetComponent<Square>().EnumTypesSquares);
                         }
 
+                        
                         lostPoints();
                         
                     }
@@ -349,11 +353,12 @@ public class PlayerMove : Photon.PunBehaviour
                         Move = false;
                         FindObjectOfType<ControlRound>().AllowMove = false;
 
-                        if (FindObjectOfType<ControlTurn>().MyTurn)
+                        if (PlayerDrag == null && FindObjectOfType<ControlTurn>().MyTurn)
                         {
                             FindObjectOfType<ControlRound>().useLetter();
                             FindObjectOfType<ControlTokens>().earnToken(Square.GetComponent<Square>().EnumTypesSquares);
                         }
+
 
                         lostPoints();
                         
@@ -368,23 +373,24 @@ public class PlayerMove : Photon.PunBehaviour
 
             Move = false;
             if (normalMove) {
+
+
                 FindObjectOfType<ControlRound>().AllowMove = false; // evita que se use otra carta de movimiento
 
 
-                if (FindObjectOfType<ControlTurn>().MyTurn)
+                if (PlayerDrag == null && FindObjectOfType<ControlTurn>().MyTurn)
                 {
                     FindObjectOfType<ControlRound>().useLetter();
+                    FindObjectOfType<ControlTokens>().earnToken(Square.GetComponent<Square>().EnumTypesSquares); // hace que solo el player que se movio primero sea el que sume una gema
                 }
+
 
                 if (PlayerDrag != null)
                 {
                     PlayerDrag.GetComponent<PlayerMove>().calculatePointToMove();
                     PlayerDrag = null;
                 }
-                else
-                {
-                    FindObjectOfType<ControlTokens>().earnToken(Square.GetComponent<Square>().EnumTypesSquares); // hace que solo el player que se movio primero sea el que sume una gema
-                }
+
             }
 
         }

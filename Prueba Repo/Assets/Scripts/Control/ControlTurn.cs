@@ -139,7 +139,7 @@ public class ControlTurn : Photon.PunBehaviour
     /// </summary>
     public void StarTurn()
     {
-        Debug.Log("entre al starTurn");
+
         _myTurn = true;
         _myturn.SetActive(true);
 
@@ -164,7 +164,6 @@ public class ControlTurn : Photon.PunBehaviour
 
             if (FindObjectOfType<ControlRound>().FinishPointProcedures)
             {
-                Debug.Log("entre al if");
                 //mira si gano las cosas
                 FindObjectOfType<ControlMission>().IconMission.SetActive(false);
                 FindObjectOfType<ControlMission>().ReviewMission();
@@ -172,7 +171,7 @@ public class ControlTurn : Photon.PunBehaviour
             }
             else
             {
-                Debug.Log("entre al else");
+
                 // reinicia todo
                 FindObjectOfType<ConfigurationBoard>().changeColorBoardSquares();
                 FindObjectOfType<ConfigurationBoard>().generateWalls();
