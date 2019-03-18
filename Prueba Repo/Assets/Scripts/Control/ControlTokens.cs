@@ -16,8 +16,6 @@ public class ControlTokens : Photon.PunBehaviour
     [SerializeField] private GameObject[] _tokensBoxes;
     private int _numberTokens = 0;
 
-    [Header("FeedBack visual de token obtenido")]
-    [SerializeField] private GameObject _token;
     private GameObject _player;                   // se carga cuando se crea el player 
     private PlayerDataInGame _playerData;
     private ControlTurn _controlTurn;
@@ -51,7 +49,7 @@ public class ControlTokens : Photon.PunBehaviour
                 _playerData.CharactersInGame[Id - 1].YellowTokens++;
                 break;
         }
-         
+
     }
 
     /// <summary>
@@ -59,32 +57,11 @@ public class ControlTokens : Photon.PunBehaviour
     /// </summary>
     public void earnToken(Square.typesSquares lastTokenObtained)
     {
-        if (FindObjectOfType<ControlTurn>().MyTurn)
-        {
-            lastTokenObtained = _player.GetComponent<PlayerMove>().Square.GetComponent<Square>().EnumTypesSquares;
-            _player.GetComponent<ControlTokensPlayer>().photonView.RPC("newToken", PhotonTargets.All, lastTokenObtained); // hace que aumente la cantidad de gemas obtenidas
 
-            drawMyTokensValues(lastTokenObtained);
-        }
+        lastTokenObtained = _player.GetComponent<PlayerMove>().Square.GetComponent<Square>().EnumTypesSquares;
+        _player.GetComponent<ControlTokensPlayer>().photonView.RPC("newToken", PhotonTargets.All, lastTokenObtained); // hace que aumente la cantidad de gemas obtenidas
 
-        GameObject aux = Instantiate(_token); // crea un gema y la guarda en una variable
-        aux.GetComponent<CollectedToken>().Player = _playerData.CharactersInGame[_controlTurn.IndexTurn - 1].Character;
-
-        switch (lastTokenObtained)
-        {
-            case Square.typesSquares.BLUE:
-                _totalBlueTokens++;
-                break;
-            case Square.typesSquares.GREEN:
-                _totalGreenTokens++;
-                break;
-            case Square.typesSquares.RED:
-                _totalRedTokens++;
-                break;
-            case Square.typesSquares.YELLOW:
-                _totalYellowTokens++;
-                break;
-        }
+        drawMyTokensValues(lastTokenObtained);
 
 
     }
@@ -136,13 +113,13 @@ public class ControlTokens : Photon.PunBehaviour
         saveTokens();
 
         // borra la cantidad total de tokens obtenida en el tablero
-        _totalBlueTokens = 0;
-        _totalRedTokens = 0;
-        _totalGreenTokens = 0;
-        _totalYellowTokens = 0;
+        TotalBlueTokens = 0;
+        TotalRedTokens = 0;
+        TotalGreenTokens = 0;
+        TotalYellowTokens = 0;
 
         // borra los tokens que tiene cada jugador
-        for (int i = 0; i<_playerData.CharactersInGame.Length;i++)
+        for (int i = 0; i < _playerData.CharactersInGame.Length; i++)
         {
             _playerData.CharactersInGame[i].Character.GetComponent<ControlTokensPlayer>().RedToken = 0;
             _playerData.CharactersInGame[i].Character.GetComponent<ControlTokensPlayer>().GreenToken = 0;
@@ -150,7 +127,7 @@ public class ControlTokens : Photon.PunBehaviour
             _playerData.CharactersInGame[i].Character.GetComponent<ControlTokensPlayer>().YellowToken = 0;
 
             // borra la imagen de los tokens que representa los otros jugadores
-            if(_playerData.CharactersInGame[i].Character.GetComponent<ControlTokensPlayer>().PortraitThatRepresents != null)
+            if (_playerData.CharactersInGame[i].Character.GetComponent<ControlTokensPlayer>().PortraitThatRepresents != null)
                 _playerData.CharactersInGame[i].Character.GetComponent<ControlTokensPlayer>().PortraitThatRepresents.GetComponent<OthersPlayersData>().deleteObtainedTokens();
         }
 
@@ -174,7 +151,7 @@ public class ControlTokens : Photon.PunBehaviour
     /// </summary>
     public void saveTokens()
     {
-        FindObjectOfType<ControlBet>().betResult(_totalRedTokens, _totalBlueTokens, _totalGreenTokens, _totalYellowTokens);
+        FindObjectOfType<ControlBet>().betResult(TotalRedTokens, TotalBlueTokens, TotalGreenTokens, TotalYellowTokens);
 
         for (int i = 0; i < _playerData.CharactersInGame.Length; i++)
         {
@@ -199,4 +176,55 @@ public class ControlTokens : Photon.PunBehaviour
         }
     }
 
+    public int TotalRedTokens
+    {
+        get
+        {
+            return _totalRedTokens;
+        }
+
+        set
+        {
+            _totalRedTokens = value;
+        }
+    }
+
+    public int TotalBlueTokens
+    {
+        get
+        {
+            return _totalBlueTokens;
+        }
+
+        set
+        {
+            _totalBlueTokens = value;
+        }
+    }
+
+    public int TotalGreenTokens
+    {
+        get
+        {
+            return _totalGreenTokens;
+        }
+
+        set
+        {
+            _totalGreenTokens = value;
+        }
+    }
+
+    public int TotalYellowTokens
+    {
+        get
+        {
+            return _totalYellowTokens;
+        }
+
+        set
+        {
+            _totalYellowTokens = value;
+        }
+    }
 }
