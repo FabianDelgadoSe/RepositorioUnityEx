@@ -7,6 +7,10 @@ using UnityEngine;
 public class Square : Photon.PunBehaviour
 {
 
+    [SerializeField] private GameObject _poopBait;
+    [SerializeField] private GameObject _coinBait;
+
+
     private Sprite _boardSquareBlue;
     private Sprite _boardSquareRed;
     private Sprite _boardSquareYellow;
@@ -26,6 +30,7 @@ public class Square : Photon.PunBehaviour
     private const float COLLIDER_RADIO = 0.2f;
     private PhotonPlayer _playerOwner = null;
     private bool _isOccupied = false;
+    private bool _haveBait = false;
 
     [SerializeField] private bool _itsOnEdge;
 
@@ -65,6 +70,28 @@ public class Square : Photon.PunBehaviour
 
     }
 
+
+    [PunRPC]
+    public void generateBait(Bait.BaitType baitType)
+    {
+
+        Debug.Log("Crear cebo. Bite type: " + baitType);
+        switch (baitType)
+        {
+            case global::Bait.BaitType.Coin:
+                Instantiate(_coinBait, new Vector3(transform.position.x, transform.position.y, 0), Quaternion.identity);
+                
+                break;
+
+            case global::Bait.BaitType.Poop:
+                Instantiate(_poopBait, new Vector3(transform.position.x, transform.position.y, 0), Quaternion.identity);
+                break;
+
+        }
+
+        HaveBait = true;
+
+    }
 
 
     [PunRPC]
@@ -293,6 +320,19 @@ public class Square : Photon.PunBehaviour
         set
         {
             _enumTypesSquares = value;
+        }
+    }
+
+    public bool HaveBait
+    {
+        get
+        {
+            return _haveBait;
+        }
+
+        set
+        {
+            _haveBait = value;
         }
     }
 }

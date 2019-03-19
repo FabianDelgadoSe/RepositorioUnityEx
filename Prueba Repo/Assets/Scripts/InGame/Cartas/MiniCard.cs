@@ -9,6 +9,7 @@ public class MiniCard : MonoBehaviour
     private int _numberSteps;
     private bool _foundPlayer = true;
     private GameObject _player;
+
     public GameObject Card
     {
         get
