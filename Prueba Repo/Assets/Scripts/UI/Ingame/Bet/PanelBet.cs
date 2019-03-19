@@ -9,6 +9,8 @@ public class PanelBet : MonoBehaviour {
     private ControlBet _controlBet;
 
     [SerializeField] private GameObject _buttonShowData;
+    [Header("icono de misiones y regla")]
+    [SerializeField] private GameObject _iconMision;
     private void Start()
     {
         _controlBet = FindObjectOfType<ControlBet>();
@@ -45,7 +47,7 @@ public class PanelBet : MonoBehaviour {
         }
 
         _buttonShowData.SetActive(true);
-        
+        _iconMision.SetActive(true);
     }
 
 }

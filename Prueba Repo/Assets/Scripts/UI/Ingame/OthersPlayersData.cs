@@ -42,6 +42,13 @@ public class OthersPlayersData : MonoBehaviour {
         _pictureFrame.GetComponent<Image>().color = Color.white;
     }
 
+    public void activeAllMoveCards()
+    {
+        for (int i = 0; i<_movements.Length;i++)
+        {
+            _movements[i].SetActive(true);
+        }
+    }
 
 
     public void selectMovements(int movement)

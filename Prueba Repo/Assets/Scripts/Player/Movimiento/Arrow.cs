@@ -11,7 +11,6 @@ public class Arrow : MonoBehaviour {
     private const float GAP_X = 1f;
     private const float GAP_Y = 1.2f;
     private GameObject _player;
-    private PhotonPlayer _playerInTurn;
 
     public enum adress
     {
@@ -80,7 +79,7 @@ public class Arrow : MonoBehaviour {
     {
 
         _player.GetComponent<PlayerMove>().photonView.RPC("receiveAdress", PhotonTargets.All, enumAdress);
-        _player.GetComponent<PlayerMove>().photonView.RPC("calculatePointToMove", PhotonTargets.All);
+        _player.GetComponent<PlayerMove>().photonView.RPC("calculatePointToMove", PhotonTargets.All,true);
         Arrow[] aux = FindObjectsOfType<Arrow>();
 
         for (int i = 0; i < aux.Length; i++)
@@ -89,9 +88,9 @@ public class Arrow : MonoBehaviour {
 
     public void playerRepositioningMovement()
     {
-        
+
         _player.GetComponent<PlayerMove>().photonView.RPC("repositioning", PhotonTargets.All, enumAdress);
-        FindObjectOfType<PlayerRepositioning>().photonView.RPC("PlayerInWall",PlayerInTurn);
+        FindObjectOfType<PlayerRepositioning>().photonView.RPC("PlayerInWall",PhotonTargets.All);
         Arrow[] aux = FindObjectsOfType<Arrow>();
 
         for (int i = 0; i < aux.Length; i++)
@@ -112,18 +111,6 @@ public class Arrow : MonoBehaviour {
         }
     }
 
-    public PhotonPlayer PlayerInTurn
-    {
-        get
-        {
-            return _playerInTurn;
-        }
-
-        set
-        {
-            _playerInTurn = value;
-        }
-    }
 
     public adress EnumAdress
     {

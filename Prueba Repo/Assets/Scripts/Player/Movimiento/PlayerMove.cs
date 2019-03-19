@@ -159,16 +159,17 @@ public class PlayerMove : Photon.PunBehaviour
     {
         this.adress = adress;
         NumberSteps = 1;
-        calculatePointToMove();
+        calculatePointToMove(false); // no es un movimiento normal
     }
-        
 
     [PunRPC]
     /// <summary>
-    /// Obtiene los puntos a los cuales se movera la ficha al igual que todos los valores para 
-    /// imprementar un lerp en el Update
+    ///Obtiene los puntos a los cuales se movera la ficha al igual que todos los valores para 
+    /// imprementar un lerp en el Update, el parametro define si es un movimietno normal o es 
+    /// producto de un reposicionamiento por estar en un muro
     /// </summary>
-    public void calculatePointToMove()
+    /// <param name="normalMove"></param>
+    public void calculatePointToMove(bool normalMove = true)
     {
 
         if (NumberSteps >= 1)
@@ -203,19 +204,21 @@ public class PlayerMove : Photon.PunBehaviour
                             aux.GetComponent<PlayerMove>().Adress = adress;
                             aux.GetComponent<PlayerMove>().PlayerDrag = gameObject;
                             aux.GetComponent<PlayerMove>().calculatePointToMove();
+                            Move = false; // me dejo de mover hasta que el otro me diga si puedo
 
                         }
                     }
                     else
                     {
                         Move = false;
-                        FindObjectOfType<ControlRound>().AllowMove = false; // no deja seguir moviendo
+                        FindObjectOfType<ControlRound>().AllowMove = false; // no deja seguir usando cartas de movimiento
 
-                        if (FindObjectOfType<ControlTurn>().MyTurn)
+                        if (PlayerDrag == null &&  FindObjectOfType<ControlTurn>().MyTurn)
                         {
                             FindObjectOfType<ControlRound>().useLetter();
                             FindObjectOfType<ControlTokens>().earnToken(Square.GetComponent<Square>().EnumTypesSquares);
                         }
+
 
                         lostPoints();
                        
@@ -248,6 +251,7 @@ public class PlayerMove : Photon.PunBehaviour
                             aux.GetComponent<PlayerMove>().Adress = adress;
                             aux.GetComponent<PlayerMove>().PlayerDrag = gameObject;
                             aux.GetComponent<PlayerMove>().calculatePointToMove();
+                            Move = false;
                         }
                     }
 
@@ -256,11 +260,13 @@ public class PlayerMove : Photon.PunBehaviour
                         Move = false;
                         FindObjectOfType<ControlRound>().AllowMove = false;
 
-                        if (FindObjectOfType<ControlTurn>().MyTurn)
+                        if (PlayerDrag == null && FindObjectOfType<ControlTurn>().MyTurn)
                         {
                             FindObjectOfType<ControlRound>().useLetter();
                             FindObjectOfType<ControlTokens>().earnToken(Square.GetComponent<Square>().EnumTypesSquares);
                         }
+
+
 
                         lostPoints();
                         
@@ -293,6 +299,7 @@ public class PlayerMove : Photon.PunBehaviour
                             aux.GetComponent<PlayerMove>().Adress = adress;
                             aux.GetComponent<PlayerMove>().PlayerDrag = gameObject;
                             aux.GetComponent<PlayerMove>().calculatePointToMove();
+                            Move = false;
                         }
                     }
                     else
@@ -300,12 +307,13 @@ public class PlayerMove : Photon.PunBehaviour
                         Move = false;
                         FindObjectOfType<ControlRound>().AllowMove = false;
 
-                        if (FindObjectOfType<ControlTurn>().MyTurn)
+                        if (PlayerDrag == null && FindObjectOfType<ControlTurn>().MyTurn)
                         {
                             FindObjectOfType<ControlRound>().useLetter();
                             FindObjectOfType<ControlTokens>().earnToken(Square.GetComponent<Square>().EnumTypesSquares);
                         }
 
+                        
                         lostPoints();
                         
                     }
@@ -337,6 +345,7 @@ public class PlayerMove : Photon.PunBehaviour
                             aux.GetComponent<PlayerMove>().Adress = adress;
                             aux.GetComponent<PlayerMove>().PlayerDrag = gameObject;
                             aux.GetComponent<PlayerMove>().calculatePointToMove();
+                            Move = false;
                         }
                     }
                     else
@@ -344,11 +353,12 @@ public class PlayerMove : Photon.PunBehaviour
                         Move = false;
                         FindObjectOfType<ControlRound>().AllowMove = false;
 
-                        if (FindObjectOfType<ControlTurn>().MyTurn)
+                        if (PlayerDrag == null && FindObjectOfType<ControlTurn>().MyTurn)
                         {
                             FindObjectOfType<ControlRound>().useLetter();
                             FindObjectOfType<ControlTokens>().earnToken(Square.GetComponent<Square>().EnumTypesSquares);
                         }
+
 
                         lostPoints();
                         
@@ -362,23 +372,27 @@ public class PlayerMove : Photon.PunBehaviour
         {
 
             Move = false;
-            FindObjectOfType<ControlRound>().AllowMove = false; // evita que se use otra carta de movimiento
+            if (normalMove) {
 
 
-            if (FindObjectOfType<ControlTurn>().MyTurn)
-            {
-                FindObjectOfType<ControlRound>().useLetter();
+                FindObjectOfType<ControlRound>().AllowMove = false; // evita que se use otra carta de movimiento
+
+
+                if (PlayerDrag == null && FindObjectOfType<ControlTurn>().MyTurn)
+                {
+                    FindObjectOfType<ControlRound>().useLetter();
+                    FindObjectOfType<ControlTokens>().earnToken(Square.GetComponent<Square>().EnumTypesSquares); // hace que solo el player que se movio primero sea el que sume una gema
+                }
+
+
+                if (PlayerDrag != null)
+                {
+                    PlayerDrag.GetComponent<PlayerMove>().calculatePointToMove();
+                    PlayerDrag = null;
+                }
+
             }
 
-            if (PlayerDrag != null)
-            {
-                PlayerDrag.GetComponent<PlayerMove>().calculatePointToMove();
-                PlayerDrag = null;
-            }
-            else
-            {
-                FindObjectOfType<ControlTokens>().earnToken(Square.GetComponent<Square>().EnumTypesSquares); // hace que solo el player que se movio primero sea el que sume una gema
-            }
         }
 
 
@@ -394,7 +408,7 @@ public class PlayerMove : Photon.PunBehaviour
         {
             if (FindObjectOfType<ControlTurn>().MyTurn)
             {
-                SSTools.ShowMessage("pierdo " + NumberSteps + " de puntos", SSTools.Position.bottom, SSTools.Time.twoSecond);
+                SSTools.ShowMessage("pierdo " + NumberSteps, SSTools.Position.bottom,SSTools.Time.threeSecond);
                 FindObjectOfType<PlayerDataInGame>().CharactersInGame[idOwner.ID - 1].Score -= NumberSteps;
             }
         }

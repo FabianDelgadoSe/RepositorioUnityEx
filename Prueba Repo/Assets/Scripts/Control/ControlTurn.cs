@@ -117,8 +117,9 @@ public class ControlTurn : Photon.PunBehaviour
     /// </summary>
     public void nextTurn()
     {
-        if ((!FindObjectOfType<ControlRound>().AllowMove) && (FindObjectOfType<ControlRound>().NumberOfCardsUsed > 0 || FirstTurn))
+        if ((!FindObjectOfType<ControlRound>().AllowMove) && (FindObjectOfType<ControlRound>().NumberOfCardsUsed > 0 || FirstTurn)) 
         {
+            
             finishTurn();
             if (IndexTurn != PhotonNetwork.room.playerCount)
             {
@@ -133,22 +134,24 @@ public class ControlTurn : Photon.PunBehaviour
         }
     }// cierre nextTurn
 
-
     /// <summary>
     /// Cuando comienza mi turno es llamado este metodo
     /// </summary>
-    void StarTurn()
+    public void StarTurn()
     {
-        if (!FindObjectOfType<ControlRound>().endOfTheRound())
+
+        _myTurn = true;
+        _myturn.SetActive(true);
+
+        if (!FindObjectOfType<ControlRound>().endOfTheRound() && !FindObjectOfType<ControlRound>().FinishRound)
         {
-            _myTurn = true;
-            _myturn.SetActive(true);
                //permite usar las cartas de movimientos
 
             if (FirstTurn)
             {
                 // para crear el personaje y posicionarlo
                 gameObject.GetComponent<ControlCharacterLocation>().enabled = true;
+                _myturn.GetComponent<Button>().enabled = false;
             }
             else
             {
@@ -157,12 +160,30 @@ public class ControlTurn : Photon.PunBehaviour
         }
         else
         {
-            FindObjectOfType<ControlRound>().photonView.RPC("reactiveMovementsCards",PhotonTargets.All);
-            FindObjectOfType<ConfigurationBoard>().changeColorBoardSquares();
-            FindObjectOfType<ConfigurationBoard>().generateWalls();
-            FindObjectOfType<PlayerRepositioning>().ReviewPlayersOnWall = true;
-            FindObjectOfType<PlayerRepositioning>().PlayerInWall();
+            Myturn.SetActive(false);
+
+            if (FindObjectOfType<ControlRound>().FinishPointProcedures)
+            {
+                //mira si gano las cosas
+                FindObjectOfType<ControlMission>().IconMission.SetActive(false);
+                FindObjectOfType<ControlMission>().ReviewMission();
+                FindObjectOfType<ControlRound>().FinishPointProcedures = false;
+            }
+            else
+            {
+
+                // reinicia todo
+                FindObjectOfType<ConfigurationBoard>().changeColorBoardSquares();
+                FindObjectOfType<ConfigurationBoard>().generateWalls();
+                FindObjectOfType<PlayerRepositioning>().ReviewPlayersOnWall = true;
+                FindObjectOfType<PlayerRepositioning>().PlayerInWall();
+                FindObjectOfType<ControlRound>().FinishRound = false;
+                FindObjectOfType<ControlRound>().FinishPointProcedures = true;
+            }
+
+            
         }
+
 
     }//cierre starTurn
 
@@ -214,16 +235,28 @@ public class ControlTurn : Photon.PunBehaviour
         }
     }//cierre mineTurn
 
-
+    /// <summary>
+    /// revisa si ya se repartieron las misiones, regla del juego y apuesta
+    /// </summary>
+    /// <returns></returns>
     public bool preparationound()
     {
-        if (FindObjectOfType<ControlBet>().BetMade)
+        if (FindObjectOfType<ControlMission>().missionReceived())
         {
-            return true;
+
+            if (FindObjectOfType<ControlBet>().BetMade)
+            {
+                return true;
+            }
+            else
+            {
+                FindObjectOfType<ControlBet>().starBet();
+                return false;
+            }
         }
         else
         {
-            FindObjectOfType<ControlBet>().starBet();
+            FindObjectOfType<ControlMission>().distributeMissions();
             return false;
         }
     }

@@ -10,6 +10,9 @@ public class ControlRound : Photon.PunBehaviour {
     public int _noMovementPlayes = 0;
     public int _numberOfCardsUsed = 0;
     [SerializeField] GameObject[] _movementsCards;
+    public OthersPlayersData[] _othersPlayersData;
+    private bool _finishPointProcedures = true;
+    private bool _finishRound = false; 
 
     [PunRPC]
     /// <summary>
@@ -17,15 +20,25 @@ public class ControlRound : Photon.PunBehaviour {
     /// </summary>
     public void reactiveMovementsCards()
     {
+        // mis cartas
         for (int i = 0; i < _movementsCards.Length ; i++)
         {
             _movementsCards[i].SetActive(true);
         }
 
+        // cardas que de los otros jugadores
+        _othersPlayersData = FindObjectsOfType<OthersPlayersData>();
+        for (int i = 0; i<_othersPlayersData.Length; i++)
+        {
+            _othersPlayersData[i].activeAllMoveCards();
+        }
+
         _noMovementPlayes = 0;
         _numberOfCardsUsed = 0;
+
+        GetComponent<ControlTokens>().photonView.RPC("resetTokens", PhotonTargets.All);// quita los tokens obtenidos esta ronda
+
         
-        GetComponent<ControlTokens>().resetTokens(); // quita los tokens obtenidos esta ronda
     }
 
     
@@ -44,6 +57,7 @@ public class ControlRound : Photon.PunBehaviour {
     public void newPlayerWithoutMovements()
     {
         _noMovementPlayes++;
+        Debug.Log("numero de players sin movimientos " + _noMovementPlayes);
     }
 
 
@@ -51,6 +65,7 @@ public class ControlRound : Photon.PunBehaviour {
     {
         if (_noMovementPlayes == PhotonNetwork.room.PlayerCount)
         {
+            _finishRound = true;
             return true;
         }
         else
@@ -83,6 +98,32 @@ public class ControlRound : Photon.PunBehaviour {
         set
         {
             _numberOfCardsUsed = value;
+        }
+    }
+
+    public bool FinishPointProcedures
+    {
+        get
+        {
+            return _finishPointProcedures;
+        }
+
+        set
+        {
+            _finishPointProcedures = value;
+        }
+    }
+
+    public bool FinishRound
+    {
+        get
+        {
+            return _finishRound;
+        }
+
+        set
+        {
+            _finishRound = value;
         }
     }
 }
