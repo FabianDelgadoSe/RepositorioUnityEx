@@ -213,7 +213,7 @@ public class PlayerMove : Photon.PunBehaviour
                         Move = false;
                         FindObjectOfType<ControlRound>().AllowMove = false; // no deja seguir usando cartas de movimiento
 
-                        if (PlayerDrag == null &&  FindObjectOfType<ControlTurn>().MyTurn)
+                        if (PlayerDrag == null && FindObjectOfType<ControlTurn>().MyTurn)
                         {
                             FindObjectOfType<ControlRound>().useLetter();
                             FindObjectOfType<ControlTokens>().earnToken(Square.GetComponent<Square>().EnumTypesSquares);
@@ -221,7 +221,7 @@ public class PlayerMove : Photon.PunBehaviour
 
 
                         lostPoints();
-                       
+
                     }
                     break;
 
@@ -269,7 +269,7 @@ public class PlayerMove : Photon.PunBehaviour
 
 
                         lostPoints();
-                        
+
                     }
                     break;
 
@@ -313,9 +313,9 @@ public class PlayerMove : Photon.PunBehaviour
                             FindObjectOfType<ControlTokens>().earnToken(Square.GetComponent<Square>().EnumTypesSquares);
                         }
 
-                        
+
                         lostPoints();
-                        
+
                     }
                     break;
 
@@ -361,7 +361,7 @@ public class PlayerMove : Photon.PunBehaviour
 
 
                         lostPoints();
-                        
+
                     }
 
                     break;
@@ -372,7 +372,8 @@ public class PlayerMove : Photon.PunBehaviour
         {
 
             Move = false;
-            if (normalMove) {
+            if (normalMove)
+            {
 
 
                 FindObjectOfType<ControlRound>().AllowMove = false; // evita que se use otra carta de movimiento
@@ -406,10 +407,13 @@ public class PlayerMove : Photon.PunBehaviour
     {
         if (PlayerDrag == null)
         {
-            if (FindObjectOfType<ControlTurn>().MyTurn)
+            if (FindObjectOfType<ControlTurn>().MyTurn && FindObjectOfType<PlayerDataInGame>().CharactersInGame[idOwner.ID - 1].Score > 0)
             {
-                SSTools.ShowMessage("pierdo " + NumberSteps, SSTools.Position.bottom,SSTools.Time.threeSecond);
+                SSTools.ShowMessage("pierdo " + NumberSteps, SSTools.Position.bottom, SSTools.Time.threeSecond);
                 FindObjectOfType<PlayerDataInGame>().CharactersInGame[idOwner.ID - 1].Score -= NumberSteps;
+
+                if (FindObjectOfType<PlayerDataInGame>().CharactersInGame[idOwner.ID - 1].Score < 0)
+                    FindObjectOfType<PlayerDataInGame>().CharactersInGame[idOwner.ID - 1].Score = 0;
             }
         }
         else
