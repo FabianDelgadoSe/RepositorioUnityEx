@@ -74,4 +74,5 @@ MonoBehaviour:
   - selectMision
   - ReviewMission
   - earnExtraTokens
+  - changeSelecction
   DisableAutoOpenWizard: 1

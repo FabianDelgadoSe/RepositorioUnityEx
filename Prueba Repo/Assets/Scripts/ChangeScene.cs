@@ -47,6 +47,7 @@ public class ChangeScene : Photon.PunBehaviour
                 changeScene(SELECTROOM);
                 break;
             case Scenes.InGame:
+                PhotonNetwork.room.IsOpen = false;
                 changeScene(INGAME);
                 break;
             case Scenes.none:

@@ -14,21 +14,8 @@ public class LobbyManager : Photon.PunBehaviour
 
     [SerializeField] private TextMeshProUGUI _playersCountText;
     [SerializeField] private TextMeshProUGUI _roomNameText;
-
+    private GameObject _selectedCharacter;
     Room _currentRoom;
-
-    public TextMeshProUGUI PlayersCountText
-    {
-        get
-        {
-            return _playersCountText;
-        }
-
-        set
-        {
-            _playersCountText = value;
-        }
-    }
 
     /// <summary>
     /// Funcion usada para inicializar el room y decirle a todas las personas conectadas que 
@@ -52,8 +39,26 @@ public class LobbyManager : Photon.PunBehaviour
     {
         _playersCountText.text = "Players: " + _currentRoom.PlayerCount.ToString();
         _roomNameText.text = "Sala: " + _currentRoom.Name;
+        someoneSelected();
+
     }
 
+    /// <summary>
+    /// Usado para verificar si un jugador ya habia pickeado un personaje
+    /// </summary>
+    public void someoneSelected()
+    {
+        CharacterSelectionable[] arraySelecte = FindObjectsOfType<CharacterSelectionable>();
+
+        for (int i =0; i<arraySelecte.Length;i++)
+        {
+            if (arraySelecte[i]._isSelected)
+            {                
+                arraySelecte[i].photonView.RPC("setCharacterSelection", PhotonNetwork.playerList[0], PhotonNetwork.player);
+            }
+        }
+
+    }
 
 
     /// <summary>
@@ -82,6 +87,34 @@ public class LobbyManager : Photon.PunBehaviour
             Debug.Log("Faltan jugadores por seleccionar");
         }
 
+    }
+
+
+
+    public TextMeshProUGUI PlayersCountText
+    {
+        get
+        {
+            return _playersCountText;
+        }
+
+        set
+        {
+            _playersCountText = value;
+        }
+    }
+
+    public GameObject SelectedCharacter
+    {
+        get
+        {
+            return _selectedCharacter;
+        }
+
+        set
+        {
+            _selectedCharacter = value;
+        }
     }
 
 }
