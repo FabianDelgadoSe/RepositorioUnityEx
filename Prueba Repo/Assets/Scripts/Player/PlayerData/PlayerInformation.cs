@@ -9,6 +9,8 @@ public class PlayerInformation {
     private int _greenTokens;
     private int _yellowTokens;
     private int _score;
+    private int _coinBait;
+    private int _poopBait;
     private GameObject _character;
 
     public PlayerInformation()
@@ -18,6 +20,8 @@ public class PlayerInformation {
         _greenTokens = 0;
         _yellowTokens = 0;
         _score = 5;
+        _coinBait = 1;
+        _poopBait = 1;
         _character = null;
     }
 
@@ -99,5 +103,29 @@ public class PlayerInformation {
         }
     }
 
+    public int CoinBait
+    {
+        get
+        {
+            return _coinBait;
+        }
 
+        set
+        {
+            _coinBait = value;
+        }
+    }
+
+    public int PoopBait
+    {
+        get
+        {
+            return _poopBait;
+        }
+
+        set
+        {
+            _poopBait = value;
+        }
+    }
 }

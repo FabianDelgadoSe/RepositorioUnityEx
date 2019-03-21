@@ -23,7 +23,8 @@ public class ControlTurn : Photon.PunBehaviour
     private bool _myTurn = false; // confirma si es mi turno
     private bool _firstTurn = true; // variable usada para saber si es el primer turno
     private bool _allowSelectCardMove = true; //verifica si ya se seleccionado una carta de movimiento
-
+    private bool _allowToPlaceBait = false; //verifica si ya se coloco un cebo
+    
 
     /// <summary>
     /// inicializa variables como mineId crea los objetos que representan los otros jugadores en la pantalla de cada
@@ -142,7 +143,7 @@ public class ControlTurn : Photon.PunBehaviour
 
         _myTurn = true;
         _myturn.SetActive(true);
-
+       
         if (!FindObjectOfType<ControlRound>().endOfTheRound() && !FindObjectOfType<ControlRound>().FinishRound)
         {
                //permite usar las cartas de movimientos
@@ -197,6 +198,8 @@ public class ControlTurn : Photon.PunBehaviour
         _myTurn = false;
         _myturn.active = false;
         AllowSelectCardMove = true;
+        _allowToPlaceBait = false;
+
         photonView.RPC("finishTurnOtherComputers", PhotonTargets.Others, _mineId);
         if (FirstTurn)
         {
@@ -364,6 +367,19 @@ public class ControlTurn : Photon.PunBehaviour
         set
         {
             _allowSelectCardMove = value;
+        }
+    }
+
+    public bool AllowToPlaceBait
+    {
+        get
+        {
+            return _allowToPlaceBait;
+        }
+
+        set
+        {
+            _allowToPlaceBait = value;
         }
     }
 }
