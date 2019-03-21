@@ -26,11 +26,6 @@ public class Square : Photon.PunBehaviour
     private const float COLLIDER_RADIO = 0.2f;
     private PhotonPlayer _playerOwner = null;
     private bool _isOccupied = false;
-    private bool _haveBait;
-    private GameObject _baitInGame;
-
-    [Header("prefabs de cebos")]
-    [SerializeField] private GameObject _bait;
 
     [SerializeField] private bool _itsOnEdge;
 
@@ -70,29 +65,6 @@ public class Square : Photon.PunBehaviour
 
     }
 
-    [PunRPC]
-    public void generateBait(Bait.typeBait typeBait)
-    {
-        GameObject aux;
-
-        switch (typeBait)
-        {
-            case Bait.typeBait.COIN:
-                aux = Instantiate(_bait, new Vector3(transform.position.x, transform.position.y, -1), Quaternion.identity);
-                aux.GetComponent<BaitBehaviour>().TypeBait = Bait.typeBait.COIN;
-                BaitInGame = aux;
-                break;
-
-            case Bait.typeBait.POOP:
-                aux = Instantiate(_bait, new Vector3(transform.position.x, transform.position.y, -1), Quaternion.identity);
-                aux.GetComponent<BaitBehaviour>().TypeBait = Bait.typeBait.POOP;
-                BaitInGame = aux;
-                break;
-        }
-
-        BaitInGame.GetComponent<BaitBehaviour>().Square = GetComponent<Square>();
-        HaveBait = true;
-    }
 
 
     [PunRPC]
@@ -321,32 +293,6 @@ public class Square : Photon.PunBehaviour
         set
         {
             _enumTypesSquares = value;
-        }
-    }
-
-    public bool HaveBait
-    {
-        get
-        {
-            return _haveBait;
-        }
-
-        set
-        {
-            _haveBait = value;
-        }
-    }
-
-    public GameObject BaitInGame
-    {
-        get
-        {
-            return _baitInGame;
-        }
-
-        set
-        {
-            _baitInGame = value;
         }
     }
 }

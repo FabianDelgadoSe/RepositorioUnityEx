@@ -66,7 +66,6 @@ public class ControlRound : Photon.PunBehaviour {
         if (_noMovementPlayes == PhotonNetwork.room.PlayerCount)
         {
             _finishRound = true;
-            FindObjectOfType<ControlBait>().photonView.RPC("restarBaits", PhotonTargets.All);
             return true;
         }
         else
