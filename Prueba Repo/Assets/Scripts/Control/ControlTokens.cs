@@ -155,10 +155,10 @@ public class ControlTokens : Photon.PunBehaviour
 
         for (int i = 0; i < _playerData.CharactersInGame.Length; i++)
         {
-            _playerData.CharactersInGame[i].RedTokens = _playerData.CharactersInGame[i].Character.GetComponent<ControlTokensPlayer>().RedToken;
-            _playerData.CharactersInGame[i].GreenTokens = _playerData.CharactersInGame[i].Character.GetComponent<ControlTokensPlayer>().GreenToken;
-            _playerData.CharactersInGame[i].BlueTokens = _playerData.CharactersInGame[i].Character.GetComponent<ControlTokensPlayer>().BlueToken;
-            _playerData.CharactersInGame[i].YellowTokens = _playerData.CharactersInGame[i].Character.GetComponent<ControlTokensPlayer>().YellowToken;
+            _playerData.CharactersInGame[i].RedTokens += _playerData.CharactersInGame[i].Character.GetComponent<ControlTokensPlayer>().RedToken;
+            _playerData.CharactersInGame[i].GreenTokens += _playerData.CharactersInGame[i].Character.GetComponent<ControlTokensPlayer>().GreenToken;
+            _playerData.CharactersInGame[i].BlueTokens += _playerData.CharactersInGame[i].Character.GetComponent<ControlTokensPlayer>().BlueToken;
+            _playerData.CharactersInGame[i].YellowTokens += _playerData.CharactersInGame[i].Character.GetComponent<ControlTokensPlayer>().YellowToken;
 
         }
     }

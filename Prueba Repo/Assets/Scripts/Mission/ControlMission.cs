@@ -68,6 +68,12 @@ public class ControlMission : Photon.PunBehaviour
         _panelWinMission.SetActive(false);
     }
 
+   [PunRPC]
+   public void desactivePanelMission()
+    {
+        _iconMission.SetActive(false);
+    }
+
     [PunRPC]
     public void ReviewMission()
     {

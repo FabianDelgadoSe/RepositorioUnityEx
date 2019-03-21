@@ -166,7 +166,7 @@ public class ControlTurn : Photon.PunBehaviour
             if (FindObjectOfType<ControlRound>().FinishPointProcedures)
             {
                 //mira si gano las cosas
-                FindObjectOfType<ControlMission>().IconMission.SetActive(false);
+                FindObjectOfType<ControlMission>().photonView.RPC("desactivePanelMission", PhotonTargets.All);
                 FindObjectOfType<ControlMission>().ReviewMission();
                 FindObjectOfType<ControlRound>().FinishPointProcedures = false;
             }
@@ -204,7 +204,6 @@ public class ControlTurn : Photon.PunBehaviour
         if (FirstTurn)
         {
             FirstTurn = false;
-            _cards.active = true;
         }
 
     }//cierre finishTurn
