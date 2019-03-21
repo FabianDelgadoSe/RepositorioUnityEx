@@ -19,13 +19,14 @@ public class PlayerMove : Photon.PunBehaviour
     private float _time = 0;  // tiempo es usado para el lerp de movimiento
     private const float VELOCITY_MOVE = 5; // Velocidad con la que se mueve el personaje
     public GameObject _playerDrag;  // para cuando esta empujando saber cual objeto esta detras de el;
-
+    public ControlTurn _controlTurn; // Para no estar buscando el script tantas veces;
 
     /// <summary>
     /// revisa si el player pertenerce a esta pantalla
     /// </summary>
     private void Start()
     {
+        _controlTurn = FindObjectOfType<ControlTurn>();
         if (isMyPlayer())
         {
             IdOwner = PhotonNetwork.player;
@@ -213,12 +214,18 @@ public class PlayerMove : Photon.PunBehaviour
                         Move = false;
                         FindObjectOfType<ControlRound>().AllowMove = false; // no deja seguir usando cartas de movimiento
 
-                        if (PlayerDrag == null && FindObjectOfType<ControlTurn>().MyTurn)
+                        if (PlayerDrag == null && _controlTurn.MyTurn)
                         {
                             FindObjectOfType<ControlRound>().useLetter();
                             FindObjectOfType<ControlTokens>().earnToken(Square.GetComponent<Square>().EnumTypesSquares);
+                            _controlTurn.AllowToPlaceBait = true;
                         }
 
+                        //si esta en una casilla con un cebo es por que es un bueno entonces que se active
+                        if (_square.GetComponent<Square>().HaveBait)
+                        {
+                            _square.GetComponent<Square>().BaitInGame.GetComponent<BaitBehaviour>().behaviourCoin();
+                        }
 
                         lostPoints();
 
@@ -260,13 +267,17 @@ public class PlayerMove : Photon.PunBehaviour
                         Move = false;
                         FindObjectOfType<ControlRound>().AllowMove = false;
 
-                        if (PlayerDrag == null && FindObjectOfType<ControlTurn>().MyTurn)
+                        if (PlayerDrag == null && _controlTurn.MyTurn)
                         {
                             FindObjectOfType<ControlRound>().useLetter();
                             FindObjectOfType<ControlTokens>().earnToken(Square.GetComponent<Square>().EnumTypesSquares);
+                            _controlTurn.AllowToPlaceBait = true;
                         }
 
-
+                        if (_square.GetComponent<Square>().HaveBait)
+                        {
+                            _square.GetComponent<Square>().BaitInGame.GetComponent<BaitBehaviour>().behaviourCoin();
+                        }
 
                         lostPoints();
 
@@ -307,12 +318,17 @@ public class PlayerMove : Photon.PunBehaviour
                         Move = false;
                         FindObjectOfType<ControlRound>().AllowMove = false;
 
-                        if (PlayerDrag == null && FindObjectOfType<ControlTurn>().MyTurn)
+                        if (PlayerDrag == null && _controlTurn.MyTurn)
                         {
                             FindObjectOfType<ControlRound>().useLetter();
                             FindObjectOfType<ControlTokens>().earnToken(Square.GetComponent<Square>().EnumTypesSquares);
+                            _controlTurn.AllowToPlaceBait = true;
                         }
 
+                        if (_square.GetComponent<Square>().HaveBait)
+                        {
+                            _square.GetComponent<Square>().BaitInGame.GetComponent<BaitBehaviour>().behaviourCoin();
+                        }
 
                         lostPoints();
 
@@ -353,12 +369,17 @@ public class PlayerMove : Photon.PunBehaviour
                         Move = false;
                         FindObjectOfType<ControlRound>().AllowMove = false;
 
-                        if (PlayerDrag == null && FindObjectOfType<ControlTurn>().MyTurn)
+                        if (PlayerDrag == null && _controlTurn.MyTurn)
                         {
                             FindObjectOfType<ControlRound>().useLetter();
                             FindObjectOfType<ControlTokens>().earnToken(Square.GetComponent<Square>().EnumTypesSquares);
+                            _controlTurn.AllowToPlaceBait = true;
                         }
 
+                        if (_square.GetComponent<Square>().HaveBait)
+                        {
+                            _square.GetComponent<Square>().BaitInGame.GetComponent<BaitBehaviour>().behaviourCoin();
+                        }
 
                         lostPoints();
 
@@ -379,16 +400,34 @@ public class PlayerMove : Photon.PunBehaviour
                 FindObjectOfType<ControlRound>().AllowMove = false; // evita que se use otra carta de movimiento
 
 
-                if (PlayerDrag == null && FindObjectOfType<ControlTurn>().MyTurn)
+                if (PlayerDrag == null)
                 {
-                    FindObjectOfType<ControlRound>().useLetter();
-                    FindObjectOfType<ControlTokens>().earnToken(Square.GetComponent<Square>().EnumTypesSquares); // hace que solo el player que se movio primero sea el que sume una gema
+                    if (_square.GetComponent<Square>().HaveBait)
+                    {
+                        _square.GetComponent<Square>().BaitInGame.GetComponent<BaitBehaviour>().behaviourCoin();
+                    }
+
+                    if (FindObjectOfType<ControlTurn>().MyTurn) {
+
+                        FindObjectOfType<ControlRound>().useLetter();
+                        FindObjectOfType<ControlTokens>().earnToken(Square.GetComponent<Square>().EnumTypesSquares); // hace que solo el player que se movio primero sea el que sume una gema                   
+                        _controlTurn.AllowToPlaceBait = true;
+                    }
                 }
 
 
                 if (PlayerDrag != null)
                 {
                     PlayerDrag.GetComponent<PlayerMove>().calculatePointToMove();
+
+                    if (PlayerDrag.GetComponent<PlayerMove>().NumberSteps == 1)
+                    {
+                        if (_square.GetComponent<Square>().HaveBait)
+                        {
+                            _square.GetComponent<Square>().BaitInGame.GetComponent<BaitBehaviour>().behaviourCoin();
+                        }
+                    }
+
                     PlayerDrag = null;
                 }
 
