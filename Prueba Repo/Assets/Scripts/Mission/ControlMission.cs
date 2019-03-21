@@ -281,19 +281,19 @@ public class ControlMission : Photon.PunBehaviour
 
                 numberTokens = _PlayerDataInGame.CharactersInGame[indexAux].Character.GetComponent<ControlTokensPlayer>().RedToken;
 
-                //evalua a cuantos jugares supero en el numero de tokens
+                //evalua a cuantos jugares no supero en el numero de tokens
                 for (int i = 0; i < _PlayerDataInGame.CharactersInGame.Length; i++)
                 {
                     if (i != indexAux)
                     {
-                        if (numberTokens > _PlayerDataInGame.CharactersInGame[i].Character.GetComponent<ControlTokensPlayer>().RedToken)
+                        if (numberTokens < _PlayerDataInGame.CharactersInGame[i].Character.GetComponent<ControlTokensPlayer>().RedToken)
                         {
                             _charactersThatGotMyMission++;
                         }
                     }
                 }
 
-                // si tuvo mayor numero de ese tokens para todos los jugadores menos el entonces gana
+                // si tuvo el menor numero de ese tokens para todos los jugadores menos el entonces gana
                 if (_charactersThatGotMyMission == _PlayerDataInGame.CharactersInGame.Length-1)
                 {
                     _charactersThatGotMyMission = 1;
@@ -316,21 +316,21 @@ public class ControlMission : Photon.PunBehaviour
                     indexAux = FindObjectOfType<ControlTurn>().MineId - 2;
                 }
 
-
                 numberTokens = _PlayerDataInGame.CharactersInGame[indexAux].Character.GetComponent<ControlTokensPlayer>().BlueToken;
 
-                //evalua a cuantos jugares supero en el numero de tokens
+                //evalua a cuantos jugares no supero en el numero de tokens
                 for (int i = 0; i < _PlayerDataInGame.CharactersInGame.Length; i++)
                 {
                     if (i != indexAux)
                     {
-                        if (numberTokens > _PlayerDataInGame.CharactersInGame[i].Character.GetComponent<ControlTokensPlayer>().BlueToken)
+                        if (numberTokens < _PlayerDataInGame.CharactersInGame[i].Character.GetComponent<ControlTokensPlayer>().BlueToken)
                         {
                             _charactersThatGotMyMission++;
                         }
                     }
                 }
-                // si tuvo mayor numero de ese tokens para todos los jugadores menos el entonces gana
+
+                // si tuvo el menor numero de ese tokens para todos los jugadores menos el entonces gana
                 if (_charactersThatGotMyMission == _PlayerDataInGame.CharactersInGame.Length - 1)
                 {
                     _charactersThatGotMyMission = 1;
@@ -339,10 +339,10 @@ public class ControlMission : Photon.PunBehaviour
                 {
                     _charactersThatGotMyMission = 0;
                 }
+
                 break;
 
             case ConfigurationMission.enumMission.RIGHT_MAJOR_GREEN:
-
 
                 if (FindObjectOfType<ControlTurn>().MineId - 2 < 0)
                 {
@@ -353,22 +353,21 @@ public class ControlMission : Photon.PunBehaviour
                     indexAux = FindObjectOfType<ControlTurn>().MineId - 2;
                 }
 
-
                 numberTokens = _PlayerDataInGame.CharactersInGame[indexAux].Character.GetComponent<ControlTokensPlayer>().GreenToken;
 
-                //evalua a cuantos jugares supero en el numero de tokens
+                //evalua a cuantos jugares no supero en el numero de tokens
                 for (int i = 0; i < _PlayerDataInGame.CharactersInGame.Length; i++)
                 {
                     if (i != indexAux)
                     {
-                        if (numberTokens > _PlayerDataInGame.CharactersInGame[i].Character.GetComponent<ControlTokensPlayer>().GreenToken)
+                        if (numberTokens < _PlayerDataInGame.CharactersInGame[i].Character.GetComponent<ControlTokensPlayer>().GreenToken)
                         {
                             _charactersThatGotMyMission++;
                         }
                     }
                 }
 
-                // si tuvo mayor numero de ese tokens para todos los jugadores menos el entonces gana
+                // si tuvo el menor numero de ese tokens para todos los jugadores menos el entonces gana
                 if (_charactersThatGotMyMission == _PlayerDataInGame.CharactersInGame.Length - 1)
                 {
                     _charactersThatGotMyMission = 1;
@@ -390,22 +389,21 @@ public class ControlMission : Photon.PunBehaviour
                     indexAux = FindObjectOfType<ControlTurn>().MineId - 2;
                 }
 
-
                 numberTokens = _PlayerDataInGame.CharactersInGame[indexAux].Character.GetComponent<ControlTokensPlayer>().YellowToken;
 
-                //evalua a cuantos jugares supero en el numero de tokens
+                //evalua a cuantos jugares no supero en el numero de tokens
                 for (int i = 0; i < _PlayerDataInGame.CharactersInGame.Length; i++)
                 {
                     if (i != indexAux)
                     {
-                        if (numberTokens > _PlayerDataInGame.CharactersInGame[i].Character.GetComponent<ControlTokensPlayer>().YellowToken)
+                        if (numberTokens < _PlayerDataInGame.CharactersInGame[i].Character.GetComponent<ControlTokensPlayer>().YellowToken)
                         {
                             _charactersThatGotMyMission++;
                         }
                     }
                 }
 
-                // si tuvo mayor numero de ese tokens para todos los jugadores menos el entonces gana
+                // si tuvo el menor numero de ese tokens para todos los jugadores menos el entonces gana
                 if (_charactersThatGotMyMission == _PlayerDataInGame.CharactersInGame.Length - 1)
                 {
                     _charactersThatGotMyMission = 1;
@@ -414,6 +412,7 @@ public class ControlMission : Photon.PunBehaviour
                 {
                     _charactersThatGotMyMission = 0;
                 }
+
                 break;
 
 
