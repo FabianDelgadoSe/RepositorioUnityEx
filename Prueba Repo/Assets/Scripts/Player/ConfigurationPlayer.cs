@@ -27,8 +27,18 @@ public class ConfigurationPlayer : Photon.PunBehaviour
         FindObjectOfType<PlayerDataInGame>().CharactersInGame[FindObjectOfType<ControlTurn>().IndexTurn-1] = new PlayerInformation();
         FindObjectOfType<PlayerDataInGame>().CharactersInGame[FindObjectOfType<ControlTurn>().IndexTurn - 1].Character = gameObject;
 
-        
+        if (FindObjectOfType<ControlTurn>().MyTurn)
+        {
+            photonView.RPC("loadName", PhotonTargets.All, PhotonNetwork.player.NickName);
+        }
+    }
 
+    [PunRPC]
+    private void loadName(string name)
+    {
+        FindObjectOfType<PlayerDataInGame>().CharactersInGame[FindObjectOfType<ControlTurn>().IndexTurn - 1].Name = name;
+        Debug.Log(name);
+        Debug.Log(FindObjectOfType<PlayerDataInGame>().CharactersInGame[FindObjectOfType<ControlTurn>().IndexTurn - 1].Name);
     }
 
     [PunRPC]

@@ -1,18 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 /// <summary>
 /// Contendra toda la informacion de la partida 
 /// </summary>
-public class ControlRound : Photon.PunBehaviour {
+public class ControlRound : Photon.PunBehaviour
+{
 
     private bool _allowMove = false; // controla que solo pueda usar una carta de movimiento por turno
     public int _noMovementPlayes = 0;
     public int _numberOfCardsUsed = 0;
+    private int _numberRounds = 0;
     [SerializeField] GameObject[] _movementsCards;
     public OthersPlayersData[] _othersPlayersData;
     private bool _finishPointProcedures = true;
-    private bool _finishRound = false; 
+    private bool _finishRound = false;
+
 
     [PunRPC]
     /// <summary>
@@ -21,14 +25,14 @@ public class ControlRound : Photon.PunBehaviour {
     public void reactiveMovementsCards()
     {
         // mis cartas
-        for (int i = 0; i < _movementsCards.Length ; i++)
+        for (int i = 0; i < _movementsCards.Length; i++)
         {
             _movementsCards[i].SetActive(true);
         }
 
         // cardas que de los otros jugadores
         _othersPlayersData = FindObjectsOfType<OthersPlayersData>();
-        for (int i = 0; i<_othersPlayersData.Length; i++)
+        for (int i = 0; i < _othersPlayersData.Length; i++)
         {
             _othersPlayersData[i].activeAllMoveCards();
         }
@@ -38,18 +42,18 @@ public class ControlRound : Photon.PunBehaviour {
 
         GetComponent<ControlTokens>().photonView.RPC("resetTokens", PhotonTargets.All);// quita los tokens obtenidos esta ronda
 
-        
+
     }
 
-    
+
 
     public void useLetter()
     {
         _numberOfCardsUsed++;
 
-        if (_numberOfCardsUsed == 1)
+        if (_numberOfCardsUsed == 5)
         {
-            photonView.RPC("newPlayerWithoutMovements",PhotonTargets.All);
+            photonView.RPC("newPlayerWithoutMovements", PhotonTargets.All);
         }
     }
 
@@ -60,6 +64,15 @@ public class ControlRound : Photon.PunBehaviour {
         Debug.Log("numero de players sin movimientos " + _noMovementPlayes);
     }
 
+    [PunRPC]
+    public void finishRound()
+    {
+        _numberRounds++;
+        if (_numberRounds == 5)
+        {
+            SceneManager.LoadScene("ResultOfTheGame");
+        }
+    }
 
     public bool endOfTheRound()
     {
@@ -67,6 +80,7 @@ public class ControlRound : Photon.PunBehaviour {
         {
             _finishRound = true;
             FindObjectOfType<ControlBait>().photonView.RPC("restarBaits", PhotonTargets.All);
+            
             return true;
         }
         else
@@ -125,6 +139,19 @@ public class ControlRound : Photon.PunBehaviour {
         set
         {
             _finishRound = value;
+        }
+    }
+
+    public int NumberRounds
+    {
+        get
+        {
+            return _numberRounds;
+        }
+
+        set
+        {
+            _numberRounds = value;
         }
     }
 }

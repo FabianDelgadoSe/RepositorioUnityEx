@@ -157,6 +157,7 @@ public class ControlTurn : Photon.PunBehaviour
             else
             {
                 FindObjectOfType<ControlRound>().AllowMove = true;
+                
             }
         }
         else
@@ -180,6 +181,7 @@ public class ControlTurn : Photon.PunBehaviour
                 FindObjectOfType<PlayerRepositioning>().PlayerInWall();
                 FindObjectOfType<ControlRound>().FinishRound = false;
                 FindObjectOfType<ControlRound>().FinishPointProcedures = true;
+                FindObjectOfType<ControlRound>().photonView.RPC("finishRound", PhotonTargets.All);
             }
 
             

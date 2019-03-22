@@ -38,25 +38,27 @@ public class BaitBehaviour : Photon.MonoBehaviour
 
     public void behaviourCoin()
     {
-        _checkPlayerInBait = false;
+        if (_typeBait == Bait.typeBait.COIN) {
+            _checkPlayerInBait = false;
 
-        if(Square.Player != null){
+            if (Square.Player != null) {
 
-            //si el player que quedo sobre la casilla soy yo gano un cebo bueno
-            if (_square.Player.GetComponent<PlayerMove>().IdOwner == PhotonNetwork.player)
-            {
-                _controlBait.NumberBaitCoin++;
-                _controlBait.changeUINumberBaits(_typeBait);
-                SSTools.ShowMessage("Ganaste un cebo moneda",SSTools.Position.bottom,SSTools.Time.threeSecond);
+                //si el player que quedo sobre la casilla soy yo gano un cebo bueno
+                if (_square.Player.GetComponent<PlayerMove>().IdOwner == PhotonNetwork.player)
+                {
+                    _controlBait.NumberBaitCoin++;
+                    _controlBait.changeUINumberBaits(_typeBait);
+                    SSTools.ShowMessage("Ganaste un cebo moneda", SSTools.Position.bottom, SSTools.Time.threeSecond);
+                }
+
+                if (_controlTurn.MyTurn)
+                {
+                    _playerDataInGame.CharactersInGame[_controlTurn.IndexTurn - 1].Score++;
+                    SSTools.ShowMessage("Ganaste un punto ", SSTools.Position.bottom, SSTools.Time.threeSecond);
+                }
+
+                Destroy(gameObject);
             }
-
-            if (_controlTurn.MyTurn)
-            {
-                _playerDataInGame.CharactersInGame[_controlTurn.IndexTurn-1].Score++;
-                SSTools.ShowMessage("Ganaste un punto ", SSTools.Position.bottom, SSTools.Time.threeSecond);
-            }
-
-            Destroy(gameObject);
         }
     }
 

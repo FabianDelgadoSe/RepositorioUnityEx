@@ -79,4 +79,6 @@ MonoBehaviour:
   - changeNumberBaits
   - restarBaits
   - desactivePanelMission
+  - loadName
+  - finishRound
   DisableAutoOpenWizard: 1

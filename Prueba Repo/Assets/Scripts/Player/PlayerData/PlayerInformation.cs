@@ -11,6 +11,7 @@ public class PlayerInformation {
     private int _score;
     private int _coinBait;
     private int _poopBait;
+    private string _name;
     private GameObject _character;
 
     public PlayerInformation()
@@ -22,6 +23,7 @@ public class PlayerInformation {
         _score = 5;
         _coinBait = 1;
         _poopBait = 1;
+        Name = "Joselito";
         _character = null;
     }
 
@@ -126,6 +128,19 @@ public class PlayerInformation {
         set
         {
             _poopBait = value;
+        }
+    }
+
+    public string Name
+    {
+        get
+        {
+            return _name;
+        }
+
+        set
+        {
+            _name = value;
         }
     }
 }
