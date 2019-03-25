@@ -47,7 +47,6 @@ public class ChangeScene : Photon.PunBehaviour
                 changeScene(SELECTROOM);
                 break;
             case Scenes.InGame:
-                PhotonNetwork.room.IsOpen = false;
                 changeScene(INGAME);
                 break;
             case Scenes.none:
@@ -82,6 +81,8 @@ public class ChangeScene : Photon.PunBehaviour
                 photonView.RPC("changeSceneSyn", PhotonTargets.All, SELECTROOM);
                 break;
             case Scenes.InGame:
+                PhotonNetwork.room.IsOpen = false;
+                PhotonNetwork.room.IsVisible = false;
                 photonView.RPC("changeSceneSyn", PhotonTargets.All, INGAME);
                 break;
             case Scenes.none:

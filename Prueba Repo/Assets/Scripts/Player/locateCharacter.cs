@@ -11,7 +11,7 @@ public class locateCharacter : Photon.MonoBehaviour
     private bool _isMoving = false;
     [SerializeField] private GameObject _prefabPanelConfimation;
     private GameObject _panelConfirmationInGame;
-
+    private GameObject _square;
 
     /// <summary>
     /// permite que solo el dispositivo que lo creo pueda moverlo
@@ -42,7 +42,6 @@ public class locateCharacter : Photon.MonoBehaviour
     /// </summary>
     private void OnMouseUp()
     {
-
         _isMoving = false;
     }
 
@@ -54,10 +53,11 @@ public class locateCharacter : Photon.MonoBehaviour
     {
         if (collision.CompareTag("Square"))
         {
-            
+
             if (collision.gameObject.GetComponent<Square>().ItsOnEdge && !_isMoving && !collision.gameObject.GetComponent<Square>().IsOccupied)
             {
                 transform.position = collision.gameObject.transform.position;
+                collision.GetComponent<Square>().visualFeekbackOfSelectSquare();
 
                 if (FindObjectOfType<ControlTurn>().FirstTurn)
                 {
@@ -78,7 +78,6 @@ public class locateCharacter : Photon.MonoBehaviour
             }
         }
     }
-
 
     public GameObject PanelConfirmationInGame
     {

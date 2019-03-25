@@ -84,7 +84,7 @@ public class LobbyManager : Photon.PunBehaviour
         }
         else
         {
-            Debug.Log("Faltan jugadores por seleccionar");
+            SSTools.ShowMessage("Faltan jugadores por seleccionar",SSTools.Position.bottom,SSTools.Time.twoSecond);
         }
 
     }

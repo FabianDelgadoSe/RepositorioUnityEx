@@ -64,9 +64,9 @@ public class ConfigurationPlayer : Photon.PunBehaviour
 
 
     [PunRPC]
-    public void endSelectionBox()
+    public void endSelectionBox(Vector3 playerPosition)
     {
-        GetComponent<PhotonTransformView>().enabled = false;
+        transform.position = playerPosition;
         GetComponent<SpriteRenderer>().enabled = true;
     }
 }

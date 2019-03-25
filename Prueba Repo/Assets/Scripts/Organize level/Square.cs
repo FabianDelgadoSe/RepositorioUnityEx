@@ -29,6 +29,9 @@ public class Square : Photon.PunBehaviour
     private bool _haveBait;
     private GameObject _baitInGame;
 
+    [Header("GameObject de casilla seleccionada")]
+    [SerializeField] private GameObject _selectSquares;
+
     [Header("prefabs de cebos")]
     [SerializeField] private GameObject _bait;
 
@@ -94,6 +97,18 @@ public class Square : Photon.PunBehaviour
         HaveBait = true;
     }
 
+    public void visualFeekbackOfSelectSquare()
+    {
+        if (_selectSquares.active)
+        {
+            _selectSquares.SetActive(false);
+        }
+        else
+        {
+            _selectSquares.SetActive(true);
+        }
+    }
+
 
     [PunRPC]
     public void saveCurrentPlayer(int indexTurn)
@@ -154,6 +169,14 @@ public class Square : Photon.PunBehaviour
         }
     }
 
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            if (_selectSquares.active)
+                visualFeekbackOfSelectSquare();
+        }
+    }
 
     public Sprite BoardSquareBlue
     {

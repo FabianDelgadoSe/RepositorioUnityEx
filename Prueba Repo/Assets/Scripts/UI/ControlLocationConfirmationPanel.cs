@@ -35,7 +35,7 @@ public class ControlLocationConfirmationPanel : MonoBehaviour
 
         Square.GetComponent<Square>().photonView.RPC("saveCurrentPlayer", PhotonTargets.Others, FindObjectOfType<ControlTurn>().IndexTurn);
 
-        _player.GetComponent<ConfigurationPlayer>().photonView.RPC("endSelectionBox", PhotonTargets.All);
+        _player.GetComponent<ConfigurationPlayer>().photonView.RPC("endSelectionBox", PhotonTargets.Others,_player.transform.position);
 
         FindObjectOfType<ControlTurn>().Myturn.GetComponent<Button>().enabled = true;
         FindObjectOfType<ControlTurn>().nextTurn();

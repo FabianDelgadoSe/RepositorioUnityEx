@@ -84,6 +84,11 @@ public class BaitBehaviour : Photon.MonoBehaviour
         }
     }
 
+    private void OnDestroy()
+    {
+        _square.GetComponent<Square>().HaveBait = false;
+    }
+
 
     public Bait.typeBait TypeBait
     {
