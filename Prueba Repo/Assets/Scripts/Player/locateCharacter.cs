@@ -12,18 +12,39 @@ public class locateCharacter : Photon.MonoBehaviour
     [SerializeField] private GameObject _prefabPanelConfimation;
     private GameObject _panelConfirmationInGame;
     private GameObject _square;
+    private Square[] _squares;
+    [SerializeField] Color _color; 
 
     /// <summary>
     /// permite que solo el dispositivo que lo creo pueda moverlo
     /// </summary>
     private void Start()
     {
-        
         if (!photonView.isMine)
         {
             Destroy(gameObject.GetComponent<locateCharacter>());
         }
-        
+        else
+        {
+            _squares = FindObjectsOfType<Square>();
+            dullSquares();
+        }
+
+    }
+
+
+    /// <summary>
+    /// Coloca opacas las casillas que no estan en el borde
+    /// </summary>
+    private void dullSquares()
+    {
+        for (int i=0; i<_squares.Length;i++)
+        {
+            if (!_squares[i].ItsOnEdge)
+            {
+                _squares[i].gameObject.GetComponent<SpriteRenderer>().color = _color;
+            }
+        }
     }
 
     /// <summary>
@@ -43,21 +64,20 @@ public class locateCharacter : Photon.MonoBehaviour
     private void OnMouseUp()
     {
         _isMoving = false;
+    
     }
 
     /// <summary>
-    /// cuando queda sobre una casilla sale el mensaje de confirmacion para saber si esta es la casilla donde quiere iniciar
+    /// revisa si esta en collision con una casilla del borde para proceder a fijarla como la casilla de inicio del player
     /// </summary>
     /// <param name="collision"></param>
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.CompareTag("Square"))
+        if (collision.CompareTag("Square") && !_isMoving)
         {
-
-            if (collision.gameObject.GetComponent<Square>().ItsOnEdge && !_isMoving && !collision.gameObject.GetComponent<Square>().IsOccupied)
+            if (collision.gameObject.GetComponent<Square>().ItsOnEdge && !collision.gameObject.GetComponent<Square>().IsOccupied)
             {
-                transform.position = collision.gameObject.transform.position;
-                collision.GetComponent<Square>().visualFeekbackOfSelectSquare();
+                transform.position = _square.transform.position;
 
                 if (FindObjectOfType<ControlTurn>().FirstTurn)
                 {
@@ -71,13 +91,55 @@ public class locateCharacter : Photon.MonoBehaviour
                         PanelConfirmationInGame.SetActive(true);
                     }
 
-                    PanelConfirmationInGame.GetComponent<ControlLocationConfirmationPanel>().Square = collision.gameObject;
+                    PanelConfirmationInGame.GetComponent<ControlLocationConfirmationPanel>().Square = _square;
+
+                    _square.GetComponent<Square>().desactiveVisualFeekbackOfSelectSquare();
+
                     Destroy(GetComponent<locateCharacter>());
                 }
-                
+            }
+        }
+    
+    }
+
+
+    /// <summary>
+    /// revisa si entra en collision con casillas del borde para resaltarlas
+    /// </summary>
+    /// <param name="collision"></param>
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Square"))
+        {
+            if (collision.gameObject.GetComponent<Square>().ItsOnEdge && !collision.gameObject.GetComponent<Square>().IsOccupied)
+            {
+
+                collision.GetComponent<Square>().activeVisualFeekbackOfSelectSquare();
+
+                if (_square != null && _square != collision.gameObject)
+                { 
+                    _square.GetComponent<Square>().desactiveVisualFeekbackOfSelectSquare();
+                }
+
+                _square = collision.gameObject;
+
             }
         }
     }
+
+
+    /// <summary>
+    /// Si deja de estar en colision con casillas del borde entonces las deja de resaltar
+    /// </summary>
+    /// <param name="collision"></param>
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Square"))
+        {
+            collision.GetComponent<Square>().desactiveVisualFeekbackOfSelectSquare();
+        }
+    }
+
 
     public GameObject PanelConfirmationInGame
     {

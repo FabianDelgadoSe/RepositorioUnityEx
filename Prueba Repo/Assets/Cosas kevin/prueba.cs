@@ -5,18 +5,21 @@ using UnityEngine.UI;
 
 public class prueba : Photon.MonoBehaviour
 {
-    public List<int> a = new List<int>();
+    public Color a;
+    public float b1;
+    public float b2;
+    public float b3;
 
-    private void Update()
+    private void Start()
+    {
+        
+    }
+
+    public void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
-            operacion();
+        {
+            
+        }
     }
-
-    public void operacion()
-    {
-        a.RemoveAt(0);
-        Debug.Log("tamaño de la lista" + a);
-    }
-
 }

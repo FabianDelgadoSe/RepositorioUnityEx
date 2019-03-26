@@ -121,6 +121,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _prefabPanelConfimation: {fileID: 1553950309880426, guid: e48c78702c694104ea12485a654c7c60,
     type: 3}
+  _color: {r: 0.24528301, g: 0.24528301, b: 0.24528301, a: 1}
 --- !u!114 &114206352545360460
 MonoBehaviour:
   m_ObjectHideFlags: 0

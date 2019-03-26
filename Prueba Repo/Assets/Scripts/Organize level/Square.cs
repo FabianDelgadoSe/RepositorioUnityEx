@@ -97,18 +97,15 @@ public class Square : Photon.PunBehaviour
         HaveBait = true;
     }
 
-    public void visualFeekbackOfSelectSquare()
+    public void activeVisualFeekbackOfSelectSquare()
     {
-        if (_selectSquares.active)
-        {
-            _selectSquares.SetActive(false);
-        }
-        else
-        {
-            _selectSquares.SetActive(true);
-        }
+        _selectSquares.SetActive(true);
     }
 
+    public void desactiveVisualFeekbackOfSelectSquare()
+    {
+        _selectSquares.SetActive(false);
+    }
 
     [PunRPC]
     public void saveCurrentPlayer(int indexTurn)
@@ -166,15 +163,6 @@ public class Square : Photon.PunBehaviour
                 Debug.Log("salio del rango " + Index);
                 break;
 
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
-        {
-            if (_selectSquares.active)
-                visualFeekbackOfSelectSquare();
         }
     }
 
