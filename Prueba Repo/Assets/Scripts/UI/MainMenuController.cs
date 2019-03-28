@@ -69,6 +69,7 @@ public class MainMenuController : MonoBehaviour
 
     public void PlayerPrefDeleteCall()
     {
+        Application.LoadLevel(Application.loadedLevel);
         PlayerPrefController.GetInstance().ResetAllPlayerPref();
     }
 }

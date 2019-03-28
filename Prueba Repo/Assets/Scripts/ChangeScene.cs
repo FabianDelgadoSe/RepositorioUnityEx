@@ -23,7 +23,7 @@ public class ChangeScene : Photon.PunBehaviour
 
     public Scenes _sceneToChange;
 
-
+    [PunRPC]
     /// <summary>
     /// ChangeScene personal
     /// </summary>
@@ -47,6 +47,10 @@ public class ChangeScene : Photon.PunBehaviour
                 changeScene(SELECTROOM);
                 break;
             case Scenes.InGame:
+                //crea las casillas del arreglo de personajes
+                if (FindObjectOfType<PlayerDataInGame>().CharactersInGame.Length != PhotonNetwork.room.PlayerCount)
+                    FindObjectOfType<PlayerDataInGame>().CharactersInGame = new PlayerInformation[PhotonNetwork.room.PlayerCount];
+
                 changeScene(INGAME);
                 break;
             case Scenes.none:
@@ -81,9 +85,10 @@ public class ChangeScene : Photon.PunBehaviour
                 photonView.RPC("changeSceneSyn", PhotonTargets.All, SELECTROOM);
                 break;
             case Scenes.InGame:
-                PhotonNetwork.room.IsOpen = false;
-                PhotonNetwork.room.IsVisible = false;
-                photonView.RPC("changeSceneSyn", PhotonTargets.All, INGAME);
+                PhotonNetwork.room.IsOpen = false; // bloqeua la sala
+                PhotonNetwork.room.IsVisible = false; // no la deja ver
+
+                photonView.RPC("chanScene", PhotonTargets.All);
                 break;
             case Scenes.none:
                 break;
@@ -91,6 +96,7 @@ public class ChangeScene : Photon.PunBehaviour
         }
 
     }
+
 
     [PunRPC]
     void changeSceneSyn(string sceneName)

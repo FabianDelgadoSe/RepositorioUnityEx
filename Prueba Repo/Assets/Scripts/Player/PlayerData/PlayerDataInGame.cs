@@ -12,7 +12,7 @@ public class PlayerDataInGame : Photon.PunBehaviour
 
     private PlayerDataInGame _instance;
 
-    [SerializeField] private PlayerInformation[] _charactersInGame;
+    [SerializeField] private PlayerInformation[] _charactersInGame = new PlayerInformation[0];
 
     private void Awake()
     {
@@ -32,9 +32,6 @@ public class PlayerDataInGame : Photon.PunBehaviour
             SSTools.ShowMessage("ID Jugador: " + PhotonNetwork.player.ID.ToString(), SSTools.Position.bottom, SSTools.Time.threeSecond);
             //Destroy(this);
         }
-
-        CharactersInGame = new PlayerInformation[PhotonNetwork.room.playerCount];
- 
 
         PlayerName = PhotonNetwork.player.ID.ToString();
     }

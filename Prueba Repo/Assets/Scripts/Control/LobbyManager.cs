@@ -14,6 +14,7 @@ public class LobbyManager : Photon.PunBehaviour
 
     [SerializeField] private TextMeshProUGUI _playersCountText;
     [SerializeField] private TextMeshProUGUI _roomNameText;
+    [SerializeField] private Button _sbuttonPlay;
     private GameObject _selectedCharacter;
     Room _currentRoom;
 
@@ -27,6 +28,8 @@ public class LobbyManager : Photon.PunBehaviour
         _currentRoom = PhotonNetwork.room;
         if (_currentRoom.PlayerCount >= 1)
             photonView.RPC("SetLobbyUI", PhotonTargets.All);
+
+        photonView.RPC("allPlayerSelectCharacter",PhotonTargets.All);
 
     }
 
@@ -42,6 +45,34 @@ public class LobbyManager : Photon.PunBehaviour
         someoneSelected();
 
     }
+
+    [PunRPC]
+    public void allPlayerSelectCharacter()
+    {
+        List<CharacterSelectionable> _charactersSelectionable = FindObjectsOfType<CharacterSelectionable>().ToList();
+
+        int _charactersSelectedCount = 0;
+
+        foreach (CharacterSelectionable charactersSelectionable in _charactersSelectionable)
+        {
+
+            if (charactersSelectionable._isSelected)
+            {
+                _charactersSelectedCount++;
+            }
+        }
+
+        if (_charactersSelectedCount == _currentRoom.playerCount)
+        {
+
+            _sbuttonPlay.gameObject.SetActive(true);
+        }
+        else
+        {
+            _sbuttonPlay.gameObject.SetActive(false);
+        }
+    }
+
 
     /// <summary>
     /// Usado para verificar si un jugador ya habia pickeado un personaje

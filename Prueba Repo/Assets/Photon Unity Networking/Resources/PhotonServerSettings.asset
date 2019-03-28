@@ -81,4 +81,6 @@ MonoBehaviour:
   - desactivePanelMission
   - loadName
   - finishRound
+  - chanScene
+  - allPlayerSelectCharacter
   DisableAutoOpenWizard: 1

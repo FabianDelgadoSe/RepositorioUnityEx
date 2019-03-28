@@ -10,7 +10,7 @@ public class ControlLocationConfirmationPanel : MonoBehaviour
 
     private GameObject _player; // player que creo el cuadro de confirmacion
     private GameObject _square; // casilla donde el player se ubico
-    [SerializeField] Color _color; // color original del las casillas es decir blanco
+    [SerializeField] private Color _color; // color original del las casillas es decir blanco
     /// <summary>
     /// Cuando es creado el panel nesecita ser ubicado como hijo del canvas para tener el tamaño correcto
     /// </summary>
@@ -72,6 +72,7 @@ public class ControlLocationConfirmationPanel : MonoBehaviour
         _player.transform.position = new Vector3(-6, 2, 0);
         _player.AddComponent<locateCharacter>();
         _player.GetComponent<locateCharacter>().PanelConfirmationInGame = gameObject;
+        _player.GetComponent<locateCharacter>().MarkSquare = false;
         gameObject.SetActive(false);
     }//Cierre DenyButton
 

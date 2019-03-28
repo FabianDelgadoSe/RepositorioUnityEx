@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 /// <summary>
 /// Clase que contendra la informacion de otros jugadore
 /// </summary>
@@ -25,6 +26,9 @@ public class OthersPlayersData : MonoBehaviour {
     [SerializeField] private GameObject _face;
     [Header("GameObject marco")]
     [SerializeField] private GameObject _pictureFrame;
+
+    [Header("Score")]
+    [SerializeField] private TMP_Text _scoreText;
     /// <summary>
     /// Es llamado cuando inicie el turno del jugador al cual representa
     /// </summary>

@@ -9,6 +9,7 @@ public class ConfigurationPlayer : Photon.PunBehaviour
     private void Start()
     {
         _currentPlayer = FindObjectOfType<PlayerDataInGame>();
+
         if (photonView.isMine)
         {
             photonView.RPC("loadDataObjets", PhotonTargets.All, _currentPlayer.CharacterSelected._IDCharacter);
@@ -20,26 +21,26 @@ public class ConfigurationPlayer : Photon.PunBehaviour
             GetComponent<SpriteRenderer>().enabled = false;
         }
 
-        if(FindObjectOfType<PlayerDataInGame>().CharactersInGame.Length != PhotonNetwork.room.PlayerCount)
-            FindObjectOfType<PlayerDataInGame>().CharactersInGame = new PlayerInformation[PhotonNetwork.room.PlayerCount];
-
-
         FindObjectOfType<PlayerDataInGame>().CharactersInGame[FindObjectOfType<ControlTurn>().IndexTurn-1] = new PlayerInformation();
         FindObjectOfType<PlayerDataInGame>().CharactersInGame[FindObjectOfType<ControlTurn>().IndexTurn - 1].Character = gameObject;
 
         if (FindObjectOfType<ControlTurn>().MyTurn)
         {
-            photonView.RPC("loadName", PhotonTargets.All, PhotonNetwork.player.NickName);
+            photonView.RPC("loadName", PhotonTargets.AllBufferedViaServer, PhotonNetwork.player.NickName);
         }
     }
 
     [PunRPC]
     private void loadName(string name)
     {
+        
         FindObjectOfType<PlayerDataInGame>().CharactersInGame[FindObjectOfType<ControlTurn>().IndexTurn - 1].Name = name;
-        Debug.Log(name);
-        Debug.Log(FindObjectOfType<PlayerDataInGame>().CharactersInGame[FindObjectOfType<ControlTurn>().IndexTurn - 1].Name);
+        
+        Debug.Log("la casilla tiene algo ? " + FindObjectOfType<PlayerDataInGame>().CharactersInGame[FindObjectOfType<ControlTurn>().IndexTurn - 1] != null);
+        Debug.Log("que nombre tiene " + FindObjectOfType<PlayerDataInGame>().CharactersInGame[FindObjectOfType<ControlTurn>().IndexTurn - 1].Name);
+        Debug.Log("me llego el nombre " + name);
     }
+
 
     [PunRPC]
     private void loadDataObjets(int IDcharacter)

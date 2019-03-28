@@ -59,7 +59,7 @@ public class PlayerRepositioning : Photon.PunBehaviour
         GameObject arrow;
         GameObject square = _playerData.CharactersInGame[PhotonNetwork.player.ID - 1].Character.GetComponent<PlayerMove>().Square;
   
-        if (square.GetComponent<Square>()._squareDown != null)
+        if (square.GetComponent<Square>()._squareDown != null && !square.GetComponent<Square>()._squareDown.GetComponent<Square>().IsOccupied)
         {
             if (!square.GetComponent<Square>()._squareDown.GetComponent<Square>().IsWall)
             {
@@ -71,7 +71,7 @@ public class PlayerRepositioning : Photon.PunBehaviour
             }
         }
 
-        if (square.GetComponent<Square>()._squareUp != null)
+        if (square.GetComponent<Square>()._squareUp != null && !square.GetComponent<Square>()._squareUp.GetComponent<Square>().IsOccupied)
         {
             if (!square.GetComponent<Square>()._squareUp.GetComponent<Square>().IsWall)
             {
@@ -83,7 +83,7 @@ public class PlayerRepositioning : Photon.PunBehaviour
             }
         }
 
-        if (square.GetComponent<Square>()._squareRigh != null)
+        if (square.GetComponent<Square>()._squareRigh != null && !square.GetComponent<Square>()._squareRigh.GetComponent<Square>().IsOccupied)
         {
             if (!square.GetComponent<Square>()._squareRigh.GetComponent<Square>().IsWall)
             {
@@ -95,7 +95,7 @@ public class PlayerRepositioning : Photon.PunBehaviour
             }
         }
 
-        if (square.GetComponent<Square>()._squareLeft != null)
+        if (square.GetComponent<Square>()._squareLeft != null && !square.GetComponent<Square>()._squareLeft.GetComponent<Square>().IsOccupied)
         {
             if (!square.GetComponent<Square>()._squareLeft.GetComponent<Square>().IsWall)
             {

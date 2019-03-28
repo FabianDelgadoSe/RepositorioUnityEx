@@ -11,7 +11,7 @@ public class NetworkManager : Photon.MonoBehaviour
 {
 
     public string _version;
-    [SerializeField] private Text _roomName;
+    [SerializeField] private TMP_Text _roomName;
     [SerializeField] private GameObject _connectingTextPrefab;
 
     /// <summary>

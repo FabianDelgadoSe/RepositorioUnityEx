@@ -13,7 +13,8 @@ public class locateCharacter : Photon.MonoBehaviour
     private GameObject _panelConfirmationInGame;
     private GameObject _square;
     private Square[] _squares;
-    [SerializeField] Color _color; 
+    [SerializeField] Color _color;
+    private bool _markSquare = true;
 
     /// <summary>
     /// permite que solo el dispositivo que lo creo pueda moverlo
@@ -27,7 +28,8 @@ public class locateCharacter : Photon.MonoBehaviour
         else
         {
             _squares = FindObjectsOfType<Square>();
-            dullSquares();
+            if(_markSquare)
+                dullSquares();
         }
 
     }
@@ -154,5 +156,16 @@ public class locateCharacter : Photon.MonoBehaviour
         }
     }
 
+    public bool MarkSquare
+    {
+        get
+        {
+            return _markSquare;
+        }
 
+        set
+        {
+            _markSquare = value;
+        }
+    }
 }

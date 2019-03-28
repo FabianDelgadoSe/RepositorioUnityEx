@@ -15,7 +15,7 @@ public class RoomLayoutGroup : MonoBehaviour
         OnReceiveRoomListUpdate();
     }
 
-    private void OnReceiveRoomListUpdate()
+    public void OnReceiveRoomListUpdate()
     {
         Debug.Log("Receiving rooms");
 

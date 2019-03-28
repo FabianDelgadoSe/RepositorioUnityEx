@@ -31,11 +31,11 @@ public class CharacterSelectionable : Photon.PunBehaviour
     [PunRPC]
     public void setCharacterSelection(PhotonPlayer Player)
     {
-        Debug.Log("hola");
         _playerSelect = Player;
         _isSelected = true;
         GetComponent<Image>().sprite = _character._iconSelected;
         _name.text = Player.NickName.ToString();
+        FindObjectOfType<LobbyManager>().allPlayerSelectCharacter();
     }
 
 
@@ -50,7 +50,7 @@ public class CharacterSelectionable : Photon.PunBehaviour
         _isSelected = false;
         GetComponent<Image>().sprite = _character._iconUnSelected;
         _name.text = _character.name;
-
+        FindObjectOfType<LobbyManager>().allPlayerSelectCharacter();
     }
 
     /// <summary>
