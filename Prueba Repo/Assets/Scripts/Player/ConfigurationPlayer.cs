@@ -26,19 +26,19 @@ public class ConfigurationPlayer : Photon.PunBehaviour
 
         if (FindObjectOfType<ControlTurn>().MyTurn)
         {
-            photonView.RPC("loadName", PhotonTargets.AllBufferedViaServer, PhotonNetwork.player.NickName);
+            photonView.RPC("loadName", PhotonTargets.AllBufferedViaServer, PhotonNetwork.player.name);
         }
     }
 
     [PunRPC]
     private void loadName(string name)
     {
-        
+        Debug.Log("me llego el nombre " + name);
         FindObjectOfType<PlayerDataInGame>().CharactersInGame[FindObjectOfType<ControlTurn>().IndexTurn - 1].Name = name;
         
         Debug.Log("la casilla tiene algo ? " + FindObjectOfType<PlayerDataInGame>().CharactersInGame[FindObjectOfType<ControlTurn>().IndexTurn - 1] != null);
         Debug.Log("que nombre tiene " + FindObjectOfType<PlayerDataInGame>().CharactersInGame[FindObjectOfType<ControlTurn>().IndexTurn - 1].Name);
-        Debug.Log("me llego el nombre " + name);
+        
     }
 
 

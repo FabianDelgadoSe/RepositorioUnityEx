@@ -173,6 +173,8 @@ public class ControlTurn : Photon.PunBehaviour
                 // empieza turno con normalidad
                 FindObjectOfType<ControlRound>().AllowMove = true;
                 FindObjectOfType<PanelInformation>().showMessages(PanelInformation.Messages.START_MY_TURN);
+
+
                 if (!_showAllTokens.active)
                 {
                     photonView.RPC("activePanelData", PhotonTargets.All);
@@ -243,19 +245,31 @@ public class ControlTurn : Photon.PunBehaviour
 
         if (preparationound())
         {
+            FindObjectOfType<ControlRound>().finishFirstRound();
+
             if (ID == this._mineId)
             {
 
                 StarTurn();
             }//cierre if
-            else
+            else     // no es mi turno
             {
-                // no es mi turno
-                FindObjectOfType<PanelInformation>().showMessages(PanelInformation.Messages.START_TURN_OTHER_PLAYER);
+
+                if (FindObjectOfType<ControlRound>().FirstRound)
+                {
+
+                    FindObjectOfType<PanelInformation>().showMessages(PanelInformation.Messages.OTHER_PLAYER_LOCATE_CHARACTER);
+                }
+                else
+                {
+                    FindObjectOfType<PanelInformation>().showMessages(PanelInformation.Messages.START_TURN_OTHER_PLAYER);
+                }
+
                 for (int i = 1; i < _otherPlayersList.Count; i++)
                 {
                     _otherPlayersList[i].GetComponent<OthersPlayersData>().starTurn(ID);
                 }
+
             }//cierre else
         }
     }//cierre mineTurn

@@ -16,8 +16,8 @@ public class ControlRound : Photon.PunBehaviour
     public OthersPlayersData[] _othersPlayersData;
     private bool _finishPointProcedures = true;
     private bool _finishRound = false;
-
-
+    private bool _firstRound = true;
+    private int _charactersInBoard = -1;
     [PunRPC]
     /// <summary>
     /// vuelve a activar las cartas de movimiento
@@ -54,6 +54,22 @@ public class ControlRound : Photon.PunBehaviour
         if (_numberOfCardsUsed == 5)
         {
             photonView.RPC("newPlayerWithoutMovements", PhotonTargets.All);
+        }
+    }
+
+    
+    public void finishFirstRound()
+    {
+        
+        if (_charactersInBoard != PhotonNetwork.room.PlayerCount)
+        {
+            _charactersInBoard++;
+
+            if (_charactersInBoard == PhotonNetwork.room.PlayerCount)
+            {
+                _firstRound = false;
+            }
+
         }
     }
 
@@ -152,6 +168,19 @@ public class ControlRound : Photon.PunBehaviour
         set
         {
             _numberRounds = value;
+        }
+    }
+
+    public bool FirstRound
+    {
+        get
+        {
+            return _firstRound;
+        }
+
+        set
+        {
+            _firstRound = value;
         }
     }
 }

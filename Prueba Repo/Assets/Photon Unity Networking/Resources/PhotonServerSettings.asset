@@ -84,4 +84,5 @@ MonoBehaviour:
   - chanScene
   - allPlayerSelectCharacter
   - activePanelData
+  - finishFirstRound
   DisableAutoOpenWizard: 1

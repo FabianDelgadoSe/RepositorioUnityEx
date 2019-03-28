@@ -14,6 +14,7 @@ public class PanelInformation : MonoBehaviour
     private const string START_TURN_OTHER_PLAYER = "Es turno de ";
     private const string LATER_MOVE = "Coloca un cebo o finaliza tu turno";
     private const string LATER_PUT_BAIT = "Ya no tienes nada mas que hacer termina tu turno";
+    private const string OTHER_PLAYER_LOCATE_CHARACTER = "Un jugador esta ubicando su ficha";
     #endregion
 
    public enum Messages
@@ -23,7 +24,8 @@ public class PanelInformation : MonoBehaviour
         START_MY_TURN,
         START_TURN_OTHER_PLAYER,
         LATER_MOVE,
-        LATER_PUT_BAIT
+        LATER_PUT_BAIT,
+        OTHER_PLAYER_LOCATE_CHARACTER
     }
 
     public void showMessages(Messages messemessages)
@@ -48,6 +50,9 @@ public class PanelInformation : MonoBehaviour
                 break;
             case Messages.EMPTY:
                 _text.text = EMPTY;
+                break;
+            case Messages.OTHER_PLAYER_LOCATE_CHARACTER:
+                _text.text = OTHER_PLAYER_LOCATE_CHARACTER;
                 break;
         }
     }
