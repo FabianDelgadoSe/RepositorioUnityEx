@@ -8,7 +8,6 @@ public class PanelBet : MonoBehaviour {
     [SerializeField] private GameObject _bet;
     private ControlBet _controlBet;
 
-    [SerializeField] private GameObject _buttonShowData;
     [Header("Cosas que debe activar luego de hacer la apuesta")]
     [SerializeField] private GameObject _iconMision;
     [SerializeField] private GameObject _baits;
@@ -48,7 +47,6 @@ public class PanelBet : MonoBehaviour {
                 break;
         }
 
-        _buttonShowData.SetActive(true);
         _iconMision.SetActive(true);
         _baits.SetActive(true);
         _cards.SetActive(true);

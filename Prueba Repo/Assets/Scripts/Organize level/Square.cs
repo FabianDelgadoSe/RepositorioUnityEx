@@ -76,6 +76,11 @@ public class Square : Photon.PunBehaviour
     [PunRPC]
     public void generateBait(Bait.typeBait typeBait)
     {
+        if (FindObjectOfType<ControlTurn>().MyTurn)
+        {
+            FindObjectOfType<PanelInformation>().showMessages(PanelInformation.Messages.LATER_PUT_BAIT);
+        }
+
         GameObject aux;
 
         switch (typeBait)

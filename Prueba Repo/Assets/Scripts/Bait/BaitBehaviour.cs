@@ -53,9 +53,11 @@ public class BaitBehaviour : Photon.MonoBehaviour
 
                 if (_controlTurn.MyTurn)
                 {
-                    _playerDataInGame.CharactersInGame[_controlTurn.IndexTurn - 1].Score++;
+                    // solo lo el feekback visual de que gano punto
                     SSTools.ShowMessage("Ganaste un punto ", SSTools.Position.bottom, SSTools.Time.threeSecond);
                 }
+
+                _playerDataInGame.CharactersInGame[_controlTurn.IndexTurn - 1].Score++;
 
                 Destroy(gameObject);
             }
@@ -67,6 +69,7 @@ public class BaitBehaviour : Photon.MonoBehaviour
         if (_typeBait == Bait.typeBait.POOP) {
             if (collision.CompareTag("Player") && collision.gameObject == _square.Player)
             {
+                
                 if (_square.Player.GetComponent<PlayerMove>().IdOwner == PhotonNetwork.player)
                 {
                     _controlBait.NumberBaitPoop++;
@@ -77,6 +80,7 @@ public class BaitBehaviour : Photon.MonoBehaviour
                 _playerDataInGame.CharactersInGame[_controlTurn.IndexTurn - 1].Score--;
 
                 if (_controlTurn.MyTurn) {
+                    // solo el feekback visual de que perdio puntos
                     SSTools.ShowMessage("Perdiste un punto", SSTools.Position.bottom, SSTools.Time.threeSecond);
                 }
                 Destroy(gameObject);

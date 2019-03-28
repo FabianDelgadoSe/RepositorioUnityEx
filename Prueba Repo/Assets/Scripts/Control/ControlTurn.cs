@@ -17,6 +17,9 @@ public class ControlTurn : Photon.PunBehaviour
     [Header("Objeto padre de todas las cartas")]
     [SerializeField] private GameObject _cards; //objeto padre de todas las Cartas
 
+    [Header("Objeto donde esta la informacion de los tokens")]
+    [SerializeField] private GameObject _showAllTokens;
+
     private List<GameObject> _otherPlayersList = new List<GameObject>();// imagenes que representan a los otros player
     private int _indexTurn; // el numero de la persona que tiene el turno
     private int _mineId;  // minumero de turno
@@ -50,6 +53,16 @@ public class ControlTurn : Photon.PunBehaviour
 
     }// cierre start
 
+
+    /// <summary>
+    /// activa el panel que muestra los tokens de todos los jugadores depues de que todos hayan colocado 
+    /// a su personaje
+    /// </summary>
+    [PunRPC]
+    public void activePanelData()
+    {
+        _showAllTokens.SetActive(true);
+    }
 
     /// <summary>
     /// Crea todos los objetos que representaran a los otros jugadores en la pantalla de cada jugador
@@ -153,11 +166,17 @@ public class ControlTurn : Photon.PunBehaviour
                 // para crear el personaje y posicionarlo
                 gameObject.GetComponent<ControlCharacterLocation>().enabled = true;
                 _myturn.SetActive(false);
+                FindObjectOfType<PanelInformation>().showMessages(PanelInformation.Messages.LOCATE_CHARACTER);
             }
             else
             {
+                // empieza turno con normalidad
                 FindObjectOfType<ControlRound>().AllowMove = true;
-                
+                FindObjectOfType<PanelInformation>().showMessages(PanelInformation.Messages.START_MY_TURN);
+                if (!_showAllTokens.active)
+                {
+                    photonView.RPC("activePanelData", PhotonTargets.All);
+                }
             }
         }
         else
@@ -231,6 +250,8 @@ public class ControlTurn : Photon.PunBehaviour
             }//cierre if
             else
             {
+                // no es mi turno
+                FindObjectOfType<PanelInformation>().showMessages(PanelInformation.Messages.START_TURN_OTHER_PLAYER);
                 for (int i = 1; i < _otherPlayersList.Count; i++)
                 {
                     _otherPlayersList[i].GetComponent<OthersPlayersData>().starTurn(ID);

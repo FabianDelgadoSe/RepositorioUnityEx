@@ -83,4 +83,5 @@ MonoBehaviour:
   - finishRound
   - chanScene
   - allPlayerSelectCharacter
+  - activePanelData
   DisableAutoOpenWizard: 1
