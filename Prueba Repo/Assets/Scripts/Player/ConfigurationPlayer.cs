@@ -21,12 +21,13 @@ public class ConfigurationPlayer : Photon.PunBehaviour
             GetComponent<SpriteRenderer>().enabled = false;
         }
 
-        FindObjectOfType<PlayerDataInGame>().CharactersInGame[FindObjectOfType<ControlTurn>().IndexTurn-1] = new PlayerInformation();
+        PlayerInformation playerInformation = new PlayerInformation();
+        FindObjectOfType<PlayerDataInGame>().CharactersInGame[FindObjectOfType<ControlTurn>().IndexTurn-1] = playerInformation;
         FindObjectOfType<PlayerDataInGame>().CharactersInGame[FindObjectOfType<ControlTurn>().IndexTurn - 1].Character = gameObject;
 
         if (FindObjectOfType<ControlTurn>().MyTurn)
         {
-            photonView.RPC("loadName", PhotonTargets.AllBufferedViaServer, PhotonNetwork.player.name);
+            photonView.RPC("loadName", PhotonTargets.AllBufferedViaServer, PhotonNetwork.player.NickName);
         }
     }
 
@@ -34,6 +35,14 @@ public class ConfigurationPlayer : Photon.PunBehaviour
     private void loadName(string name)
     {
         Debug.Log("me llego el nombre " + name);
+
+        if (FindObjectOfType<PlayerDataInGame>().CharactersInGame[FindObjectOfType<ControlTurn>().IndexTurn - 1] == null)
+        {
+            PlayerInformation playerInformation = new PlayerInformation();
+            FindObjectOfType<PlayerDataInGame>().CharactersInGame[FindObjectOfType<ControlTurn>().IndexTurn - 1] = playerInformation;
+            FindObjectOfType<PlayerDataInGame>().CharactersInGame[FindObjectOfType<ControlTurn>().IndexTurn - 1].Character = gameObject;
+        }
+
         FindObjectOfType<PlayerDataInGame>().CharactersInGame[FindObjectOfType<ControlTurn>().IndexTurn - 1].Name = name;
         
         Debug.Log("la casilla tiene algo ? " + FindObjectOfType<PlayerDataInGame>().CharactersInGame[FindObjectOfType<ControlTurn>().IndexTurn - 1] != null);

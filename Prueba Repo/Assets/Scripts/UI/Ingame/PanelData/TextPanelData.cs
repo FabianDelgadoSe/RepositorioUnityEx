@@ -23,6 +23,7 @@ public class TextPanelData : MonoBehaviour
         NOTHING
     }
 
+
     private void OnEnable()
     {
         loadData();
@@ -39,7 +40,7 @@ public class TextPanelData : MonoBehaviour
                 break;
 
             case enumTypeData.NAME_PLAYER:
-                GetComponent<TMP_Text>().text = _playerData.CharactersInGame[IndexPlayer].Character.GetPhotonView().owner.name;
+                GetComponent<TMP_Text>().text = _playerData.CharactersInGame[IndexPlayer].Character.GetPhotonView().owner.NickName;
                 break;
 
             case enumTypeData.RED_TOKEN:

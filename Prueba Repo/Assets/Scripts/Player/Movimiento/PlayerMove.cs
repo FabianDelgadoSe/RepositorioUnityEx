@@ -214,7 +214,7 @@ public class PlayerMove : Photon.PunBehaviour
                         Move = false;
                         FindObjectOfType<ControlRound>().AllowMove = false; // no deja seguir usando cartas de movimiento
 
-                        if (PlayerDrag == null && _controlTurn.MyTurn)
+                        if (_controlTurn.MyTurn)
                         {
                             FindObjectOfType<ControlRound>().useLetter();
                             FindObjectOfType<ControlTokens>().earnToken(Square.GetComponent<Square>().EnumTypesSquares);
@@ -267,7 +267,7 @@ public class PlayerMove : Photon.PunBehaviour
                         Move = false;
                         FindObjectOfType<ControlRound>().AllowMove = false;
 
-                        if (PlayerDrag == null && _controlTurn.MyTurn)
+                        if ( _controlTurn.MyTurn)
                         {
                             FindObjectOfType<ControlRound>().useLetter();
                             FindObjectOfType<ControlTokens>().earnToken(Square.GetComponent<Square>().EnumTypesSquares);
@@ -318,7 +318,7 @@ public class PlayerMove : Photon.PunBehaviour
                         Move = false;
                         FindObjectOfType<ControlRound>().AllowMove = false;
 
-                        if (PlayerDrag == null && _controlTurn.MyTurn)
+                        if ( _controlTurn.MyTurn)
                         {
                             FindObjectOfType<ControlRound>().useLetter();
                             FindObjectOfType<ControlTokens>().earnToken(Square.GetComponent<Square>().EnumTypesSquares);
@@ -369,7 +369,7 @@ public class PlayerMove : Photon.PunBehaviour
                         Move = false;
                         FindObjectOfType<ControlRound>().AllowMove = false;
 
-                        if (PlayerDrag == null && _controlTurn.MyTurn)
+                        if ( _controlTurn.MyTurn)
                         {
                             FindObjectOfType<ControlRound>().useLetter();
                             FindObjectOfType<ControlTokens>().earnToken(Square.GetComponent<Square>().EnumTypesSquares);
