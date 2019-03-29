@@ -9,7 +9,7 @@ public class PanelData : Photon.PunBehaviour
     private List<GameObject> _scorePlayers = new List<GameObject>();
     [Header("prefab de score")]
     [SerializeField] private GameObject[] _objScore;
-    [Header("prefab de token")]
+    [Header("token")]
     [SerializeField] private GameObject[] _objRedToken;
     [SerializeField] private GameObject[] _objBlueToken;
     [SerializeField] private GameObject[] _objGreenToken;
@@ -18,19 +18,15 @@ public class PanelData : Photon.PunBehaviour
     [SerializeField] private GameObject _fatherScore;
     [Header("panel que contiene todo")]
     [SerializeField] private GameObject _panelData;
-    [Header("objeto padre que tiene a los Tokesn")]
-    [SerializeField] private GameObject _fatherRedTokens;
-    [SerializeField] private GameObject _fatherBlueTokens;
-    [SerializeField] private GameObject _fatherGreenTokens;
-    [SerializeField] private GameObject _fatherYellowTokens;
-
-    private bool _createdTokens = false;
+    private PlayerDataInGame _playerDataInGame;
+    
     private bool _createdScore = false;
 
     private int _numberPlayers;
 
     private void Start()
     {
+        _playerDataInGame = FindObjectOfType<PlayerDataInGame>();
         _numberPlayers = PhotonNetwork.room.PlayerCount;
     }
 
@@ -48,26 +44,34 @@ public class PanelData : Photon.PunBehaviour
             _createdScore = true;
         }
 
-        activeObjectTokens();
     }
+
     public void activeObjectTokens()
     {
-        if (!_createdTokens)
-        {
+
             for (int i = 0; i < _numberPlayers; i++)
             {
-                _objRedToken[i].SetActive(true);
-                _objGreenToken[i].SetActive(true);
-                _objBlueToken[i].SetActive(true);
-                _objYellowToken[i].SetActive(true);
+                _objRedToken[_playerDataInGame.CharactersInGame[i].RedTokens].
+                GetComponent<PanelDataIconPlayer>().positionIcon(i, _playerDataInGame.CharactersInGame[i].Character.GetComponent<SpriteRenderer>().sprite);
 
-            }
-            _createdTokens = true;
+            _objBlueToken[_playerDataInGame.CharactersInGame[i].BlueTokens].
+                GetComponent<PanelDataIconPlayer>().positionIcon(i, _playerDataInGame.CharactersInGame[i].Character.GetComponent<SpriteRenderer>().sprite);
+
+            _objGreenToken[_playerDataInGame.CharactersInGame[i].GreenTokens].
+                GetComponent<PanelDataIconPlayer>().positionIcon(i, _playerDataInGame.CharactersInGame[i].Character.GetComponent<SpriteRenderer>().sprite);
+
+            _objYellowToken[_playerDataInGame.CharactersInGame[i].YellowTokens].
+                GetComponent<PanelDataIconPlayer>().positionIcon(i, _playerDataInGame.CharactersInGame[i].Character.GetComponent<SpriteRenderer>().sprite);
+
         }
+            
+        
     }
 
     public void desactivePanel()
     {
         _panelData.SetActive(false);
     }
+
+ 
 }
