@@ -2287,7 +2287,7 @@ PrefabInstance:
     - target: {fileID: 6047894650971465977, guid: 93d4522d46c9ab940a58af7bb87d9dea,
         type: 3}
       propertyPath: m_Name
-      value: Retrato
+      value: Retrato 4
       objectReference: {fileID: 0}
     - target: {fileID: 6047894650971465977, guid: 93d4522d46c9ab940a58af7bb87d9dea,
         type: 3}
@@ -5278,7 +5278,7 @@ PrefabInstance:
     - target: {fileID: 6047894650971465977, guid: 93d4522d46c9ab940a58af7bb87d9dea,
         type: 3}
       propertyPath: m_Name
-      value: Retrato
+      value: Retrato 2
       objectReference: {fileID: 0}
     - target: {fileID: 6047894650971465977, guid: 93d4522d46c9ab940a58af7bb87d9dea,
         type: 3}
@@ -5505,16 +5505,6 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8607588338897224804, guid: 93d4522d46c9ab940a58af7bb87d9dea,
-        type: 3}
-      propertyPath: m_havePropertiesChanged
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8607588338897224804, guid: 93d4522d46c9ab940a58af7bb87d9dea,
-        type: 3}
-      propertyPath: m_isInputParsingRequired
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2079040273, guid: 93d4522d46c9ab940a58af7bb87d9dea, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -0.871994
@@ -5538,6 +5528,16 @@ PrefabInstance:
     - target: {fileID: 2079040274, guid: 93d4522d46c9ab940a58af7bb87d9dea, type: 3}
       propertyPath: m_fontSize
       value: 8.65
+      objectReference: {fileID: 0}
+    - target: {fileID: 8607588338897224804, guid: 93d4522d46c9ab940a58af7bb87d9dea,
+        type: 3}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8607588338897224804, guid: 93d4522d46c9ab940a58af7bb87d9dea,
+        type: 3}
+      propertyPath: m_isInputParsingRequired
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 93d4522d46c9ab940a58af7bb87d9dea, type: 3}
@@ -11011,7 +11011,7 @@ PrefabInstance:
     - target: {fileID: 6047894650971465977, guid: 93d4522d46c9ab940a58af7bb87d9dea,
         type: 3}
       propertyPath: m_Name
-      value: Retrato
+      value: Retrato 1
       objectReference: {fileID: 0}
     - target: {fileID: 6047894650971465977, guid: 93d4522d46c9ab940a58af7bb87d9dea,
         type: 3}
@@ -11163,20 +11163,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 9072726009625096508, guid: 93d4522d46c9ab940a58af7bb87d9dea,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1114050016631199603, guid: 93d4522d46c9ab940a58af7bb87d9dea,
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0.26800537
-      objectReference: {fileID: 0}
-    - target: {fileID: 6894029631819654420, guid: 93d4522d46c9ab940a58af7bb87d9dea,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 4.8338003
       objectReference: {fileID: 0}
     - target: {fileID: 2543220932922903770, guid: 93d4522d46c9ab940a58af7bb87d9dea,
         type: 3}
@@ -11241,7 +11231,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2079040273, guid: 93d4522d46c9ab940a58af7bb87d9dea, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.8720007
+      value: -0.8719969
       objectReference: {fileID: 0}
     - target: {fileID: 2079040273, guid: 93d4522d46c9ab940a58af7bb87d9dea, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -11262,6 +11252,16 @@ PrefabInstance:
     - target: {fileID: 2079040274, guid: 93d4522d46c9ab940a58af7bb87d9dea, type: 3}
       propertyPath: m_fontSize
       value: 8.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9072726009625096508, guid: 93d4522d46c9ab940a58af7bb87d9dea,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6894029631819654420, guid: 93d4522d46c9ab940a58af7bb87d9dea,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 4.8337984
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 93d4522d46c9ab940a58af7bb87d9dea, type: 3}
@@ -13717,12 +13717,12 @@ MonoBehaviour:
   _otherPlayer: {fileID: 6047894650971465977, guid: 93d4522d46c9ab940a58af7bb87d9dea,
     type: 3}
   _fatherOtherPlayersLeft:
-  - {fileID: 1703559490}
-  - {fileID: 205781380}
   - {fileID: 562210421}
+  - {fileID: 205781380}
+  - {fileID: 1703559490}
   _fatherOtherPlayersRigth:
-  - {fileID: 1129644755}
   - {fileID: 98808374}
+  - {fileID: 1129644755}
   _cards: {fileID: 612494354}
   _showAllTokens: {fileID: 1027275259}
 --- !u!4 &666060545
@@ -23649,7 +23649,7 @@ PrefabInstance:
     - target: {fileID: 6047894650971465977, guid: 93d4522d46c9ab940a58af7bb87d9dea,
         type: 3}
       propertyPath: m_Name
-      value: Retrato
+      value: Retrato 5
       objectReference: {fileID: 0}
     - target: {fileID: 6047894650971465977, guid: 93d4522d46c9ab940a58af7bb87d9dea,
         type: 3}
@@ -35639,7 +35639,7 @@ PrefabInstance:
     - target: {fileID: 6047894650971465977, guid: 93d4522d46c9ab940a58af7bb87d9dea,
         type: 3}
       propertyPath: m_Name
-      value: Retrato
+      value: Retrato 3
       objectReference: {fileID: 0}
     - target: {fileID: 6047894650971465977, guid: 93d4522d46c9ab940a58af7bb87d9dea,
         type: 3}

@@ -72,6 +72,7 @@ public class CharacterSelectionable : Photon.PunBehaviour
                 photonView.RPC("removeCharacterToPlayer", PhotonTargets.AllBufferedViaServer, PhotonNetwork.player);
 
             // selecciona el nuevo personaje
+            _playerData.CharacterSelected = _character;
             FindObjectOfType<LobbyManager>().SelectedCharacter = gameObject;
             photonView.RPC("setCharacterSelection", PhotonTargets.AllBufferedViaServer, PhotonNetwork.player);
         }
