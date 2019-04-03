@@ -33,26 +33,13 @@ public class ResultGame : MonoBehaviour
     private void Start()
     {
         _playerDataInGame = FindObjectOfType<PlayerDataInGame>();
-        activeUI();
         loadNames();
         loadTokens();
         givePoints();
         loadScore();
     }
 
-    public void activeUI()
-    {
-        for (int i = 0; i < _playerDataInGame.CharactersInGame.Length; i++)
-        {
-            _names[i].SetActive(true);
-            _tokens[i].SetActive(true);
-            _imagenTokens[i].SetActive(true);
-            _givePoints[i].SetActive(true);
-            _score[i].SetActive(true);
-            _totalScore[i].SetActive(true);
-            _equals[i].SetActive(true);
-        }
-    }
+    
 
     public void loadScore()
     {
@@ -95,9 +82,9 @@ public class ResultGame : MonoBehaviour
 
         for (int i = 0; i < _tokensList.Count; i++)
         {
-            if (_tokensList[i] == 0)
+            if (_tokensList[i] != 0)
             {
-                _scoreList.Add(0);
+                
 
                 if (_tokensList.Count > i + 1)
                 {
@@ -163,6 +150,10 @@ public class ResultGame : MonoBehaviour
                     _scoreList.Add(_valueScore);
                     //coloca el puntaje de una
                 }
+            }
+            else
+            {
+                _scoreList.Add(0);
             }
             _valueScore -= 4;
         }
