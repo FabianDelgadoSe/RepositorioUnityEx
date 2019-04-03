@@ -17,7 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Pre-lobby.unity
     guid: ec1684c0965d09146a741c0c8cd875e1
-  - enabled: 1
+  - enabled: 0
     path: Assets/Cosas kevin/Pruebas kevin.unity
     guid: 7ef3b42d03d2813478db227e57ac0870
   - enabled: 1

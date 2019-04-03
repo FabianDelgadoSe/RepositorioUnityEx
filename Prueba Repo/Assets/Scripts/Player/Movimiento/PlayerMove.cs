@@ -446,9 +446,13 @@ public class PlayerMove : Photon.PunBehaviour
     {
         if (PlayerDrag == null)
         {
-            if (FindObjectOfType<ControlTurn>().MyTurn && FindObjectOfType<PlayerDataInGame>().CharactersInGame[idOwner.ID - 1].Score > 0)
+            if (FindObjectOfType<PlayerDataInGame>().CharactersInGame[FindObjectOfType<ControlTurn>().IndexTurn - 1].Score > 0)
             {
-                SSTools.ShowMessage("pierdo " + NumberSteps, SSTools.Position.bottom, SSTools.Time.threeSecond);
+                if (FindObjectOfType<ControlTurn>().MyTurn)
+                {
+                    SSTools.ShowMessage("pierdo " + NumberSteps, SSTools.Position.bottom, SSTools.Time.threeSecond);
+                }
+
                 FindObjectOfType<PlayerDataInGame>().CharactersInGame[idOwner.ID - 1].Score -= NumberSteps;
 
                 if (FindObjectOfType<PlayerDataInGame>().CharactersInGame[idOwner.ID - 1].Score < 0)

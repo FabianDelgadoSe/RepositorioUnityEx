@@ -13,6 +13,7 @@ public class NetworkManager : Photon.MonoBehaviour
     public string _version;
     [SerializeField] private TMP_Text _roomName;
     [SerializeField] private GameObject _connectingTextPrefab;
+    [SerializeField] private GameObject _backButton;
 
     /// <summary>
     /// se conecta con el servidor con la version que se le pase

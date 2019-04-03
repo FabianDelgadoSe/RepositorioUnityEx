@@ -292,7 +292,7 @@ GameObject:
   - component: {fileID: 6001688162360240540}
   m_Layer: 0
   m_Name: cailla seleccionada
-  m_TagString: Untagged
+  m_TagString: SelectSquare
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -29,6 +29,9 @@ public class OthersPlayersData : MonoBehaviour {
 
     [Header("Score")]
     [SerializeField] private TMP_Text _scoreText;
+    [SerializeField] private TMP_Text _nameText;
+
+
     /// <summary>
     /// Es llamado cuando inicie el turno del jugador al cual representa
     /// </summary>
@@ -106,6 +109,13 @@ public class OthersPlayersData : MonoBehaviour {
     {
         _face.GetComponent<Image>().sprite = Character._faceCharacter;
         _face.GetComponent<Image>().enabled = true;
+        assignName();
+
+    }
+
+    public void assignName()
+    {
+        _nameText.text = FindObjectOfType<PlayerDataInGame>().CharactersInGame[IdOfThePlayerThatRepresents - 1].Name;
     }
 
     public int IdOfThePlayerThatRepresents

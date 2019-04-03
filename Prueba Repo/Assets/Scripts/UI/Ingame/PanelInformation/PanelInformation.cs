@@ -27,6 +27,11 @@ public class PanelInformation : MonoBehaviour
         LATER_PUT_BAIT,
         OTHER_PLAYER_LOCATE_CHARACTER
     }
+    private void Update()
+    {
+        if(Input.GetKey(KeyCode.Space))
+            Debug.Log(FindObjectOfType<PlayerDataInGame>().CharactersInGame[FindObjectOfType<ControlTurn>().IndexTurn - 1].Name);
+    }
 
     public void showMessages(Messages messemessages)
     {

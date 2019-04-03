@@ -16,6 +16,8 @@ public class locateCharacter : Photon.MonoBehaviour
     [SerializeField] Color _color;
     private bool _markSquare = true;
 
+    private GameObject[] _selectSquare;
+
     /// <summary>
     /// permite que solo el dispositivo que lo creo pueda moverlo
     /// </summary>
@@ -28,7 +30,7 @@ public class locateCharacter : Photon.MonoBehaviour
         else
         {
             _squares = FindObjectsOfType<Square>();
-            if(_markSquare)
+            if (_markSquare)
                 dullSquares();
         }
 
@@ -40,7 +42,7 @@ public class locateCharacter : Photon.MonoBehaviour
     /// </summary>
     private void dullSquares()
     {
-        for (int i=0; i<_squares.Length;i++)
+        for (int i = 0; i < _squares.Length; i++)
         {
             if (!_squares[i].ItsOnEdge)
             {
@@ -66,7 +68,7 @@ public class locateCharacter : Photon.MonoBehaviour
     private void OnMouseUp()
     {
         _isMoving = false;
-    
+
     }
 
     /// <summary>
@@ -79,6 +81,9 @@ public class locateCharacter : Photon.MonoBehaviour
         {
             if (collision.gameObject.GetComponent<Square>().ItsOnEdge && !collision.gameObject.GetComponent<Square>().IsOccupied)
             {
+                if(_square = GameObject.FindWithTag("SelectSquare").GetComponentInParent<Square>().gameObject)
+                    _square = GameObject.FindWithTag("SelectSquare").GetComponentInParent<Square>().gameObject;
+
                 transform.position = _square.transform.position;
 
                 if (FindObjectOfType<ControlTurn>().FirstTurn)
@@ -100,8 +105,10 @@ public class locateCharacter : Photon.MonoBehaviour
                     Destroy(GetComponent<locateCharacter>());
                 }
             }
+
         }
-    
+
+
     }
 
 
@@ -118,8 +125,9 @@ public class locateCharacter : Photon.MonoBehaviour
 
                 collision.GetComponent<Square>().activeVisualFeekbackOfSelectSquare();
 
+
                 if (_square != null && _square != collision.gameObject)
-                { 
+                {
                     _square.GetComponent<Square>().desactiveVisualFeekbackOfSelectSquare();
                 }
 
@@ -139,6 +147,7 @@ public class locateCharacter : Photon.MonoBehaviour
         if (collision.CompareTag("Square"))
         {
             collision.GetComponent<Square>().desactiveVisualFeekbackOfSelectSquare();
+
         }
     }
 

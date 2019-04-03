@@ -21,8 +21,12 @@ public class ConfigurationPlayer : Photon.PunBehaviour
             GetComponent<SpriteRenderer>().enabled = false;
         }
 
-        PlayerInformation playerInformation = new PlayerInformation();
-        FindObjectOfType<PlayerDataInGame>().CharactersInGame[FindObjectOfType<ControlTurn>().IndexTurn-1] = playerInformation;
+        if (FindObjectOfType<PlayerDataInGame>().CharactersInGame[FindObjectOfType<ControlTurn>().IndexTurn - 1] == null)
+        {
+            PlayerInformation playerInformation = new PlayerInformation();
+            FindObjectOfType<PlayerDataInGame>().CharactersInGame[FindObjectOfType<ControlTurn>().IndexTurn - 1] = playerInformation;
+        }
+
         FindObjectOfType<PlayerDataInGame>().CharactersInGame[FindObjectOfType<ControlTurn>().IndexTurn - 1].Character = gameObject;
 
         if (FindObjectOfType<ControlTurn>().MyTurn)
@@ -44,17 +48,17 @@ public class ConfigurationPlayer : Photon.PunBehaviour
         }
 
         FindObjectOfType<PlayerDataInGame>().CharactersInGame[FindObjectOfType<ControlTurn>().IndexTurn - 1].Name = name;
-        
+
         Debug.Log("la casilla tiene algo ? " + FindObjectOfType<PlayerDataInGame>().CharactersInGame[FindObjectOfType<ControlTurn>().IndexTurn - 1] != null);
         Debug.Log("que nombre tiene " + FindObjectOfType<PlayerDataInGame>().CharactersInGame[FindObjectOfType<ControlTurn>().IndexTurn - 1].Name);
-        
+
     }
 
 
     [PunRPC]
     private void loadDataObjets(int IDcharacter)
     {
-        GetComponent<SpriteRenderer>().sprite = characters[IDcharacter-1]._iconUnSelected;
+        GetComponent<SpriteRenderer>().sprite = characters[IDcharacter - 1]._iconUnSelected;
 
         if (!FindObjectOfType<ControlTurn>().MyTurn)
         {

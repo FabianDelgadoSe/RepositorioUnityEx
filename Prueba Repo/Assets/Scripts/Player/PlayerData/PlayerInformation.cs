@@ -23,7 +23,7 @@ public class PlayerInformation {
         _score = 5;
         _coinBait = 1;
         _poopBait = 1;
-        Name = "Joselito";
+        _name = "Joselito";
         _character = null;
     }
 
@@ -140,7 +140,7 @@ public class PlayerInformation {
 
         set
         {
-            _name = value;
+                _name = value;
         }
     }
 }
