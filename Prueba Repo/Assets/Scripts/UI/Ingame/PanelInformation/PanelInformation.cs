@@ -15,9 +15,10 @@ public class PanelInformation : MonoBehaviour
     private const string LATER_MOVE = "Coloca un cebo o finaliza tu turno";
     private const string LATER_PUT_BAIT = "Ya no tienes nada mas que hacer termina tu turno";
     private const string OTHER_PLAYER_LOCATE_CHARACTER = "Un jugador esta ubicando su ficha";
+    private const string RELOCATION_CHARACTER = "Hay jugadores reubicando sus fichas";
     #endregion
 
-   public enum Messages
+    public enum Messages
     {
         EMPTY,
         LOCATE_CHARACTER,
@@ -25,18 +26,17 @@ public class PanelInformation : MonoBehaviour
         START_TURN_OTHER_PLAYER,
         LATER_MOVE,
         LATER_PUT_BAIT,
-        OTHER_PLAYER_LOCATE_CHARACTER
-    }
-    private void Update()
-    {
-        if(Input.GetKey(KeyCode.Space))
-            Debug.Log(FindObjectOfType<PlayerDataInGame>().CharactersInGame[FindObjectOfType<ControlTurn>().IndexTurn - 1].Name);
+        OTHER_PLAYER_LOCATE_CHARACTER,
+        RELOCATION_CHARACTER
     }
 
     public void showMessages(Messages messemessages)
     {
         switch (messemessages)
         {
+            case Messages.RELOCATION_CHARACTER:
+                _text.text = RELOCATION_CHARACTER;
+                break;
             case Messages.START_MY_TURN:
                 _text.text = START_MY_TURN;
                 break;

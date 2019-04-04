@@ -153,9 +153,7 @@ public class ControlTurn : Photon.PunBehaviour
     /// </summary>
     public void StarTurn()
     {
-
         _myTurn = true;
-        _myturn.SetActive(true);
        
         if (!FindObjectOfType<ControlRound>().endOfTheRound() && !FindObjectOfType<ControlRound>().FinishRound)
         {
@@ -168,16 +166,19 @@ public class ControlTurn : Photon.PunBehaviour
                 _myturn.SetActive(false);
                 FindObjectOfType<PanelInformation>().showMessages(PanelInformation.Messages.LOCATE_CHARACTER);
             }
-            else
+            else 
             {
-                // empieza turno con normalidad
-                FindObjectOfType<ControlRound>().AllowMove = true;
-                FindObjectOfType<PanelInformation>().showMessages(PanelInformation.Messages.START_MY_TURN);
+                if (!FindObjectOfType<PlayerRepositioning>().RepositionPlayer) {
+                    // empieza turno con normalidad
+                    _myturn.SetActive(true);
+                    FindObjectOfType<ControlRound>().AllowMove = true;
+                    FindObjectOfType<PanelInformation>().showMessages(PanelInformation.Messages.START_MY_TURN);
 
 
-                if (!_showAllTokens.active)
-                {
-                    photonView.RPC("activePanelData", PhotonTargets.All);
+                    if (!_showAllTokens.active)
+                    {
+                        photonView.RPC("activePanelData", PhotonTargets.All);
+                    }
                 }
             }
         }
@@ -198,8 +199,6 @@ public class ControlTurn : Photon.PunBehaviour
                 // reinicia todo
                 FindObjectOfType<ConfigurationBoard>().changeColorBoardSquares();
                 FindObjectOfType<ConfigurationBoard>().generateWalls();
-                FindObjectOfType<PlayerRepositioning>().ReviewPlayersOnWall = true;
-                FindObjectOfType<PlayerRepositioning>().PlayerInWall();
                 FindObjectOfType<ControlRound>().FinishRound = false;
                 FindObjectOfType<ControlRound>().FinishPointProcedures = true;
                 FindObjectOfType<ControlRound>().photonView.RPC("finishRound", PhotonTargets.All);

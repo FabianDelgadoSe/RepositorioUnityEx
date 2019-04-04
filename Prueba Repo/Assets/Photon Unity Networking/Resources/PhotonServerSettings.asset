@@ -85,4 +85,5 @@ MonoBehaviour:
   - allPlayerSelectCharacter
   - activePanelData
   - finishFirstRound
+  - finishRespositionPlayers
   DisableAutoOpenWizard: 1

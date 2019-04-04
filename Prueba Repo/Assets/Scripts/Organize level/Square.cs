@@ -37,7 +37,7 @@ public class Square : Photon.PunBehaviour
 
     [SerializeField] private bool _itsOnEdge;
 
-    private typesSquares _enumTypesSquares;
+    public typesSquares _enumTypesSquares;
 
     public enum typesSquares
     {
@@ -162,6 +162,17 @@ public class Square : Photon.PunBehaviour
                 GetComponent<SpriteRenderer>().sprite = BoardSquareWall;
                 IsWall = true;
                 EnumTypesSquares = typesSquares.WALL;
+
+                FindObjectOfType<ControlTurn>().Myturn.SetActive(false); // objeto que aparece cuando es el turno de un jugador
+
+                if (IsOccupied)
+                {
+                    FindObjectOfType<PanelInformation>().showMessages(PanelInformation.Messages.RELOCATION_CHARACTER);
+                    FindObjectOfType<PlayerRepositioning>().RepositionPlayer = true;
+                    FindObjectOfType<PlayerRepositioning>().ReviewPlayersOnWall = true;
+                    FindObjectOfType<PlayerRepositioning>().PlayerInWall();
+                }
+
                 break;
 
             default:

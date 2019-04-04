@@ -9,7 +9,7 @@ public class PlayerRepositioning : Photon.PunBehaviour
     private PlayerDataInGame _playerData;
     private List<GameObject> _charactesInWall = new List<GameObject>();
     [SerializeField] private GameObject _especialArrow;
-
+    private bool _repositionPlayer = false;
   
     private void Start()
     {
@@ -22,13 +22,13 @@ public class PlayerRepositioning : Photon.PunBehaviour
         
         if (FindObjectOfType<ControlTurn>().MyTurn) {
 
-            FindObjectOfType<ControlTurn>().Myturn.SetActive(false); // objeto que aparece cuando es el turno de un jugador
 
             if (_reviewPlayersOnWall)
             {
                 for (int i = 0; i < _playerData.CharactersInGame.Length; i++)
                 {
-                    if (_playerData.CharactersInGame[i].Character.GetComponent<PlayerMove>().Square.GetComponent<Square>().IsWall)
+                    Debug.Log(_playerData.CharactersInGame[i].Character.GetComponent<PlayerMove>().Square.GetComponent<Square>()._enumTypesSquares);
+                    if (_playerData.CharactersInGame[i].Character.GetComponent<PlayerMove>().Square.GetComponent<Square>()._enumTypesSquares == Square.typesSquares.WALL)
                     {
                         _charactesInWall.Add(_playerData.CharactersInGame[i].Character);
                     }
@@ -36,7 +36,7 @@ public class PlayerRepositioning : Photon.PunBehaviour
                 }
                 _reviewPlayersOnWall = false;
             }
-
+            
             if (_charactesInWall.Count > 0)
             {
                 photonView.RPC("createdEspecialArrows", _charactesInWall[0].GetComponent<PlayerMove>().IdOwner);
@@ -44,10 +44,16 @@ public class PlayerRepositioning : Photon.PunBehaviour
             }
             else
             {
-                
-                FindObjectOfType<ControlTurn>().photonView.RPC("mineTurn",PhotonTargets.All, FindObjectOfType<ControlTurn>().IndexTurn); ;
+                photonView.RPC("finishRespositionPlayers",PhotonTargets.AllBuffered);
+                FindObjectOfType<ControlTurn>().photonView.RPC("mineTurn",PhotonTargets.AllBuffered, FindObjectOfType<ControlTurn>().IndexTurn); ;
             }
         }
+    }
+
+    [PunRPC]
+    public void finishRespositionPlayers()
+    {
+        _repositionPlayer = false;
     }
 
     /// <summary>
@@ -123,4 +129,16 @@ public class PlayerRepositioning : Photon.PunBehaviour
         }
     }
 
+    public bool RepositionPlayer
+    {
+        get
+        {
+            return _repositionPlayer;
+        }
+
+        set
+        {
+            _repositionPlayer = value;
+        }
+    }
 }

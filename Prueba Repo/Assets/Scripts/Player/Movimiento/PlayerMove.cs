@@ -20,6 +20,7 @@ public class PlayerMove : Photon.PunBehaviour
     private const float VELOCITY_MOVE = 5; // Velocidad con la que se mueve el personaje
     public GameObject _playerDrag;  // para cuando esta empujando saber cual objeto esta detras de el;
     public ControlTurn _controlTurn; // Para no estar buscando el script tantas veces;
+    private bool repositionPlayer = false;
 
     /// <summary>
     /// revisa si el player pertenerce a esta pantalla
@@ -124,6 +125,7 @@ public class PlayerMove : Photon.PunBehaviour
     public void receiveAdress(Arrow.adress adress)
     {
         this.adress = adress;
+        repositionPlayer = false;
     }
 
     /// <summary>
@@ -160,6 +162,7 @@ public class PlayerMove : Photon.PunBehaviour
     {
         this.adress = adress;
         NumberSteps = 1;
+        repositionPlayer = true;
         calculatePointToMove(false); // no es un movimiento normal
     }
 
@@ -393,7 +396,7 @@ public class PlayerMove : Photon.PunBehaviour
         {
 
             Move = false;
-            if (normalMove)
+            if (!repositionPlayer)
             {
 
 
