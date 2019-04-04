@@ -108,6 +108,7 @@ public class ControlMission : Photon.PunBehaviour
     public void distributeMissions()
     {
         FindObjectOfType<ConfigurationMission>().selectMision();
+        FindObjectOfType<ControlTurn>().MessagerStarTurn.SetActive(false);
         _textDescriptionMission.text = MissionDescription;
         _showMision.SetActive(true);
         _textMission.text = MissionDescription;

@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class ControlTurn : Photon.PunBehaviour
 {
     [SerializeField] private GameObject _myturn; // objeto que aparece cuando es mi turno
+    [SerializeField] private GameObject _messagerStarTurn;
 
     [Header("Objetos que muestran la informacion de otros jugadores")]
     [SerializeField] private GameObject _otherPlayer; // prefab que representa a otros players
@@ -170,7 +171,7 @@ public class ControlTurn : Photon.PunBehaviour
             {
                 if (!FindObjectOfType<PlayerRepositioning>().RepositionPlayer) {
                     // empieza turno con normalidad
-                    _myturn.SetActive(true);
+                    _messagerStarTurn.SetActive(true);
                     FindObjectOfType<ControlRound>().AllowMove = true;
                     FindObjectOfType<PanelInformation>().showMessages(PanelInformation.Messages.START_MY_TURN);
 
@@ -199,6 +200,8 @@ public class ControlTurn : Photon.PunBehaviour
                 // reinicia todo
                 FindObjectOfType<ConfigurationBoard>().changeColorBoardSquares();
                 FindObjectOfType<ConfigurationBoard>().generateWalls();
+                FindObjectOfType<PlayerRepositioning>().ReviewPlayersOnWall = true;
+                FindObjectOfType<PlayerRepositioning>().PlayerInWall();
                 FindObjectOfType<ControlRound>().FinishRound = false;
                 FindObjectOfType<ControlRound>().FinishPointProcedures = true;
                 FindObjectOfType<ControlRound>().photonView.RPC("finishRound", PhotonTargets.All);
@@ -415,6 +418,19 @@ public class ControlTurn : Photon.PunBehaviour
         set
         {
             _allowToPlaceBait = value;
+        }
+    }
+
+    public GameObject MessagerStarTurn
+    {
+        get
+        {
+            return _messagerStarTurn;
+        }
+
+        set
+        {
+            _messagerStarTurn = value;
         }
     }
 }

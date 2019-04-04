@@ -78,6 +78,7 @@ public class Arrow : MonoBehaviour {
     public void normalMovementPlayer()
     {
         FindObjectOfType<PanelInformation>().showMessages(PanelInformation.Messages.LATER_MOVE); // mensaje
+        FindObjectOfType<ControlTurn>().Myturn.SetActive(true);
 
         _player.GetComponent<PlayerMove>().photonView.RPC("receiveAdress", PhotonTargets.All, enumAdress);
         _player.GetComponent<PlayerMove>().photonView.RPC("calculatePointToMove", PhotonTargets.All,true);

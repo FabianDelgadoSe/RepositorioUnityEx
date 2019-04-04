@@ -169,8 +169,8 @@ public class Square : Photon.PunBehaviour
                 {
                     FindObjectOfType<PanelInformation>().showMessages(PanelInformation.Messages.RELOCATION_CHARACTER);
                     FindObjectOfType<PlayerRepositioning>().RepositionPlayer = true;
-                    FindObjectOfType<PlayerRepositioning>().ReviewPlayersOnWall = true;
-                    FindObjectOfType<PlayerRepositioning>().PlayerInWall();
+                    //FindObjectOfType<PlayerRepositioning>().ReviewPlayersOnWall = true;
+                    //FindObjectOfType<PlayerRepositioning>().PlayerInWall();
                 }
 
                 break;

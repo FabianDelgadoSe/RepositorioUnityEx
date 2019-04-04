@@ -51,7 +51,7 @@ public class ControlRound : Photon.PunBehaviour
     {
         _numberOfCardsUsed++;
 
-        if (_numberOfCardsUsed == 5)
+        if (_numberOfCardsUsed == 1)
         {
             photonView.RPC("newPlayerWithoutMovements", PhotonTargets.All);
         }

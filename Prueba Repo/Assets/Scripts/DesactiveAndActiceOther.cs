@@ -12,14 +12,20 @@ public class DesactiveAndActiceOther : MonoBehaviour
 
     private void OnEnable()
     {
-        Debug.Log("toco esperar");
         Invoke("desactiveOtherObject", _time);
+
+        if (_otherObject!=null)
+        {
+            if (_otherObject.GetActive())
+            {
+                gameObject.SetActive(false);
+            }
+        }
     }
 
     public void desactiveOtherObject()
     {
         Debug.Log("se acabo la espera ");
-        //_otherObject.SetActive(true);
         gameObject.SetActive(false);
     }
 
