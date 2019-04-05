@@ -31,21 +31,11 @@ public class MiniBait : MonoBehaviour
         transform.position = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10));
         if (Input.GetMouseButtonUp(0))
         {
-            if (!_square)
+            if (GameObject.FindWithTag("SelectSquare") != null)
             {
-                Destroy(gameObject);
-            }
-        }
-    }
+                _square = GameObject.FindWithTag("SelectSquare").GetComponentInParent<Square>().gameObject;
 
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Square"))
-        {
-            if (Input.GetMouseButtonUp(0))
-            {
-                _square = collision.gameObject;
-                if (_foundSquare && !_square.GetComponent<Square>().IsOccupied && !_square.GetComponent<Square>().IsWall && !_square.GetComponent<Square>().HaveBait)
+                if (!_square.GetComponent<Square>().IsOccupied && !_square.GetComponent<Square>().IsWall && !_square.GetComponent<Square>().HaveBait)
                 {//SE PUEDE
                     if (FindObjectOfType<ControlTurn>().AllowToPlaceBait)
                     {
@@ -54,15 +44,52 @@ public class MiniBait : MonoBehaviour
                         _square.GetComponent<Square>().photonView.RPC("generateBait", PhotonTargets.All, _typeBait);
                     }
                 }
-                Destroy(gameObject);
 
             }
+
+            Destroy(gameObject);
+
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Square"))
+        {
+            if (!collision.gameObject.GetComponent<Square>().IsWall && !collision.gameObject.GetComponent<Square>().IsOccupied)
+            {
+                if (!_square.GetComponent<Square>().HaveBait)
+                {
+                    collision.GetComponent<Square>().activeVisualFeekbackOfSelectSquare();
+
+
+                    if (_square != null && _square != collision.gameObject)
+                    {
+                        _square.GetComponent<Square>().desactiveVisualFeekbackOfSelectSquare();
+                    }
+
+                    _square = collision.gameObject;
+                }
+
+            }
+        }
+    }
+
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Square"))
+        {
+            collision.GetComponent<Square>().desactiveVisualFeekbackOfSelectSquare();
 
         }
     }
 
     private void OnDestroy()
     {
+        if (_square != null)
+            _square.GetComponent<Square>().desactiveVisualFeekbackOfSelectSquare();
+
         if (!_createdBait)
         {
             switch (_typeBait)

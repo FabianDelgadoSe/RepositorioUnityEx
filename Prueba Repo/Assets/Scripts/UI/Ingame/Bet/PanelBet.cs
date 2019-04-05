@@ -50,6 +50,7 @@ public class PanelBet : MonoBehaviour {
         _iconMision.SetActive(true);
         _baits.SetActive(true);
         _cards.SetActive(true);
+
     }
 
 }

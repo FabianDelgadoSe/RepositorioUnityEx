@@ -101,7 +101,7 @@ public class ControlMission : Photon.PunBehaviour
         }
         else
         {
-            FindObjectOfType<ControlRound>().photonView.RPC("reactiveMovementsCards", PhotonTargets.All);
+            GetComponent<ControlTokens>().photonView.RPC("resetTokens", PhotonTargets.All);// quita los tokens obtenidos esta ronda
         }
     }
 

@@ -18,30 +18,29 @@ public class ControlRound : Photon.PunBehaviour
     private bool _finishRound = false;
     private bool _firstRound = true;
     private int _charactersInBoard = -1;
+    private int _makeBet = 0;
     [PunRPC]
     /// <summary>
     /// vuelve a activar las cartas de movimiento
     /// </summary>
     public void reactiveMovementsCards()
     {
-        // mis cartas
-        for (int i = 0; i < _movementsCards.Length; i++)
-        {
-            _movementsCards[i].SetActive(true);
-        }
 
-        // cardas que de los otros jugadores
-        _othersPlayersData = FindObjectsOfType<OthersPlayersData>();
-        for (int i = 0; i < _othersPlayersData.Length; i++)
-        {
-            _othersPlayersData[i].activeAllMoveCards();
-        }
+            // mis cartas
+            for (int i = 0; i < _movementsCards.Length; i++)
+            {
+                _movementsCards[i].SetActive(true);
+            }
 
-        _noMovementPlayes = 0;
-        _numberOfCardsUsed = 0;
+            // cardas que de los otros jugadores
+            _othersPlayersData = FindObjectsOfType<OthersPlayersData>();
+            for (int i = 0; i < _othersPlayersData.Length; i++)
+            {
+                _othersPlayersData[i].activeAllMoveCards();
+            }
 
-        GetComponent<ControlTokens>().photonView.RPC("resetTokens", PhotonTargets.All);// quita los tokens obtenidos esta ronda
-
+            _noMovementPlayes = 0;
+            _numberOfCardsUsed = 0;
 
     }
 
@@ -51,7 +50,7 @@ public class ControlRound : Photon.PunBehaviour
     {
         _numberOfCardsUsed++;
 
-        if (_numberOfCardsUsed == 1)
+        if (_numberOfCardsUsed == 5)
         {
             photonView.RPC("newPlayerWithoutMovements", PhotonTargets.All);
         }

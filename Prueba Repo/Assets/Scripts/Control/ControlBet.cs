@@ -85,12 +85,14 @@ public class ControlBet : Photon.PunBehaviour {
     {
         _numberPlayerWithBet++;
         Bets[index-1] = bet;
-
-        
+ 
         if (PhotonNetwork.room.PlayerCount == _numberPlayerWithBet)
         {
+            FindObjectOfType<ControlRound>().photonView.RPC("reactiveMovementsCards", PhotonTargets.All);
             _betMade = true;
             _controlTurn.mineTurn(_controlTurn.IndexTurn);
+            _numberPlayerWithBet = 0;
+            
         }
 
 
