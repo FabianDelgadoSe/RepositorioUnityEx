@@ -58,7 +58,7 @@ public class MiniBait : MonoBehaviour
         {
             if (!collision.gameObject.GetComponent<Square>().IsWall && !collision.gameObject.GetComponent<Square>().IsOccupied)
             {
-                if (!_square.GetComponent<Square>().HaveBait)
+                if (!collision.GetComponent<Square>().HaveBait)
                 {
                     collision.GetComponent<Square>().activeVisualFeekbackOfSelectSquare();
 

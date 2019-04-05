@@ -18,6 +18,7 @@ public class ControlLocationConfirmationPanel : MonoBehaviour
     {
         transform.SetParent(FindObjectOfType<Canvas>().transform,false);
         _player.GetComponent<locateCharacter>().enabled = false;
+        _player.GetComponent<SpriteRenderer>().sortingOrder = 1;
 
     }//Cierre Start
 

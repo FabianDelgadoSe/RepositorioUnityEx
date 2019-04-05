@@ -94,8 +94,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0563278230a05ef41976a98f364f9984, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _coin: {fileID: 21300000, guid: f826c678f2cd13a429b2a19dcf19fb9c, type: 3}
-  _poop: {fileID: 21300000, guid: d2d83e0b2216be246a3b6ad0ffdc9638, type: 3}
+  _coin: {fileID: 21300000, guid: 493bd2251bf31eb4c874576f9f6b52b0, type: 3}
+  _poop: {fileID: 21300000, guid: 663ab853be0bae94dac436d74ecfefd6, type: 3}
 --- !u!61 &7154137786203322232
 BoxCollider2D:
   m_ObjectHideFlags: 0
