@@ -26,7 +26,7 @@ public class Square : Photon.PunBehaviour
     private const float COLLIDER_RADIO = 0.2f;
     private PhotonPlayer _playerOwner = null;
     private bool _isOccupied = false;
-    private bool _haveBait;
+    private bool _haveBait = false;
     private GameObject _baitInGame;
 
     [Header("GameObject de casilla seleccionada")]

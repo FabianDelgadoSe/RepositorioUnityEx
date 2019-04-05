@@ -19,6 +19,7 @@ public class ConfigurationPlayer : Photon.PunBehaviour
         else
         {
             GetComponent<SpriteRenderer>().enabled = false;
+            GetComponent<SpriteRenderer>().sortingOrder = 1;
         }
 
         if (FindObjectOfType<PlayerDataInGame>().CharactersInGame[FindObjectOfType<ControlTurn>().IndexTurn - 1] == null)
@@ -84,8 +85,4 @@ public class ConfigurationPlayer : Photon.PunBehaviour
         GetComponent<SpriteRenderer>().enabled = true;
     }
 
-    public void adjustLayer()
-    {
-        GetComponent<SpriteRenderer>().sortingOrder = 1;
-    }
 }
