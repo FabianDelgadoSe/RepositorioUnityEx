@@ -10,6 +10,9 @@ public class RoomLayoutGroup : MonoBehaviour
 
     private List<RoomListing> _roomListingButtons = new List<RoomListing>();
 
+    [SerializeField] private List<GameObject> _roomListingButtonsUI = new List<GameObject>();
+    private int _indexRoomListUI = 0;
+
     private void Start()
     {
         OnReceiveRoomListUpdate();
@@ -17,6 +20,10 @@ public class RoomLayoutGroup : MonoBehaviour
 
     public void OnReceiveRoomListUpdate()
     {
+       
+
+        ResetUI();
+
         Debug.Log("Receiving rooms");
 
         RoomInfo[] _rooms = PhotonNetwork.GetRoomList();
@@ -31,9 +38,20 @@ public class RoomLayoutGroup : MonoBehaviour
         RemoveOldRooms();
     }
 
+    private void ResetUI()
+    {
+        _indexRoomListUI = 0;
+
+
+        foreach (GameObject roomButton in _roomListingButtonsUI)
+        {
+            roomButton.SetActive(false);
+        }
+    }
+
     private void RoomReceived(RoomInfo room)
     {
-        int _index = _roomListingButtons.FindIndex(x => x._roomName == room.Name);
+        /*int _index = _roomListingButtons.FindIndex(x => x._roomName == room.Name);
 
         if (_index == -1)
         {
@@ -56,6 +74,11 @@ public class RoomLayoutGroup : MonoBehaviour
             _roomListing.SetRoomNameText(room.Name);
             _roomListing.Update = true;
         }
+        */
+        _roomListingButtonsUI[_indexRoomListUI].SetActive(true);       
+        _roomListingButtonsUI[_indexRoomListUI].GetComponent<RoomListing>().SetRoomNameText(room.Name);
+        _indexRoomListUI++;
+        
     }
 
     private void RemoveOldRooms()
