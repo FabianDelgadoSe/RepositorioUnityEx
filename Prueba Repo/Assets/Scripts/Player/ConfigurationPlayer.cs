@@ -83,4 +83,9 @@ public class ConfigurationPlayer : Photon.PunBehaviour
         transform.position = playerPosition;
         GetComponent<SpriteRenderer>().enabled = true;
     }
+
+    public void adjustLayer()
+    {
+        GetComponent<SpriteRenderer>().sortingOrder = 1;
+    }
 }

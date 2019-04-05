@@ -176,7 +176,7 @@ public class ControlTurn : Photon.PunBehaviour
                     FindObjectOfType<PanelInformation>().showMessages(PanelInformation.Messages.START_MY_TURN);
 
 
-                    if (!_showAllTokens.active)
+                    if (!_showAllTokens.GetActive())
                     {
                         photonView.RPC("activePanelData", PhotonTargets.All);
                     }
