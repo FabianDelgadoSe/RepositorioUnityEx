@@ -83,7 +83,7 @@ public class ControlRound : Photon.PunBehaviour
     public void finishRound()
     {
         _numberRounds++;
-        if (_numberRounds == 1)
+        if (_numberRounds == 4)
         {
             SceneManager.LoadScene("ResultOfTheGame");
         }
