@@ -30,44 +30,154 @@ public class ResultGame : MonoBehaviour
     [SerializeField] private Sprite _greenToken;
     [SerializeField] private Sprite _yellowToken;
 
+    [SerializeField] private GameObject _blackScreen;
+
+    private List<bool> _usedNames = new List<bool>();
+
     private void Start()
     {
         _playerDataInGame = FindObjectOfType<PlayerDataInGame>();
-        loadNames();
+        activeUI();
         loadTokens();
         givePoints();
+        loadListBoolNames();
         loadScore();
     }
 
-    
+
+    public void nextGem()
+    {
+
+        _blackScreen.GetComponent<Animator>().SetBool("NextGem", true);
+        Invoke("quitBlackScreen", 1);
+    }
+
+    public void quitBlackScreen()
+    {
+        _blackScreen.GetComponent<Animator>().SetBool("NextGem", false);
+        _token++;
+        if (_token <= 3)
+        {
+            loadTokens();
+            givePoints();
+            loadListBoolNames();
+            loadScore();
+        }
+    }
+
+    public void activeUI()
+    {
+        for (int i = 0; i < _playerDataInGame.CharactersInGame.Length; i++)
+        {
+            _names[i].SetActive(true);
+            _tokens[i].SetActive(true);
+            _imagenTokens[i].SetActive(true);
+            _givePoints[i].SetActive(true);
+            _score[i].SetActive(true);
+            _equals[i].SetActive(true);
+            _totalScore[i].SetActive(true);
+        }
+    }
+
 
     public void loadScore()
     {
         for (int i = 0; i < _tokensList.Count; i++)
         {
+            bool _auxGivePoints = false;
+
             for (int u = 0; u < _playerDataInGame.CharactersInGame.Length; u++)
             {
-                if (_tokensList[i] == _playerDataInGame.CharactersInGame[u].RedTokens)
+                switch (_token)
                 {
-                    _tokens[u].GetComponent<TMP_Text>().text = _tokensList[i].ToString();
-                    _imagenTokens[u].GetComponent<Image>().sprite = _redToken;
-                    _givePoints[u].GetComponent<TMP_Text>().text = (_scoreList[i].ToString()) + "+";
-                    _score[u].GetComponent<TMP_Text>().text = _playerDataInGame.CharactersInGame[u].Score.ToString();
-                    _totalScore[u].GetComponent<TMP_Text>().text = (_playerDataInGame.CharactersInGame[u].Score + _scoreList[i]).ToString();
+                    case 0:
+                        if (_tokensList[i] == _playerDataInGame.CharactersInGame[u].RedTokens && !_usedNames[u])
+                        {
+                            if (!_auxGivePoints)
+                            {
+                                _usedNames[u] = true;
+                                _names[i].GetComponent<TMP_Text>().text = _playerDataInGame.CharactersInGame[u].Name;
+                                _tokens[i].GetComponent<TMP_Text>().text = _tokensList[i].ToString();
+                                _imagenTokens[i].GetComponent<Image>().sprite = _redToken;
+                                _givePoints[i].GetComponent<TMP_Text>().text = (_scoreList[i].ToString()) + "+";
+                                _score[i].GetComponent<TMP_Text>().text = _playerDataInGame.CharactersInGame[u].Score.ToString();
+                                _totalScore[i].GetComponent<TMP_Text>().text = (_playerDataInGame.CharactersInGame[u].Score + _scoreList[i]).ToString();
 
-                    _playerDataInGame.CharactersInGame[u].Score += _scoreList[i]; // ahora si suma el score
+                                _playerDataInGame.CharactersInGame[u].Score += _scoreList[i]; // ahora si suma el score
+                            }
+                        }
+                        
+                        break;
+
+                    case 1:
+                        if (_tokensList[i] == _playerDataInGame.CharactersInGame[u].BlueTokens && !_usedNames[u])
+                        {
+                            if (!_auxGivePoints)
+                            {
+                                _usedNames[u] = true;
+                                _names[i].GetComponent<TMP_Text>().text = _playerDataInGame.CharactersInGame[u].Name;
+                                _tokens[i].GetComponent<TMP_Text>().text = _tokensList[i].ToString();
+                                _imagenTokens[i].GetComponent<Image>().sprite = _blueToken;
+                                _givePoints[i].GetComponent<TMP_Text>().text = (_scoreList[i].ToString()) + "+";
+                                _score[i].GetComponent<TMP_Text>().text = _playerDataInGame.CharactersInGame[u].Score.ToString();
+                                _totalScore[i].GetComponent<TMP_Text>().text = (_playerDataInGame.CharactersInGame[u].Score + _scoreList[i]).ToString();
+
+                                _playerDataInGame.CharactersInGame[u].Score += _scoreList[i]; // ahora si suma el score
+                            }
+                        }
+
+                        break;
+
+                    case 2:
+                        if (_tokensList[i] == _playerDataInGame.CharactersInGame[u].GreenTokens && !_usedNames[u])
+                        {
+                            if (!_auxGivePoints)
+                            {
+                                _usedNames[u] = true;
+                                _names[i].GetComponent<TMP_Text>().text = _playerDataInGame.CharactersInGame[u].Name;
+                                _tokens[i].GetComponent<TMP_Text>().text = _tokensList[i].ToString();
+                                _imagenTokens[i].GetComponent<Image>().sprite = _greenToken;
+                                _givePoints[i].GetComponent<TMP_Text>().text = (_scoreList[i].ToString()) + "+";
+                                _score[i].GetComponent<TMP_Text>().text = _playerDataInGame.CharactersInGame[u].Score.ToString();
+                                _totalScore[i].GetComponent<TMP_Text>().text = (_playerDataInGame.CharactersInGame[u].Score + _scoreList[i]).ToString();
+
+                                _playerDataInGame.CharactersInGame[u].Score += _scoreList[i]; // ahora si suma el score
+                            }
+                        }
+
+                        break;
+
+                    case 3:
+
+                        if (_tokensList[i] == _playerDataInGame.CharactersInGame[u].YellowTokens && !_usedNames[u])
+                        {
+                            if (!_auxGivePoints)
+                            {
+                                _usedNames[u] = true;
+                                _names[i].GetComponent<TMP_Text>().text = _playerDataInGame.CharactersInGame[u].Name;
+                                _tokens[i].GetComponent<TMP_Text>().text = _tokensList[i].ToString();
+                                _imagenTokens[i].GetComponent<Image>().sprite = _yellowToken;
+                                _givePoints[i].GetComponent<TMP_Text>().text = (_scoreList[i].ToString()) + "+";
+                                _score[i].GetComponent<TMP_Text>().text = _playerDataInGame.CharactersInGame[u].Score.ToString();
+                                _totalScore[i].GetComponent<TMP_Text>().text = (_playerDataInGame.CharactersInGame[u].Score + _scoreList[i]).ToString();
+
+                                _playerDataInGame.CharactersInGame[u].Score += _scoreList[i]; // ahora si suma el score
+                            }
+                        }
+                        break;
                 }
+
             }
         }
 
     }
 
-    public void loadNames()
+    public void loadListBoolNames()
     {
+        _usedNames.Clear();
         for (int i = 0; i < _playerDataInGame.CharactersInGame.Length; i++)
         {
-            _names[i].GetComponent<TMP_Text>().text = _playerDataInGame.CharactersInGame[i].Name;
-
+            _usedNames.Add(false);
         }
     }
 
@@ -75,6 +185,7 @@ public class ResultGame : MonoBehaviour
     {
         _tokensList.Sort();
         _tokensList.Reverse();
+        _scoreList.Clear();
 
         _playerscoincidence = 0;
         _acumulatedValued = 0;
@@ -84,7 +195,7 @@ public class ResultGame : MonoBehaviour
         {
             if (_tokensList[i] != 0)
             {
-                
+
 
                 if (_tokensList.Count > i + 1)
                 {
@@ -161,6 +272,8 @@ public class ResultGame : MonoBehaviour
 
     public void loadTokens()
     {
+        _tokensList.Clear();
+
         switch (_token)
         {
             //token rojo
@@ -170,7 +283,7 @@ public class ResultGame : MonoBehaviour
                 {
                     _tokensList.Add(_playerDataInGame.CharactersInGame[i].RedTokens);
                 }
-                _token++;
+
                 break;
 
             //token blue
