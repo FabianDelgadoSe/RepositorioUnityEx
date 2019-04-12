@@ -88,4 +88,6 @@ MonoBehaviour:
   - finishRespositionPlayers
   - selectDirection
   - loadBrainGhost
+  - loseToken
+  - loadnumberplayerTouch
   DisableAutoOpenWizard: 1

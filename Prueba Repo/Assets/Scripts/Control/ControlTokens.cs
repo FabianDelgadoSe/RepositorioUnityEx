@@ -77,31 +77,51 @@ public class ControlTokens : Photon.PunBehaviour
             switch (typesSquares)
             {
                 case Square.typesSquares.BLUE:
-                    _tokensBoxes[_numberTokens].GetComponent<Image>().sprite = _blueToken;
-                    _tokensBoxes[_numberTokens].GetComponent<Image>().enabled = true;
+                    _tokensBoxes[NumberTokens].GetComponent<Image>().sprite = _blueToken;
+                    _tokensBoxes[NumberTokens].GetComponent<Image>().enabled = true;
                     break;
 
                 case Square.typesSquares.RED:
-                    _tokensBoxes[_numberTokens].GetComponent<Image>().sprite = _redToken;
-                    _tokensBoxes[_numberTokens].GetComponent<Image>().enabled = true;
+                    _tokensBoxes[NumberTokens].GetComponent<Image>().sprite = _redToken;
+                    _tokensBoxes[NumberTokens].GetComponent<Image>().enabled = true;
                     break;
 
                 case Square.typesSquares.GREEN:
-                    _tokensBoxes[_numberTokens].GetComponent<Image>().sprite = _greenToken;
-                    _tokensBoxes[_numberTokens].GetComponent<Image>().enabled = true;
+                    _tokensBoxes[NumberTokens].GetComponent<Image>().sprite = _greenToken;
+                    _tokensBoxes[NumberTokens].GetComponent<Image>().enabled = true;
                     break;
 
                 case Square.typesSquares.YELLOW:
-                    _tokensBoxes[_numberTokens].GetComponent<Image>().sprite = _yellowToken;
-                    _tokensBoxes[_numberTokens].GetComponent<Image>().enabled = true;
+                    _tokensBoxes[NumberTokens].GetComponent<Image>().sprite = _yellowToken;
+                    _tokensBoxes[NumberTokens].GetComponent<Image>().enabled = true;
                     break;
             }
 
-            _numberTokens++;
+            NumberTokens++;
 
         }
 
 
+    }
+    public void lostTokenForMy(int index)
+    {
+        
+        for (int i = index; i<NumberTokens;i++)
+        {
+            if (i+1 < NumberTokens)
+            {
+                _tokensBoxes[i].GetComponent<Image>().sprite = _tokensBoxes[i + 1].GetComponent<Image>().sprite;
+            }
+            else
+            {
+                _tokensBoxes[i].GetComponent<Image>().sprite = null;
+                _tokensBoxes[i].GetComponent<Image>().enabled = false;
+                _tokensBoxes[i].gameObject.SetActive(false);
+            }
+            
+        }
+        _player.GetComponent<ControlTokensPlayer>().ObtainedTokens.RemoveAt(index);
+        NumberTokens--;
     }
 
     [PunRPC]
@@ -126,6 +146,8 @@ public class ControlTokens : Photon.PunBehaviour
             _playerData.CharactersInGame[i].Character.GetComponent<ControlTokensPlayer>().BlueToken = 0;
             _playerData.CharactersInGame[i].Character.GetComponent<ControlTokensPlayer>().YellowToken = 0;
 
+            _playerData.CharactersInGame[i].Character.GetComponent<ControlTokensPlayer>().ObtainedTokens.Clear();
+
             // borra la imagen de los tokens que representa los otros jugadores
             if (_playerData.CharactersInGame[i].Character.GetComponent<ControlTokensPlayer>().PortraitThatRepresents != null)
                 _playerData.CharactersInGame[i].Character.GetComponent<ControlTokensPlayer>().PortraitThatRepresents.GetComponent<OthersPlayersData>().deleteObtainedTokens();
@@ -136,7 +158,7 @@ public class ControlTokens : Photon.PunBehaviour
         {
             _tokensBoxes[i].GetComponent<Image>().enabled = false;
         }
-        _numberTokens = 0;
+        NumberTokens = 0;
 
         if (FindObjectOfType<ControlTurn>().MyTurn)
         {
@@ -225,6 +247,19 @@ public class ControlTokens : Photon.PunBehaviour
         set
         {
             _totalYellowTokens = value;
+        }
+    }
+
+    public int NumberTokens
+    {
+        get
+        {
+            return _numberTokens;
+        }
+
+        set
+        {
+            _numberTokens = value;
         }
     }
 }

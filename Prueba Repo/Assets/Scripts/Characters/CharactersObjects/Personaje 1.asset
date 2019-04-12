@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef6cd364e44d8464eac23cad4c39b9fe, type: 3}
   m_Name: Personaje 1
   m_EditorClassIdentifier: 
-  _name: Personaje 1
+  _name: Aldeano
   _IDCharacter: 1
-  _iconUnSelected: {fileID: 21300000, guid: dd107778a5efb66419da7aa36b566ebb, type: 3}
+  _iconUnSelected: {fileID: 21300000, guid: a8a242055a1bfa6498a70710b1f9faaf, type: 3}
   _iconSelected: {fileID: 21300000, guid: 1c61724bba54ca047ab902429c5c7ff9, type: 3}
-  _faceCharacter: {fileID: 21300000, guid: ed4b9282e1579a44d895d323f900137a, type: 3}
+  _faceCharacter: {fileID: 21300000, guid: aef4a7ce5797c7c49bafd4ea1142173e, type: 3}

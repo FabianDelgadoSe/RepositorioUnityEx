@@ -8,6 +8,8 @@ public class ControlTokensPlayer : Photon.PunBehaviour {
 
     [Header("FeedBack visual de token obtenido")]
     [SerializeField] private GameObject _token;
+    private List<Square.typesSquares> _obtainedTokens = new List<Square.typesSquares>();
+
 
     private int _redToken = 0;
     private int _blueToken = 0;
@@ -34,7 +36,7 @@ public class ControlTokensPlayer : Photon.PunBehaviour {
     [PunRPC]
     public void newToken(Square.typesSquares typesSquares)
     {
-
+        ObtainedTokens.Add(typesSquares);
         switch (typesSquares)
         {
             case Square.typesSquares.BLUE:
@@ -71,6 +73,44 @@ public class ControlTokensPlayer : Photon.PunBehaviour {
 
     }
 
+    [PunRPC]
+    public void loseToken(int index)
+    {
+        switch (ObtainedTokens[index])
+        {
+            case Square.typesSquares.BLUE:
+                BlueToken--;
+                break;
+
+            case Square.typesSquares.GREEN:
+                GreenToken--;
+                break;
+
+            case Square.typesSquares.RED:
+                RedToken--;
+                break;
+
+            case Square.typesSquares.YELLOW:
+                YellowToken--;
+                break;
+        }
+
+        if (photonView.isMine)
+        {
+            FindObjectOfType<ControlTokens>().lostTokenForMy(index);
+        }
+        else
+        {
+            OthersPlayersData[] aux = FindObjectsOfType<OthersPlayersData>();
+            for (int i = 0; i<aux.Length; i++)
+            {
+                if (aux[i].IdOfThePlayerThatRepresents == GetComponent<PlayerMove>().IdOwner.ID)
+                {
+                    aux[i].loseToken(index);
+                }
+            }
+        }
+    }
 
     public int RedToken
     {
@@ -134,6 +174,19 @@ public class ControlTokensPlayer : Photon.PunBehaviour {
         set
         {
             _portraitThatRepresents = value;
+        }
+    }
+
+    public List<Square.typesSquares> ObtainedTokens
+    {
+        get
+        {
+            return _obtainedTokens;
+        }
+
+        set
+        {
+            _obtainedTokens = value;
         }
     }
 }

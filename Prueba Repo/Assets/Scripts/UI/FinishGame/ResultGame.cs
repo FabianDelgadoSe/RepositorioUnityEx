@@ -189,6 +189,7 @@ public class ResultGame : MonoBehaviour
 
         _playerscoincidence = 0;
         _acumulatedValued = 0;
+        _valueScore = 32;
         _coincidence = false;
 
         for (int i = 0; i < _tokensList.Count; i++)

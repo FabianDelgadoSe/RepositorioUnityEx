@@ -380,4 +380,30 @@ public class Square : Photon.PunBehaviour
             _baitInGame = value;
         }
     }
+
+    public GameObject OppositeSquareY
+    {
+        get
+        {
+            return _oppositeSquareY;
+        }
+
+        set
+        {
+            _oppositeSquareY = value;
+        }
+    }
+
+    public GameObject OppositeSquareX
+    {
+        get
+        {
+            return _oppositeSquareX;
+        }
+
+        set
+        {
+            _oppositeSquareX = value;
+        }
+    }
 }

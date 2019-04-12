@@ -131,6 +131,26 @@ public class OthersPlayersData : MonoBehaviour {
         }
     }
 
+    public void loseToken(int index)
+    {
+        for (int i = index; i < _numberTokens; i++)
+        {
+            if (i + 1 < _numberTokens)
+            {
+                _tokensArray[i].GetComponent<Image>().sprite = _tokensArray[i + 1].GetComponent<Image>().sprite;
+            }
+            else
+            {
+                _tokensArray[i].GetComponent<Image>().sprite = null;
+                _tokensArray[i].gameObject.SetActive(false);
+            }
+
+        }
+        _numberTokens--;
+        FindObjectOfType<PlayerDataInGame>().CharactersInGame[IdOfThePlayerThatRepresents - 1].Character
+            .GetComponent<ControlTokensPlayer>().ObtainedTokens.RemoveAt(index);
+    }
+
     public Character Character
     {
         get

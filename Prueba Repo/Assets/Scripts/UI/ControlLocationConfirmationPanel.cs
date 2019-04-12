@@ -74,6 +74,7 @@ public class ControlLocationConfirmationPanel : MonoBehaviour
         _player.AddComponent<locateCharacter>();
         _player.GetComponent<locateCharacter>().PanelConfirmationInGame = gameObject;
         _player.GetComponent<locateCharacter>().MarkSquare = false;
+        _player.GetComponent<SpriteRenderer>().sortingOrder = 25;
         gameObject.SetActive(false);
     }//Cierre DenyButton
 

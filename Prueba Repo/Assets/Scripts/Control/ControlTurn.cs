@@ -147,10 +147,11 @@ public class ControlTurn : Photon.PunBehaviour
 
             if (FindObjectOfType<ControlRound>().Ghost.GetActive())
             {
-                FindObjectOfType<BehaviourGhost>();
+                FindObjectOfType<BehaviourGhost>().selectDirection();
             }
             else
             {
+                _myTurn = false;
                 photonView.RPC("mineTurn", PhotonTargets.All, IndexTurn);
             }            
         }
@@ -227,7 +228,6 @@ public class ControlTurn : Photon.PunBehaviour
     [PunRPC]
     void finishTurn()
     {
-        _myTurn = false;
         _myturn.active = false;
         AllowSelectCardMove = true;
         _allowToPlaceBait = false;

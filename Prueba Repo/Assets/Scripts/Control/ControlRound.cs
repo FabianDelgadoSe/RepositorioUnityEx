@@ -89,7 +89,7 @@ public class ControlRound : Photon.PunBehaviour
         {
             SceneManager.LoadScene("ResultOfTheGame");
 
-        }else if (_numberRounds == 2)
+        }else if (_numberRounds == 3)
         {
             _ghost.SetActive(true);
         }
