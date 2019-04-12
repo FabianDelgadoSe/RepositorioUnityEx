@@ -86,4 +86,6 @@ MonoBehaviour:
   - activePanelData
   - finishFirstRound
   - finishRespositionPlayers
+  - selectDirection
+  - loadBrainGhost
   DisableAutoOpenWizard: 1

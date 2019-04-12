@@ -19,6 +19,8 @@ public class ControlRound : Photon.PunBehaviour
     private bool _firstRound = true;
     private int _charactersInBoard = -1;
     private int _makeBet = 0;
+    [SerializeField] private GameObject _ghost;
+
     [PunRPC]
     /// <summary>
     /// vuelve a activar las cartas de movimiento
@@ -86,7 +88,13 @@ public class ControlRound : Photon.PunBehaviour
         if (_numberRounds == 4)
         {
             SceneManager.LoadScene("ResultOfTheGame");
+
+        }else if (_numberRounds == 2)
+        {
+            _ghost.SetActive(true);
         }
+
+
     }
 
     public bool endOfTheRound()
@@ -180,6 +188,19 @@ public class ControlRound : Photon.PunBehaviour
         set
         {
             _firstRound = value;
+        }
+    }
+
+    public GameObject Ghost
+    {
+        get
+        {
+            return _ghost;
+        }
+
+        set
+        {
+            _ghost = value;
         }
     }
 }

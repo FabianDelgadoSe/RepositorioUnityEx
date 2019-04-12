@@ -37,6 +37,10 @@ public class Square : Photon.PunBehaviour
 
     [SerializeField] private bool _itsOnEdge;
 
+    [Header("casilla opuesta")]
+    [SerializeField] private GameObject _oppositeSquareY;
+    [SerializeField] private GameObject _oppositeSquareX;
+
     public typesSquares _enumTypesSquares;
 
     public enum typesSquares

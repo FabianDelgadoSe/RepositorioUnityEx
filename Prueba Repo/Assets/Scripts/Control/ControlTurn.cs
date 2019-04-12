@@ -145,7 +145,14 @@ public class ControlTurn : Photon.PunBehaviour
                 IndexTurn = 1;
             }// cierre else
 
-            photonView.RPC("mineTurn", PhotonTargets.All, IndexTurn);
+            if (FindObjectOfType<ControlRound>().Ghost.GetActive())
+            {
+                FindObjectOfType<BehaviourGhost>();
+            }
+            else
+            {
+                photonView.RPC("mineTurn", PhotonTargets.All, IndexTurn);
+            }            
         }
     }// cierre nextTurn
 
