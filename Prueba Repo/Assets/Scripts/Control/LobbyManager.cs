@@ -17,8 +17,8 @@ public class LobbyManager : Photon.PunBehaviour
     [SerializeField] private Button _sbuttonPlay;
     private GameObject _selectedCharacter;
     Room _currentRoom;
-    private bool _allowPick = false;
-    private int _numberPlayersInRoom = 0;
+    [SerializeField] private bool _allowPick = false;
+    [SerializeField] private int _numberPlayersInRoom = 0;
 
 
     /// <summary>
@@ -29,7 +29,7 @@ public class LobbyManager : Photon.PunBehaviour
     {
         _currentRoom = PhotonNetwork.room;
 
-        photonView.RPC("SetLobbyUI", PhotonTargets.All);
+        photonView.RPC("SetLobbyUI", PhotonTargets.All,PhotonNetwork.player);
     }
 
 
@@ -37,11 +37,11 @@ public class LobbyManager : Photon.PunBehaviour
     /// Obtiene la variable del NetworkManager para extraer el playercount y mandarlo al txt, obtiene nombre del room
     /// </summary>    
     [PunRPC]
-    public void SetLobbyUI()
+    public void SetLobbyUI(PhotonPlayer player)
     {
         _playersCountText.text = "Players: " + _currentRoom.PlayerCount.ToString();
         _roomNameText.text = "Sala: " + _currentRoom.Name;
-        someoneSelected();
+        someoneSelected(player);
         photonView.RPC("allPlayerSelectCharacter", PhotonTargets.All);
     }
 
@@ -76,7 +76,7 @@ public class LobbyManager : Photon.PunBehaviour
     /// <summary>
     /// Usado para verificar si un jugador ya habia pickeado un personaje
     /// </summary>
-    public void someoneSelected()
+    public void someoneSelected(PhotonPlayer player)
     {
         _allowPick = false;
 
@@ -90,8 +90,7 @@ public class LobbyManager : Photon.PunBehaviour
                 {
                     if (!pick)
                     {
-                        aux[i].photonView.RPC("setCharacterSelection", PhotonNetwork.playerList
-                            [PhotonNetwork.room.PlayerCount - 1], PhotonNetwork.player);
+                        aux[i].photonView.RPC("setCharacterSelection", player, PhotonNetwork.player);
 
                         pick = true;
                     }
@@ -103,12 +102,13 @@ public class LobbyManager : Photon.PunBehaviour
             }
         }
 
-        photonView.RPC("updatePicks", PhotonTargets.AllBuffered);
+        photonView.RPC("updatePicks", player);
     }
 
     [PunRPC]
     public void updatePicks()
     {
+        Debug.Log(_numberPlayersInRoom);
         _numberPlayersInRoom++;
         if (_numberPlayersInRoom == PhotonNetwork.room.PlayerCount)
         {
