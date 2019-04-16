@@ -90,4 +90,6 @@ MonoBehaviour:
   - loadBrainGhost
   - loseToken
   - loadnumberplayerTouch
+  - againAllowPick
+  - updatePicks
   DisableAutoOpenWizard: 1

@@ -17,6 +17,9 @@ public class LobbyManager : Photon.PunBehaviour
     [SerializeField] private Button _sbuttonPlay;
     private GameObject _selectedCharacter;
     Room _currentRoom;
+    private bool _allowPick = false;
+    private int _numberPlayersInRoom = 0;
+
 
     /// <summary>
     /// Funcion usada para inicializar el room y decirle a todas las personas conectadas que 
@@ -24,13 +27,9 @@ public class LobbyManager : Photon.PunBehaviour
     /// </summary>
     void Start()
     {
-
         _currentRoom = PhotonNetwork.room;
-        if (_currentRoom.PlayerCount >= 1)
-            photonView.RPC("SetLobbyUI", PhotonTargets.All);
 
-        photonView.RPC("allPlayerSelectCharacter",PhotonTargets.All);
-
+        photonView.RPC("SetLobbyUI", PhotonTargets.All);
     }
 
 
@@ -43,7 +42,7 @@ public class LobbyManager : Photon.PunBehaviour
         _playersCountText.text = "Players: " + _currentRoom.PlayerCount.ToString();
         _roomNameText.text = "Sala: " + _currentRoom.Name;
         someoneSelected();
-
+        photonView.RPC("allPlayerSelectCharacter", PhotonTargets.All);
     }
 
     [PunRPC]
@@ -79,18 +78,50 @@ public class LobbyManager : Photon.PunBehaviour
     /// </summary>
     public void someoneSelected()
     {
-        CharacterSelectionable[] arraySelecte = FindObjectsOfType<CharacterSelectionable>();
+        _allowPick = false;
 
-        for (int i =0; i<arraySelecte.Length;i++)
+        if (FindObjectOfType<PlayerDataInGame>().CharacterSelected != null)
         {
-            if (arraySelecte[i]._isSelected)
-            {                
-                arraySelecte[i].photonView.RPC("setCharacterSelection", PhotonNetwork.playerList[0], PhotonNetwork.player);
+            CharacterSelectionable[] aux = FindObjectsOfType<CharacterSelectionable>();
+            bool pick = false;
+            for (int i = 0; i < aux.Length; i++)
+            {
+                if (aux[i].PlayerSelect == PhotonNetwork.player)
+                {
+                    if (!pick)
+                    {
+                        aux[i].photonView.RPC("setCharacterSelection", PhotonNetwork.playerList
+                            [PhotonNetwork.room.PlayerCount - 1], PhotonNetwork.player);
+
+                        pick = true;
+                    }
+                    else
+                    {
+                        aux[i].photonView.RPC("removeCharacterToPlayer", PhotonTargets.All);
+                    }
+                }
             }
         }
 
+        photonView.RPC("updatePicks", PhotonTargets.AllBuffered);
     }
 
+    [PunRPC]
+    public void updatePicks()
+    {
+        _numberPlayersInRoom++;
+        if (_numberPlayersInRoom == PhotonNetwork.room.PlayerCount)
+        {
+            _numberPlayersInRoom = 0;
+            photonView.RPC("againAllowPick", PhotonTargets.All);
+        }
+    }
+
+    [PunRPC]
+    public void againAllowPick()
+    {
+        _allowPick = true;
+    }
 
     /// <summary>
     /// Evalua si todos los jugadores pickearon un personaje, si es así, cambia la escena
@@ -98,24 +129,26 @@ public class LobbyManager : Photon.PunBehaviour
     public void ChangeSceneIfAllPlayersSelect()
     {
         List<CharacterSelectionable> _charactersSelectionable = FindObjectsOfType<CharacterSelectionable>().ToList();
-       
+
         int _charactersSelectedCount = 0;
 
-        foreach (CharacterSelectionable charactersSelectionable in _charactersSelectionable) {
+        foreach (CharacterSelectionable charactersSelectionable in _charactersSelectionable)
+        {
 
             if (charactersSelectionable._isSelected)
             {
                 _charactersSelectedCount++;
             }
         }
-   
-        if (_charactersSelectedCount == _currentRoom.playerCount) {
+
+        if (_charactersSelectedCount == _currentRoom.playerCount)
+        {
 
             FindObjectOfType<ChangeScene>().chansy();
         }
         else
         {
-            SSTools.ShowMessage("Faltan jugadores por seleccionar",SSTools.Position.bottom,SSTools.Time.twoSecond);
+            SSTools.ShowMessage("Faltan jugadores por seleccionar", SSTools.Position.bottom, SSTools.Time.twoSecond);
         }
 
     }
@@ -148,4 +181,16 @@ public class LobbyManager : Photon.PunBehaviour
         }
     }
 
+    public bool AllowPick
+    {
+        get
+        {
+            return _allowPick;
+        }
+
+        set
+        {
+            _allowPick = value;
+        }
+    }
 }

@@ -9,7 +9,7 @@ public class CharacterSelectionable : Photon.PunBehaviour
 {
 
     [SerializeField] Character _character;
-
+    private LobbyManager _lobbyManager;
     PlayerDataInGame _playerData;
     private PlayerDataInGame _currentPlayer;
     public bool _isSelected = false;
@@ -22,6 +22,7 @@ public class CharacterSelectionable : Photon.PunBehaviour
         GetComponent<Image>().sprite = _character._iconUnSelected;
         _name.text = _character._name;
         _playerData = FindObjectOfType<PlayerDataInGame>();
+        _lobbyManager = FindObjectOfType<LobbyManager>();
     }
 
     /// <summary>
@@ -31,22 +32,21 @@ public class CharacterSelectionable : Photon.PunBehaviour
     [PunRPC]
     public void setCharacterSelection(PhotonPlayer Player)
     {
-        _playerSelect = Player;
+        PlayerSelect = Player;
         _isSelected = true;
         GetComponent<Image>().sprite = _character._iconSelected;
         _name.text = Player.NickName.ToString();
-        FindObjectOfType<LobbyManager>().allPlayerSelectCharacter();
+        _lobbyManager.allPlayerSelectCharacter();
     }
 
 
     /// <summary>
     /// quita le quita la propiedad de ese personaje a player que se envio
     /// </summary>
-    /// <param name="Player"></param>
     [PunRPC]
-    private void removeCharacterToPlayer(PhotonPlayer Player)
+    private void removeCharacterToPlayer()
     {
-        _playerSelect = null;
+        PlayerSelect = null;
         _isSelected = false;
         GetComponent<Image>().sprite = _character._iconUnSelected;
         _name.text = _character.name;
@@ -58,31 +58,46 @@ public class CharacterSelectionable : Photon.PunBehaviour
     /// </summary>
     public void characterClicked()
     {
-        if (!_isSelected && _playerData.CharacterSelected == null)
+        if (_lobbyManager.AllowPick)
         {
-            _playerData.CharacterSelected = _character;
-            FindObjectOfType<LobbyManager>().SelectedCharacter = gameObject;
-            photonView.RPC("setCharacterSelection", PhotonTargets.AllBufferedViaServer, PhotonNetwork.player);
+            if (!_isSelected && _playerData.CharacterSelected == null)
+            {
+                _playerData.CharacterSelected = _character;
+                FindObjectOfType<LobbyManager>().SelectedCharacter = gameObject;
+                photonView.RPC("setCharacterSelection", PhotonTargets.All, PhotonNetwork.player);
 
-        }
-        else if(!_isSelected && _playerData.CharacterSelected != null)
-        {
-            // le quita deselecciona el personaje anterior
-            FindObjectOfType<LobbyManager>().SelectedCharacter.GetComponent<CharacterSelectionable>().
-                photonView.RPC("removeCharacterToPlayer", PhotonTargets.AllBufferedViaServer, PhotonNetwork.player);
+            }
+            else if (!_isSelected && _playerData.CharacterSelected != null)
+            {
+                // le quita deselecciona el personaje anterior
+                FindObjectOfType<LobbyManager>().SelectedCharacter.GetComponent<CharacterSelectionable>().
+                    photonView.RPC("removeCharacterToPlayer", PhotonTargets.All);
 
-            // selecciona el nuevo personaje
-            _playerData.CharacterSelected = _character;
-            FindObjectOfType<LobbyManager>().SelectedCharacter = gameObject;
-            photonView.RPC("setCharacterSelection", PhotonTargets.AllBufferedViaServer, PhotonNetwork.player);
-        }
-        else if (_isSelected && PhotonNetwork.player == _playerSelect)
-        {
-            _playerData.CharacterSelected = null;
-            FindObjectOfType<LobbyManager>().SelectedCharacter = null;
-            photonView.RPC("removeCharacterToPlayer", PhotonTargets.AllBufferedViaServer, PhotonNetwork.player);
+                // selecciona el nuevo personaje
+                _playerData.CharacterSelected = _character;
+                FindObjectOfType<LobbyManager>().SelectedCharacter = gameObject;
+                photonView.RPC("setCharacterSelection", PhotonTargets.All, PhotonNetwork.player);
+            }
+            else if (_isSelected && PhotonNetwork.player == PlayerSelect)
+            {
+                _playerData.CharacterSelected = null;
+                FindObjectOfType<LobbyManager>().SelectedCharacter = null;
+                photonView.RPC("removeCharacterToPlayer", PhotonTargets.All);
+            }
         }
     }
 
+    public PhotonPlayer PlayerSelect
+    {
+        get
+        {
+            return _playerSelect;
+        }
+
+        set
+        {
+            _playerSelect = value;
+        }
+    }
 
 }

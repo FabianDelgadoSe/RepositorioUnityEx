@@ -26,6 +26,7 @@ public class OthersPlayersData : MonoBehaviour {
     [SerializeField] private GameObject _face;
     [Header("GameObject marco")]
     [SerializeField] private GameObject _pictureFrame;
+    [SerializeField] private Color _pictureFrameColor;
 
     [Header("Score")]
     [SerializeField] private TMP_Text _scoreText;
@@ -38,7 +39,7 @@ public class OthersPlayersData : MonoBehaviour {
     public void starTurn(int ID)
     {
         if(ID == _idOfThePlayerThatRepresents)
-            _pictureFrame.GetComponent<Image>().color = Color.green;
+            _pictureFrame.GetComponent<Image>().color = _pictureFrameColor;
     }
 
     /// <summary>
