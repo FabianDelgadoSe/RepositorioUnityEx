@@ -16,7 +16,7 @@ public class ControlLocationConfirmationPanel : MonoBehaviour
     /// </summary>
     private void Start()
     {
-        transform.SetParent(FindObjectOfType<Canvas>().transform,false);
+        transform.SetParent(FindObjectOfType<Canvas>().transform, false);
         _player.GetComponent<locateCharacter>().enabled = false;
         _player.GetComponent<SpriteRenderer>().sortingOrder = 1;
 
@@ -31,17 +31,19 @@ public class ControlLocationConfirmationPanel : MonoBehaviour
         restoreColorInSquares();
 
         _player.GetComponent<PlayerMove>().Square = Square;
-
+        _player.GetComponent<BoxCollider2D>().size = new Vector2(1.8f, 1.8f);
         Square.GetComponent<Square>().Player = Player;
 
-        Square.GetComponent<Square>().photonView.RPC("selectSquare",PhotonTargets.All);
+        Square.GetComponent<Square>().photonView.RPC("selectSquare", PhotonTargets.All);
 
         Square.GetComponent<Square>().photonView.RPC("saveCurrentPlayer", PhotonTargets.Others, FindObjectOfType<ControlTurn>().IndexTurn);
 
-        _player.GetComponent<ConfigurationPlayer>().photonView.RPC("endSelectionBox", PhotonTargets.Others,_player.transform.position);
+        _player.GetComponent<ConfigurationPlayer>().photonView.RPC("endSelectionBox", PhotonTargets.Others, _player.transform.position);
 
         FindObjectOfType<ControlTurn>().Myturn.GetComponent<Button>().enabled = true;
         FindObjectOfType<ControlTurn>().nextTurn();
+
+        _player.GetComponent<Animator>().runtimeAnimatorController = FindObjectOfType<PlayerDataInGame>().CharacterSelected._animator;
 
         Destroy(gameObject);
     }//Cierre ConfirmationButton
@@ -70,7 +72,7 @@ public class ControlLocationConfirmationPanel : MonoBehaviour
     /// </summary>
     public void denyButton()
     {
-        _player.transform.position = new Vector3(-6, 2, 0);
+        _player.transform.position = new Vector3(0,0, 0);
         _player.AddComponent<locateCharacter>();
         _player.GetComponent<locateCharacter>().PanelConfirmationInGame = gameObject;
         _player.GetComponent<locateCharacter>().MarkSquare = false;

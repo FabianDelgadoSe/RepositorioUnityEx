@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿    using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -21,14 +21,21 @@ public class ControlTurn : Photon.PunBehaviour
     [Header("Objeto donde esta la informacion de los tokens")]
     [SerializeField] private GameObject _showAllTokens;
 
+    [Header("Panel entre niveles")]
+    [SerializeField] private GameObject _PanelBetweenScenes;
+
+    [Header("Mi carita")]
+    [SerializeField] private GameObject _face;
+
     private List<GameObject> _otherPlayersList = new List<GameObject>();// imagenes que representan a los otros player
     private int _indexTurn; // el numero de la persona que tiene el turno
     private int _mineId;  // minumero de turno
     private bool _myTurn = false; // confirma si es mi turno
     private bool _firstTurn = true; // variable usada para saber si es el primer turno
-    private bool _allowSelectCardMove = true; //verifica si ya se seleccionado una carta de movimiento
+    [SerializeField]private bool _allowSelectCardMove = true; //verifica si ya se seleccionado una carta de movimiento
     private bool _allowToPlaceBait = false; //verifica si ya se coloco un cebo
-    
+    private bool _bemade = false;
+    private bool _startedBoard = false;
 
     /// <summary>
     /// inicializa variables como mineId crea los objetos que representan los otros jugadores en la pantalla de cada
@@ -38,6 +45,8 @@ public class ControlTurn : Photon.PunBehaviour
     {
 
         _mineId = PhotonNetwork.player.ID;
+
+        _face.GetComponent<Image>().sprite = FindObjectOfType<PlayerDataInGame>().CharacterSelected._faceCharacter;
 
         createdOthersPlayers();
 
@@ -63,6 +72,17 @@ public class ControlTurn : Photon.PunBehaviour
     public void activePanelData()
     {
         _showAllTokens.SetActive(true);
+    }
+
+    [PunRPC]
+    public void desactivePanelBetweenLevel()
+    {
+        _PanelBetweenScenes.SetActive(false);
+
+        if (MyTurn)
+        {
+            StarTurn();
+        }
     }
 
     /// <summary>
@@ -157,6 +177,23 @@ public class ControlTurn : Photon.PunBehaviour
         }
     }// cierre nextTurn
 
+    public void newPlayerStart()
+    {
+        _startedBoard = false;
+        finishTurn();
+        if (IndexTurn != PhotonNetwork.room.playerCount)
+        {
+            IndexTurn++;
+        }// cierre if
+        else
+        {
+            IndexTurn = 1;
+        }//
+
+        _myTurn = false;
+        photonView.RPC("mineTurn", PhotonTargets.All, IndexTurn);
+    }
+
     /// <summary>
     /// Cuando comienza mi turno es llamado este metodo
     /// </summary>
@@ -178,11 +215,17 @@ public class ControlTurn : Photon.PunBehaviour
             else 
             {
                 if (!FindObjectOfType<PlayerRepositioning>().RepositionPlayer) {
-                    // empieza turno con normalidad
-                    _messagerStarTurn.SetActive(true);
-                    FindObjectOfType<ControlRound>().AllowMove = true;
-                    FindObjectOfType<PanelInformation>().showMessages(PanelInformation.Messages.START_MY_TURN);
-
+                    if (!_startedBoard) {
+                        // empieza turno con normalidad
+                        FindObjectOfType<PlayerDataInGame>().CharactersInGame[IndexTurn-1].Character.GetComponent<SpriteRenderer>().color = Color.gray;
+                        _messagerStarTurn.SetActive(true);
+                        FindObjectOfType<ControlRound>().AllowMove = true;
+                        FindObjectOfType<PanelInformation>().showMessages(PanelInformation.Messages.START_MY_TURN);
+                    }
+                    else
+                    {
+                        newPlayerStart();
+                    }
 
                     if (!_showAllTokens.GetActive())
                     {
@@ -197,9 +240,11 @@ public class ControlTurn : Photon.PunBehaviour
 
             if (FindObjectOfType<ControlRound>().FinishPointProcedures)
             {
+                _startedBoard = true;
                 //mira si gano las cosas
-                FindObjectOfType<ControlMission>().photonView.RPC("desactivePanelMission", PhotonTargets.All);
-                FindObjectOfType<ControlMission>().ReviewMission();
+                FindObjectOfType<ControlMission>().photonView.RPC("desactivePanelMission", PhotonTargets.AllBuffered);
+                FindObjectOfType<ControlTokens>().photonView.RPC("activePanelBetweenScenes", PhotonTargets.AllBuffered);
+                //FindObjectOfType<ControlTokens>().activePanelBetweenScenes();
                 FindObjectOfType<ControlRound>().FinishPointProcedures = false;
             }
             else
@@ -231,7 +276,7 @@ public class ControlTurn : Photon.PunBehaviour
         _myturn.active = false;
         AllowSelectCardMove = true;
         _allowToPlaceBait = false;
-
+        FindObjectOfType<PlayerDataInGame>().CharactersInGame[IndexTurn-1].Character.GetComponent<SpriteRenderer>().color = Color.white;
         photonView.RPC("finishTurnOtherComputers", PhotonTargets.Others, _mineId);
         if (FirstTurn)
         {
@@ -438,6 +483,19 @@ public class ControlTurn : Photon.PunBehaviour
         set
         {
             _messagerStarTurn = value;
+        }
+    }
+
+    public bool Bemade
+    {
+        get
+        {
+            return _bemade;
+        }
+
+        set
+        {
+            _bemade = value;
         }
     }
 }

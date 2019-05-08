@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 
 public class PlayerDataInGame : Photon.PunBehaviour
@@ -13,6 +14,9 @@ public class PlayerDataInGame : Photon.PunBehaviour
     private PlayerDataInGame _instance;
 
     [SerializeField] private PlayerInformation[] _charactersInGame = new PlayerInformation[0];
+    [SerializeField]
+    private Character[] _characters = new Character[0];
+
 
     private void Awake()
     {
@@ -34,6 +38,19 @@ public class PlayerDataInGame : Photon.PunBehaviour
         }
 
         PlayerName = PhotonNetwork.player.ID.ToString();
+    }
+
+    public void OnPhotonPlayerDisconnected()
+    {
+        if (Application.loadedLevelName == "InGame") {
+            SSTools.ShowMessage("algun subnormal se fue", SSTools.Position.top, SSTools.Time.threeSecond);
+            PhotonNetwork.room.IsVisible = true;
+            PhotonNetwork.room.IsOpen = true;
+            _charactersInGame = new PlayerInformation[0];
+            _characterSelected = null;
+            SceneManager.LoadScene("Lobby");
+            
+        }
     }
 
     public Character CharacterSelected
@@ -72,6 +89,19 @@ public class PlayerDataInGame : Photon.PunBehaviour
         set
         {
             _charactersInGame = value;
+        }
+    }
+
+    public Character[] Characters
+    {
+        get
+        {
+            return _characters;
+        }
+
+        set
+        {
+            _characters = value;
         }
     }
 }

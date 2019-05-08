@@ -15,7 +15,7 @@ public class Square : Photon.PunBehaviour
 
     private int _index;
 
-    private bool _isWall = false;
+    [SerializeField]private bool _isWall = false;
     private bool _isEmpty = true;
 
     public GameObject _player = null;
@@ -25,8 +25,9 @@ public class Square : Photon.PunBehaviour
     public GameObject _squareRigh;
     private const float COLLIDER_RADIO = 0.2f;
     private PhotonPlayer _playerOwner = null;
-    private bool _isOccupied = false;
+    [SerializeField]private bool _isOccupied = false;
     private bool _haveBait = false;
+    [SerializeField]private bool _hasBoss = false;
     private GameObject _baitInGame;
 
     [Header("GameObject de casilla seleccionada")]
@@ -404,6 +405,19 @@ public class Square : Photon.PunBehaviour
         set
         {
             _oppositeSquareX = value;
+        }
+    }
+
+    public bool HasBoss
+    {
+        get
+        {
+            return _hasBoss;
+        }
+
+        set
+        {
+            _hasBoss = value;
         }
     }
 }

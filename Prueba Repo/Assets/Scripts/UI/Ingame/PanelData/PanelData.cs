@@ -19,7 +19,10 @@ public class PanelData : Photon.PunBehaviour
     [Header("panel que contiene todo")]
     [SerializeField] private GameObject _panelData;
     private PlayerDataInGame _playerDataInGame;
-    
+    [Header("el que tiene el animator")]
+    [SerializeField] private GameObject _fatherAnimator;
+
+
     private bool _createdScore = false;
 
     private int _numberPlayers;
@@ -32,7 +35,8 @@ public class PanelData : Photon.PunBehaviour
 
     public void createdObjectScore()
     {
-        _panelData.SetActive(true);
+        _fatherAnimator.GetComponent<Animator>().SetBool("Active",true);
+        Invoke("finishAnimation", 0.6f);
 
         if (!_createdScore)
         {
@@ -45,6 +49,19 @@ public class PanelData : Photon.PunBehaviour
         }
 
     }
+
+    public void finishAnimation()
+    {
+        if (_panelData.GetActive())
+        {
+            _panelData.SetActive(false);
+        }
+        else
+        {
+            _panelData.SetActive(true);
+        }
+    }
+
 
     public void activeObjectTokens()
     {
@@ -70,7 +87,9 @@ public class PanelData : Photon.PunBehaviour
 
     public void desactivePanel()
     {
-        _panelData.SetActive(false);
+        _fatherAnimator.GetComponent<Animator>().SetBool("Active", false);
+        Invoke("finishAnimation", 0.6f);
+        
     }
 
  

@@ -92,4 +92,9 @@ MonoBehaviour:
   - loadnumberplayerTouch
   - againAllowPick
   - updatePicks
+  - LaunchStartingText
+  - messageWinMission
+  - activePanelBetweenScenes
+  - UpdatePanels
+  - desactivePanelBetweenLevel
   DisableAutoOpenWizard: 1

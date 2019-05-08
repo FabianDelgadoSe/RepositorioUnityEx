@@ -19,6 +19,7 @@ public class OthersPlayersData : MonoBehaviour {
     [SerializeField] private Sprite _sprtBlueToken;
     [SerializeField] private Sprite _sprtGreenToken;
     [SerializeField] private Sprite _sprtYellowToken;
+    [SerializeField] private Sprite _hole;
 
     private Character _character;
 
@@ -32,6 +33,10 @@ public class OthersPlayersData : MonoBehaviour {
     [SerializeField] private TMP_Text _scoreText;
     [SerializeField] private TMP_Text _nameText;
 
+    [Header("perder puntos")]
+    [SerializeField] private GameObject _pointCreated;
+    [SerializeField] private GameObject _lostTokens;
+    private int _numberLostPoint = 0;
 
     /// <summary>
     /// Es llamado cuando inicie el turno del jugador al cual representa
@@ -68,7 +73,7 @@ public class OthersPlayersData : MonoBehaviour {
     {
         for (int i = 0; i< _tokensArray.Length; i++)
         {
-            _tokensArray[i].SetActive(false);
+            _tokensArray[i].GetComponent<Image>().sprite = _hole;
         }
         _numberTokens = 0;
     }
@@ -105,13 +110,19 @@ public class OthersPlayersData : MonoBehaviour {
         _numberTokens++;
     }
 
+    public void visualLostToken()
+    {
+        if(NumberLostPoint > 0)
+        {
+            GameObject aux = Instantiate(_lostTokens, _pointCreated.transform.position, Quaternion.identity);
+            aux.GetComponent<IconsLoseCoin>().Father = GetComponent<OthersPlayersData>();
+        }
+    }
 
     public void assignFace()
     {
         _face.GetComponent<Image>().sprite = Character._faceCharacter;
         _face.GetComponent<Image>().enabled = true;
-        assignName();
-
     }
 
     public void assignName()
@@ -142,8 +153,8 @@ public class OthersPlayersData : MonoBehaviour {
             }
             else
             {
-                _tokensArray[i].GetComponent<Image>().sprite = null;
-                _tokensArray[i].gameObject.SetActive(false);
+                _tokensArray[i].GetComponent<Image>().sprite = _hole;
+                
             }
 
         }
@@ -162,6 +173,19 @@ public class OthersPlayersData : MonoBehaviour {
         set
         {
             _character = value;
+        }
+    }
+
+    public int NumberLostPoint
+    {
+        get
+        {
+            return _numberLostPoint;
+        }
+
+        set
+        {
+            _numberLostPoint = value;
         }
     }
 }

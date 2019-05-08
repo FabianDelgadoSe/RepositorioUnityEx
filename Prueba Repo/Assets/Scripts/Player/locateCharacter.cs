@@ -15,6 +15,7 @@ public class locateCharacter : Photon.MonoBehaviour
     private Square[] _squares;
     [SerializeField] Color _color;
     private bool _markSquare = true;
+    [SerializeField] private GameObject _guide; // flecha que se muentra cuando tienes que ubicar el personaje
 
     private GameObject[] _selectSquare;
 
@@ -25,11 +26,14 @@ public class locateCharacter : Photon.MonoBehaviour
     {
         if (!photonView.isMine)
         {
+            GetComponent<BoxCollider2D>().size = new Vector2(1.8f, 1.8f);
             Destroy(gameObject.GetComponent<locateCharacter>());
+            Destroy(Guide);
         }
         else
         {
             _squares = FindObjectsOfType<Square>();
+            Guide.SetActive(true);
             if (_markSquare)
                 dullSquares();
         }
@@ -47,6 +51,11 @@ public class locateCharacter : Photon.MonoBehaviour
             if (!_squares[i].ItsOnEdge)
             {
                 _squares[i].gameObject.GetComponent<SpriteRenderer>().color = _color;
+                _squares[i].gameObject.GetComponent<BoxCollider2D>().size = new Vector2(1, 1);
+            }
+            else
+            {
+                _squares[i].gameObject.GetComponent<BoxCollider2D>().size = new Vector2(1,1);
             }
         }
     }
@@ -56,7 +65,7 @@ public class locateCharacter : Photon.MonoBehaviour
     /// </summary>
     private void OnMouseDrag()
     {
-
+        Destroy(Guide);
         transform.position = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0.45f));
         _isMoving = true;
 
@@ -81,7 +90,7 @@ public class locateCharacter : Photon.MonoBehaviour
         {
             if (collision.gameObject.GetComponent<Square>().ItsOnEdge && !collision.gameObject.GetComponent<Square>().IsOccupied)
             {
-                if(GameObject.FindWithTag("SelectSquare").GetComponentInParent<Square>().gameObject != null)
+                if(GameObject.FindWithTag("SelectSquare") != null)
                     _square = GameObject.FindWithTag("SelectSquare").GetComponentInParent<Square>().gameObject;
 
                 transform.position = _square.transform.position;
@@ -108,7 +117,7 @@ public class locateCharacter : Photon.MonoBehaviour
 
         }
 
-
+        Debug.Log("estoy tocando " + collision.name);
     }
 
 
@@ -122,17 +131,17 @@ public class locateCharacter : Photon.MonoBehaviour
         {
             if (collision.gameObject.GetComponent<Square>().ItsOnEdge && !collision.gameObject.GetComponent<Square>().IsOccupied)
             {
-
                 collision.GetComponent<Square>().activeVisualFeekbackOfSelectSquare();
+
 
 
                 if (_square != null && _square != collision.gameObject)
                 {
                     _square.GetComponent<Square>().desactiveVisualFeekbackOfSelectSquare();
+                    
                 }
 
                 _square = collision.gameObject;
-
             }
         }
     }
@@ -147,8 +156,10 @@ public class locateCharacter : Photon.MonoBehaviour
         if (collision.CompareTag("Square"))
         {
             collision.GetComponent<Square>().desactiveVisualFeekbackOfSelectSquare();
+            
 
         }
+        
     }
 
 
@@ -175,6 +186,19 @@ public class locateCharacter : Photon.MonoBehaviour
         set
         {
             _markSquare = value;
+        }
+    }
+
+    public GameObject Guide
+    {
+        get
+        {
+            return _guide;
+        }
+
+        set
+        {
+            _guide = value;
         }
     }
 }

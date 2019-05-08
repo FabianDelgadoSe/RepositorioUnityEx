@@ -15,12 +15,13 @@ public class CharacterSelectionable : Photon.PunBehaviour
     public bool _isSelected = false;
     [SerializeField] private TextMeshProUGUI _name;
     private PhotonPlayer _playerSelect;
+    [SerializeField] private Color _normalColor;
+    [SerializeField] private Color _selecColor;
 
     // Use this for initialization
     void Start()
     {
-        GetComponent<Image>().sprite = _character._iconUnSelected;
-        _name.text = _character._name;
+        GetComponent<Image>().sprite = _character._faceCharacter;
         _playerData = FindObjectOfType<PlayerDataInGame>();
         _lobbyManager = FindObjectOfType<LobbyManager>();
     }
@@ -44,7 +45,7 @@ public class CharacterSelectionable : Photon.PunBehaviour
         {
             PlayerSelect = Player;
             _isSelected = true;
-            GetComponent<Image>().sprite = _character._iconSelected;
+            GetComponent<Image>().color = _selecColor;
             _name.text = Player.NickName.ToString();
             _lobbyManager.allPlayerSelectCharacter();
         }
@@ -60,8 +61,8 @@ public class CharacterSelectionable : Photon.PunBehaviour
     {
         PlayerSelect = null;
         _isSelected = false;
-        GetComponent<Image>().sprite = _character._iconUnSelected;
-        _name.text = _character.name;
+        GetComponent<Image>().color = _normalColor;
+        _name.text = "";
         FindObjectOfType<LobbyManager>().allPlayerSelectCharacter();
     }
 
@@ -70,7 +71,7 @@ public class CharacterSelectionable : Photon.PunBehaviour
     /// </summary>
     public void characterClicked()
     {
-        if (_lobbyManager.AllowPick)
+        if (_lobbyManager.AllowPick && Input.touchCount<=1)
         {
             if (!_isSelected && _playerData.CharacterSelected == null)
             {

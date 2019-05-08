@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 public class ControlRound : Photon.PunBehaviour
 {
 
-    private bool _allowMove = false; // controla que solo pueda usar una carta de movimiento por turno
+    [SerializeField]private bool _allowMove = false; // controla que solo pueda usar una carta de movimiento por turno
     public int _noMovementPlayes = 0;
     public int _numberOfCardsUsed = 0;
     private int _numberRounds = 0;
@@ -47,7 +47,6 @@ public class ControlRound : Photon.PunBehaviour
     }
 
 
-
     public void useLetter()
     {
         _numberOfCardsUsed++;
@@ -78,7 +77,6 @@ public class ControlRound : Photon.PunBehaviour
     public void newPlayerWithoutMovements()
     {
         _noMovementPlayes++;
-        Debug.Log("numero de players sin movimientos " + _noMovementPlayes);
     }
 
     [PunRPC]
@@ -93,7 +91,6 @@ public class ControlRound : Photon.PunBehaviour
         {
             _ghost.SetActive(true);
         }
-
 
     }
 

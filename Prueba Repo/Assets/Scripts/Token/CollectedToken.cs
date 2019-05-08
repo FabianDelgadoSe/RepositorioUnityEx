@@ -10,7 +10,6 @@ public class CollectedToken : MonoBehaviour {
     [SerializeField] private Sprite _blueGem;
     [SerializeField] private Sprite _greenGem;
     [SerializeField] private Sprite _yellowGem;
-
     private GameObject _player;
     private Square.typesSquares enumtypesSquares;
 
@@ -21,7 +20,6 @@ public class CollectedToken : MonoBehaviour {
 
         enumtypesSquares = _player.GetComponent<PlayerMove>().Square.GetComponent<Square>().EnumTypesSquares;
         transform.position = _player.transform.position;
-
         changeSprite();
 	}
 
@@ -54,7 +52,12 @@ public class CollectedToken : MonoBehaviour {
         transform.Translate(Vector2.up * Time.deltaTime);
 	}
 
+    
+    private void OnDestroy()
+    {
 
+    }
+    
     public Square.typesSquares EnumtypesSquares
     {
         get
@@ -80,4 +83,5 @@ public class CollectedToken : MonoBehaviour {
             _player = value;
         }
     }
+
 }

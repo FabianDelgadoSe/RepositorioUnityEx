@@ -14,6 +14,9 @@ public class Bait : Photon.PunBehaviour
     private ControlBait _controlBait;
     private ControlTurn _controlTurn;
 
+    [Header("Objeto de seleccion")]
+    [SerializeField]private GameObject _select;
+
     private void Start()
     {
         _controlTurn = FindObjectOfType<ControlTurn>();
@@ -45,7 +48,7 @@ public class Bait : Photon.PunBehaviour
     {
         if (_controlTurn.AllowToPlaceBait)
         {
-
+            _select.SetActive(true);
             GameObject aux;
 
             switch (_baitType)
@@ -73,6 +76,11 @@ public class Bait : Photon.PunBehaviour
                     break;
             }
         }
+    }
+
+    public void deselect()
+    {
+        _select.SetActive(false);
     }
 
     public void changeNumberBaits()

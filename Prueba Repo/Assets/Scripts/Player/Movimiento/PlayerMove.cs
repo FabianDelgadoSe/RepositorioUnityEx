@@ -21,7 +21,9 @@ public class PlayerMove : Photon.PunBehaviour
     public GameObject _playerDrag;  // para cuando esta empujando saber cual objeto esta detras de el;
     public ControlTurn _controlTurn; // Para no estar buscando el script tantas veces;
     private bool repositionPlayer = false;
-
+    private bool _createdArrow = false; // permite saber si en este player se crearon flechas
+    private GameObject _card; // permite saber cual carta tiene que reactivar
+    [SerializeField]private int _lostPoints = 0;
     /// <summary>
     /// revisa si el player pertenerce a esta pantalla
     /// </summary>
@@ -85,21 +87,12 @@ public class PlayerMove : Photon.PunBehaviour
         }
     }
 
-    /// <summary>
-    /// Es llamado cuando se revice el numero de pasos que debe dar
-    /// </summary>
-    public void createMovementDirections()
-    {
-        createArrows();
-    }
-
-    /// <summary>
-    /// recibe y guarda la candidad de pasos que va a dar la ficha
-    /// </summary>
-    /// <param name="steps"></param>
     [PunRPC]
-    public void receiveNumberOfSteps(int steps)
+    public void receiveAdress(Arrow.adress adress ,int steps)
     {
+        this.adress = adress;
+        repositionPlayer = false;
+
         int index = FindObjectOfType<ControlTurn>().IndexTurn;
 
         // se hace de esta forma por que muchos jugadores pueden mover una misma ficha entonces nunca se esta seguro de 
@@ -117,43 +110,40 @@ public class PlayerMove : Photon.PunBehaviour
             }
         }
 
-
         NumberSteps = steps;
     }
 
-    [PunRPC]
-    public void receiveAdress(Arrow.adress adress)
-    {
-        this.adress = adress;
-        repositionPlayer = false;
-    }
-
     /// <summary>
-    /// Crea 4 flechas para moverse es llamadado desde el metodo CreateMovementDirections
+    /// Crea 4 flechas para moverse es llamadado desde miniCard
     /// </summary>
-    private void createArrows()
+    public void createArrows( int steps)
     {
         FindObjectOfType<ControlTurn>().AllowSelectCardMove = false; // evita que se puedan seleccionar mas movimientos cuando las flechas estan creadas
+        CreatedArrow = true;
         GameObject aux;
         // flecha de abajo
         aux = Instantiate(_arrow, transform.position, Quaternion.identity);
         aux.GetComponent<Arrow>().EnumAdress = Arrow.adress.DOWN;
         aux.GetComponent<Arrow>().Player = gameObject;
+        aux.GetComponent<Arrow>().Steps = steps;
 
         // Flecha de arriba
         aux = Instantiate(_arrow, transform.position, Quaternion.identity);
         aux.GetComponent<Arrow>().EnumAdress = Arrow.adress.UP;
         aux.GetComponent<Arrow>().Player = gameObject;
+        aux.GetComponent<Arrow>().Steps = steps;
 
         //Flecha de la derecha
         aux = Instantiate(_arrow, transform.position, Quaternion.identity);
         aux.GetComponent<Arrow>().EnumAdress = Arrow.adress.RIGHT;
         aux.GetComponent<Arrow>().Player = gameObject;
+        aux.GetComponent<Arrow>().Steps = steps;
 
         //Flecha de la izquierda
         aux = Instantiate(_arrow, transform.position, Quaternion.identity);
         aux.GetComponent<Arrow>().EnumAdress = Arrow.adress.LEFT;
         aux.GetComponent<Arrow>().Player = gameObject;
+        aux.GetComponent<Arrow>().Steps = steps;
 
     }
 
@@ -179,10 +169,11 @@ public class PlayerMove : Photon.PunBehaviour
         if (NumberSteps >= 1)
         {
             _starPoint = transform.position;
-
+            GetComponent<Animator>().SetBool("Move", true);
             switch (adress)
             {
                 case Arrow.adress.DOWN:
+
                     //si la casilla no esta en el borde o es un muro pierdo punto de una vez
                     if (Square.GetComponent<Square>()._squareDown != null && !Square.GetComponent<Square>()._squareDown.GetComponent<Square>().IsWall)
                     {
@@ -203,12 +194,25 @@ public class PlayerMove : Photon.PunBehaviour
                         }
                         else
                         {
-                            GameObject aux = Square.GetComponent<Square>()._squareDown.GetComponent<Square>().Player;
-                            aux.GetComponent<PlayerMove>().NumberSteps = 1;
-                            aux.GetComponent<PlayerMove>().Adress = adress;
-                            aux.GetComponent<PlayerMove>().PlayerDrag = gameObject;
-                            aux.GetComponent<PlayerMove>().calculatePointToMove();
-                            Move = false; // me dejo de mover hasta que el otro me diga si puedo
+                            if (!Square.GetComponent<Square>()._squareDown.GetComponent<Square>().HasBoss)
+                            {
+                                GameObject aux = Square.GetComponent<Square>()._squareDown.GetComponent<Square>().Player;
+                                aux.GetComponent<PlayerMove>().NumberSteps = 1;
+                                aux.GetComponent<PlayerMove>().Adress = adress;
+                                aux.GetComponent<PlayerMove>().PlayerDrag = gameObject;
+                                aux.GetComponent<PlayerMove>().calculatePointToMove();
+                                Move = false; // me dejo de mover hasta que el otro me diga si puedo
+                            }
+                            else
+                            {
+                                GameObject aux = Square.GetComponent<Square>()._squareDown.GetComponent<Square>().Player;
+                                aux.GetComponent<BehaviourGhost>().Steps = 1;
+                                aux.GetComponent<BehaviourGhost>().Direction = Adress;
+                                aux.GetComponent<BehaviourGhost>().PlayerDrag = gameObject;
+                                aux.GetComponent<BehaviourGhost>().move();
+                                Move = false;
+                            }
+
 
                         }
                     }
@@ -216,12 +220,18 @@ public class PlayerMove : Photon.PunBehaviour
                     {
                         Move = false;
                         FindObjectOfType<ControlRound>().AllowMove = false; // no deja seguir usando cartas de movimiento
+                        GetComponent<Animator>().SetBool("Move", false);
 
-                        if (_controlTurn.MyTurn)
+                        if (_playerDrag == null)
                         {
-                            FindObjectOfType<ControlRound>().useLetter();
-                            FindObjectOfType<ControlTokens>().earnToken(Square.GetComponent<Square>().EnumTypesSquares);
-                            _controlTurn.AllowToPlaceBait = true;
+                            lostPoints();
+
+                            if (_controlTurn.MyTurn)
+                            {
+                                FindObjectOfType<ControlRound>().useLetter();
+                                FindObjectOfType<ControlTokens>().earnToken(Square.GetComponent<Square>().EnumTypesSquares);
+                                _controlTurn.AllowToPlaceBait = true;
+                            }
                         }
 
                         //si esta en una casilla con un cebo es por que es un bueno entonces que se active
@@ -230,7 +240,15 @@ public class PlayerMove : Photon.PunBehaviour
                             _square.GetComponent<Square>().BaitInGame.GetComponent<BaitBehaviour>().behaviourCoin();
                         }
 
-                        lostPoints();
+                        if (_playerDrag != null && _playerDrag.GetComponent<PlayerMove>())
+                        {
+                            _playerDrag.GetComponent<PlayerMove>().onBait();
+                            _playerDrag.GetComponent<PlayerMove>().lostPoints();
+                            _playerDrag.GetComponent<PlayerMove>().calculatePointToMove();
+                            PlayerDrag = null;
+                        }
+
+                      
 
                     }
                     break;
@@ -255,13 +273,24 @@ public class PlayerMove : Photon.PunBehaviour
                         }
                         else
                         {
-
-                            GameObject aux = Square.GetComponent<Square>()._squareUp.GetComponent<Square>().Player;
-                            aux.GetComponent<PlayerMove>().NumberSteps = 1;
-                            aux.GetComponent<PlayerMove>().Adress = adress;
-                            aux.GetComponent<PlayerMove>().PlayerDrag = gameObject;
-                            aux.GetComponent<PlayerMove>().calculatePointToMove();
-                            Move = false;
+                            if (!Square.GetComponent<Square>()._squareUp.GetComponent<Square>().HasBoss)
+                            {
+                                GameObject aux = Square.GetComponent<Square>()._squareUp.GetComponent<Square>().Player;
+                                aux.GetComponent<PlayerMove>().NumberSteps = 1;
+                                aux.GetComponent<PlayerMove>().Adress = adress;
+                                aux.GetComponent<PlayerMove>().PlayerDrag = gameObject;
+                                aux.GetComponent<PlayerMove>().calculatePointToMove();
+                                Move = false; // me dejo de mover hasta que el otro me diga si puedo
+                            }
+                            else
+                            {
+                                GameObject aux = Square.GetComponent<Square>()._squareUp.GetComponent<Square>().Player;
+                                aux.GetComponent<BehaviourGhost>().Steps = 1;
+                                aux.GetComponent<BehaviourGhost>().Direction = Adress;
+                                aux.GetComponent<BehaviourGhost>().PlayerDrag = gameObject;
+                                aux.GetComponent<BehaviourGhost>().move();
+                                Move = false;
+                            }
                         }
                     }
 
@@ -269,12 +298,18 @@ public class PlayerMove : Photon.PunBehaviour
                     {
                         Move = false;
                         FindObjectOfType<ControlRound>().AllowMove = false;
+                        GetComponent<Animator>().SetBool("Move", false);
 
-                        if ( _controlTurn.MyTurn)
+                        if ( _playerDrag == null)
                         {
-                            FindObjectOfType<ControlRound>().useLetter();
-                            FindObjectOfType<ControlTokens>().earnToken(Square.GetComponent<Square>().EnumTypesSquares);
-                            _controlTurn.AllowToPlaceBait = true;
+                            lostPoints();
+
+                            if (_controlTurn.MyTurn)
+                            {
+                                FindObjectOfType<ControlRound>().useLetter();
+                                FindObjectOfType<ControlTokens>().earnToken(Square.GetComponent<Square>().EnumTypesSquares);
+                                _controlTurn.AllowToPlaceBait = true;
+                            }
                         }
 
                         if (_square.GetComponent<Square>().HaveBait)
@@ -282,12 +317,21 @@ public class PlayerMove : Photon.PunBehaviour
                             _square.GetComponent<Square>().BaitInGame.GetComponent<BaitBehaviour>().behaviourCoin();
                         }
 
-                        lostPoints();
+                        if (_playerDrag != null && _playerDrag.GetComponent<PlayerMove>())
+                        {
+                            _playerDrag.GetComponent<PlayerMove>().onBait();
+                            _playerDrag.GetComponent<PlayerMove>().lostPoints();
+                            _playerDrag.GetComponent<PlayerMove>().calculatePointToMove();
+                            PlayerDrag = null;
+                        }
+
+                       
 
                     }
                     break;
 
                 case Arrow.adress.LEFT:
+                    GetComponent<SpriteRenderer>().flipX = true;
                     if (Square.GetComponent<Square>()._squareLeft != null && !Square.GetComponent<Square>()._squareLeft.GetComponent<Square>().IsWall)
                     {
 
@@ -307,25 +351,42 @@ public class PlayerMove : Photon.PunBehaviour
                         }
                         else
                         {
-
-                            GameObject aux = Square.GetComponent<Square>()._squareLeft.GetComponent<Square>().Player;
-                            aux.GetComponent<PlayerMove>().NumberSteps = 1;
-                            aux.GetComponent<PlayerMove>().Adress = adress;
-                            aux.GetComponent<PlayerMove>().PlayerDrag = gameObject;
-                            aux.GetComponent<PlayerMove>().calculatePointToMove();
-                            Move = false;
+                            if (!Square.GetComponent<Square>()._squareLeft.GetComponent<Square>().HasBoss)
+                            {
+                                GameObject aux = Square.GetComponent<Square>()._squareLeft.GetComponent<Square>().Player;
+                                aux.GetComponent<PlayerMove>().NumberSteps = 1;
+                                aux.GetComponent<PlayerMove>().Adress = adress;
+                                aux.GetComponent<PlayerMove>().PlayerDrag = gameObject;
+                                aux.GetComponent<PlayerMove>().calculatePointToMove();
+                                Move = false; // me dejo de mover hasta que el otro me diga si puedo
+                            }
+                            else
+                            {
+                                GameObject aux = Square.GetComponent<Square>()._squareLeft.GetComponent<Square>().Player;
+                                aux.GetComponent<BehaviourGhost>().Steps = 1;
+                                aux.GetComponent<BehaviourGhost>().Direction = Adress;
+                                aux.GetComponent<BehaviourGhost>().PlayerDrag = gameObject;
+                                aux.GetComponent<BehaviourGhost>().move();
+                                Move = false;
+                            }
                         }
                     }
                     else
                     {
                         Move = false;
                         FindObjectOfType<ControlRound>().AllowMove = false;
+                        GetComponent<Animator>().SetBool("Move", false);
 
-                        if ( _controlTurn.MyTurn)
+                        if (_playerDrag == null)
                         {
-                            FindObjectOfType<ControlRound>().useLetter();
-                            FindObjectOfType<ControlTokens>().earnToken(Square.GetComponent<Square>().EnumTypesSquares);
-                            _controlTurn.AllowToPlaceBait = true;
+                            lostPoints();
+
+                            if (_controlTurn.MyTurn)
+                            {
+                                FindObjectOfType<ControlRound>().useLetter();
+                                FindObjectOfType<ControlTokens>().earnToken(Square.GetComponent<Square>().EnumTypesSquares);
+                                _controlTurn.AllowToPlaceBait = true;
+                            }
                         }
 
                         if (_square.GetComponent<Square>().HaveBait)
@@ -333,12 +394,20 @@ public class PlayerMove : Photon.PunBehaviour
                             _square.GetComponent<Square>().BaitInGame.GetComponent<BaitBehaviour>().behaviourCoin();
                         }
 
-                        lostPoints();
+                        if (_playerDrag != null && _playerDrag.GetComponent<PlayerMove>())
+                        {
+                            _playerDrag.GetComponent<PlayerMove>().onBait();
+                            _playerDrag.GetComponent<PlayerMove>().lostPoints();
+                            _playerDrag.GetComponent<PlayerMove>().calculatePointToMove();
+                            PlayerDrag = null;
+                        }
+
 
                     }
                     break;
 
                 case Arrow.adress.RIGHT:
+                    GetComponent<SpriteRenderer>().flipX = false;
                     if (Square.GetComponent<Square>()._squareRigh != null && !Square.GetComponent<Square>()._squareRigh.GetComponent<Square>().IsWall)
                     {
 
@@ -359,24 +428,43 @@ public class PlayerMove : Photon.PunBehaviour
                         else
                         {
 
-                            GameObject aux = Square.GetComponent<Square>()._squareRigh.GetComponent<Square>().Player;
-                            aux.GetComponent<PlayerMove>().NumberSteps = 1;
-                            aux.GetComponent<PlayerMove>().Adress = adress;
-                            aux.GetComponent<PlayerMove>().PlayerDrag = gameObject;
-                            aux.GetComponent<PlayerMove>().calculatePointToMove();
-                            Move = false;
+                            if (!Square.GetComponent<Square>()._squareRigh.GetComponent<Square>().HasBoss)
+                            {
+                                GameObject aux = Square.GetComponent<Square>()._squareRigh.GetComponent<Square>().Player;
+                                aux.GetComponent<PlayerMove>().NumberSteps = 1;
+                                aux.GetComponent<PlayerMove>().Adress = adress;
+                                aux.GetComponent<PlayerMove>().PlayerDrag = gameObject;
+                                aux.GetComponent<PlayerMove>().calculatePointToMove();
+                                Move = false; // me dejo de mover hasta que el otro me diga si puedo
+                            }
+                            else
+                            {
+                                GameObject aux = Square.GetComponent<Square>()._squareRigh.GetComponent<Square>().Player;
+                                aux.GetComponent<BehaviourGhost>().Steps = 1;
+                                aux.GetComponent<BehaviourGhost>().Direction = Adress;
+                                aux.GetComponent<BehaviourGhost>().PlayerDrag = gameObject;
+                                aux.GetComponent<BehaviourGhost>().move();
+                                Move = false;
+                            }
                         }
                     }
                     else
                     {
                         Move = false;
                         FindObjectOfType<ControlRound>().AllowMove = false;
+                        GetComponent<Animator>().SetBool("Move", false);
 
-                        if ( _controlTurn.MyTurn)
+                        if (_playerDrag == null)
                         {
-                            FindObjectOfType<ControlRound>().useLetter();
-                            FindObjectOfType<ControlTokens>().earnToken(Square.GetComponent<Square>().EnumTypesSquares);
-                            _controlTurn.AllowToPlaceBait = true;
+                            lostPoints();
+
+                            if (_controlTurn.MyTurn)
+                            {
+                                FindObjectOfType<ControlRound>().useLetter();
+                                FindObjectOfType<ControlTokens>().earnToken(Square.GetComponent<Square>().EnumTypesSquares);
+
+                                _controlTurn.AllowToPlaceBait = true;
+                            }
                         }
 
                         if (_square.GetComponent<Square>().HaveBait)
@@ -384,7 +472,15 @@ public class PlayerMove : Photon.PunBehaviour
                             _square.GetComponent<Square>().BaitInGame.GetComponent<BaitBehaviour>().behaviourCoin();
                         }
 
-                        lostPoints();
+                        if (_playerDrag !=null && _playerDrag.GetComponent<PlayerMove>())
+                        {
+                            _playerDrag.GetComponent<PlayerMove>().onBait();
+                            _playerDrag.GetComponent<PlayerMove>().lostPoints();
+                            _playerDrag.GetComponent<PlayerMove>().calculatePointToMove();
+                            PlayerDrag = null;
+                        }
+
+                 
 
                     }
 
@@ -396,10 +492,10 @@ public class PlayerMove : Photon.PunBehaviour
         {
 
             Move = false;
+            GetComponent<Animator>().SetBool("Move", false);
+
             if (!repositionPlayer)
             {
-
-
                 FindObjectOfType<ControlRound>().AllowMove = false; // evita que se use otra carta de movimiento
 
 
@@ -417,13 +513,12 @@ public class PlayerMove : Photon.PunBehaviour
                         _controlTurn.AllowToPlaceBait = true;
                     }
                 }
-
-
-                if (PlayerDrag != null)
+                else
                 {
-                    PlayerDrag.GetComponent<PlayerMove>().calculatePointToMove();
+                    // para cuandoes empujado
+                    PlayerDrag.GetComponent<PlayerMove>().calculatePointToMove();                    
 
-                    if (PlayerDrag.GetComponent<PlayerMove>().NumberSteps == 1)
+                    if (PlayerDrag.GetComponent<PlayerMove>().NumberSteps == 0 && PlayerDrag.GetComponent<PlayerMove>().PlayerDrag == null)
                     {
                         if (_square.GetComponent<Square>().HaveBait)
                         {
@@ -442,18 +537,44 @@ public class PlayerMove : Photon.PunBehaviour
 
     }
 
+    public void onBait()
+    {
+        if(_square.GetComponent<Square>().HaveBait)
+            _square.GetComponent<Square>().BaitInGame.GetComponent<BaitBehaviour>().behaviourCoin();
+        
+        if (_playerDrag != null && _playerDrag.GetComponent<PlayerMove>())
+        {
+            _playerDrag.GetComponent<PlayerMove>().onBait();
+        }
+    }
+
     /// <summary>
     /// revisa si este es el objeto que tiene que perder puntos y si este pertenece a este dispositivo
     /// </summary>
     public void lostPoints()
     {
+
         if (PlayerDrag == null)
         {
             if (FindObjectOfType<PlayerDataInGame>().CharactersInGame[FindObjectOfType<ControlTurn>().IndexTurn - 1].Score > 0)
             {
                 if (FindObjectOfType<ControlTurn>().MyTurn)
                 {
-                    SSTools.ShowMessage("pierdo " + NumberSteps, SSTools.Position.bottom, SSTools.Time.threeSecond);
+                    FindObjectOfType<MyLostPoint>().NumberLostPoint += NumberSteps;
+                    FindObjectOfType<MyLostPoint>().visualLostToken();
+                }
+                else
+                {
+                    OthersPlayersData[] aux = FindObjectsOfType<OthersPlayersData>();
+
+                    for (int i = 0; i < aux.Length; i++)
+                    {
+                        if (aux[i].IdOfThePlayerThatRepresents == FindObjectOfType<ControlTurn>().IndexTurn)
+                        {
+                            aux[i].NumberLostPoint += NumberSteps;
+                            aux[i].visualLostToken();
+                        }
+                    }
                 }
 
                 FindObjectOfType<PlayerDataInGame>().CharactersInGame[FindObjectOfType<ControlTurn>().IndexTurn - 1].Score -= NumberSteps;
@@ -471,6 +592,24 @@ public class PlayerMove : Photon.PunBehaviour
         NumberSteps = 0;
     }
 
+
+    public void OnMouseDown()
+    {
+
+        if (CreatedArrow)
+        {
+            FindObjectOfType<ControlTurn>().AllowSelectCardMove = true;
+            Card.GetComponent<Card>().deselectCard(true);
+            Card = null;
+            _createdArrow = false;
+
+            //borra las cartas
+            Arrow[] aux = FindObjectsOfType<Arrow>();
+
+            for (int i = 0; i < aux.Length; i++)
+                Destroy(aux[i].gameObject);
+        }
+    }
 
     /////////////////////////// GET Y SET ///////////////
 
@@ -570,4 +709,42 @@ public class PlayerMove : Photon.PunBehaviour
         }
     }
 
+    public GameObject Card
+    {
+        get
+        {
+            return _card;
+        }
+
+        set
+        {
+            _card = value;
+        }
+    }
+
+    public bool CreatedArrow
+    {
+        get
+        {
+            return _createdArrow;
+        }
+
+        set
+        {
+            _createdArrow = value;
+        }
+    }
+
+    public int LostPoints
+    {
+        get
+        {
+            return _lostPoints;
+        }
+
+        set
+        {
+            _lostPoints = value;
+        }
+    }
 }

@@ -25,7 +25,6 @@ public class DesactiveAndActiceOther : MonoBehaviour
 
     public void desactiveOtherObject()
     {
-        Debug.Log("se acabo la espera ");
         gameObject.SetActive(false);
     }
 

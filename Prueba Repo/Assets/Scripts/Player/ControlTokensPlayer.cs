@@ -4,7 +4,8 @@ using UnityEngine;
 /// <summary>
 /// Controla el numero de tokens obtenidos por un jugador en una ronda
 /// </summary>
-public class ControlTokensPlayer : Photon.PunBehaviour {
+public class ControlTokensPlayer : Photon.PunBehaviour
+{
 
     [Header("FeedBack visual de token obtenido")]
     [SerializeField] private GameObject _token;
@@ -16,6 +17,7 @@ public class ControlTokensPlayer : Photon.PunBehaviour {
     private int _greenToken = 0;
     private int _yellowToken = 0;
     private int _indexSquare = 0;
+    private int _numberTokens = 0;
     private GameObject _portraitThatRepresents;  //marco que muestra la informacion de los otros players
 
     private PlayerDataInGame _playerDataInGame;
@@ -64,12 +66,13 @@ public class ControlTokensPlayer : Photon.PunBehaviour {
                 break;
         }
 
+        NumberTokens++;
 
         GameObject aux = Instantiate(_token); // crea un gema y la guarda en una variable
         aux.GetComponent<CollectedToken>().Player = _playerDataInGame.CharactersInGame[_controlTurn.IndexTurn - 1].Character;
 
         if (!FindObjectOfType<ControlTurn>().MyTurn)
-            PortraitThatRepresents.GetComponent<OthersPlayersData>().getToken(typesSquares);           
+            PortraitThatRepresents.GetComponent<OthersPlayersData>().getToken(typesSquares);
 
     }
 
@@ -102,7 +105,7 @@ public class ControlTokensPlayer : Photon.PunBehaviour {
         else
         {
             OthersPlayersData[] aux = FindObjectsOfType<OthersPlayersData>();
-            for (int i = 0; i<aux.Length; i++)
+            for (int i = 0; i < aux.Length; i++)
             {
                 if (aux[i].IdOfThePlayerThatRepresents == GetComponent<PlayerMove>().IdOwner.ID)
                 {
@@ -187,6 +190,19 @@ public class ControlTokensPlayer : Photon.PunBehaviour {
         set
         {
             _obtainedTokens = value;
+        }
+    }
+
+    public int NumberTokens
+    {
+        get
+        {
+            return _numberTokens;
+        }
+
+        set
+        {
+            _numberTokens = value;
         }
     }
 }

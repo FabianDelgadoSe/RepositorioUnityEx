@@ -26,7 +26,7 @@ public class ControlCharacterLocation : Photon.PunBehaviour {
 
     public void locateCharacterOnTheEdge()
     {
-        GameObject aux = PhotonNetwork.Instantiate("Personaje Basico",new Vector3(-6,2,0),Quaternion.identity,0);
+        GameObject aux = PhotonNetwork.Instantiate("Personaje Basico",new Vector3(0,0,0),Quaternion.identity,0);
         FindObjectOfType<ControlTokens>().Player = aux;
     }
     

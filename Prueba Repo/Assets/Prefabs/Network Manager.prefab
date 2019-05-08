@@ -96,6 +96,7 @@ MonoBehaviour:
   _version: 1
   _roomName: {fileID: 0}
   _connectingTextPrefab: {fileID: 0}
+  _backButton: {fileID: 0}
 --- !u!114 &114577152846884590
 MonoBehaviour:
   m_ObjectHideFlags: 0

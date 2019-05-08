@@ -10,4 +10,5 @@ public class Character : ScriptableObject {
     public Sprite _iconUnSelected;
     public Sprite _iconSelected;
     public Sprite _faceCharacter;
+    public RuntimeAnimatorController _animator;
 }

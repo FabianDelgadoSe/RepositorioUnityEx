@@ -27,7 +27,7 @@ public class PlayerRepositioning : Photon.PunBehaviour
             {
                 for (int i = 0; i < _playerData.CharactersInGame.Length; i++)
                 {
-                    Debug.Log(_playerData.CharactersInGame[i].Character.GetComponent<PlayerMove>().Square.GetComponent<Square>()._enumTypesSquares);
+
                     if (_playerData.CharactersInGame[i].Character.GetComponent<PlayerMove>().Square.GetComponent<Square>()._enumTypesSquares == Square.typesSquares.WALL)
                     {
                         _charactesInWall.Add(_playerData.CharactersInGame[i].Character);

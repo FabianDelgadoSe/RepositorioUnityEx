@@ -27,7 +27,8 @@ public class ControlBet : Photon.PunBehaviour {
 
     public void betResult(int redTokens, int blueTokens, int greenTokens, int yellowTokens)
     {
-        _winningBet = Square.typesSquares.WALL; 
+        _winningBet = Square.typesSquares.WALL;
+        FindObjectOfType<ControlTurn>().Bemade = false;
 
         if (blueTokens > redTokens && blueTokens > greenTokens && blueTokens > yellowTokens)
         {
@@ -45,14 +46,21 @@ public class ControlBet : Photon.PunBehaviour {
         {
             _winningBet = Square.typesSquares.YELLOW;
         }
-        else
-        {
-            SSTools.ShowMessage("Nadie gana la apuesta", SSTools.Position.bottom, SSTools.Time.threeSecond);
-        }
 
         for (int i = 0; i<Bets.Length;i++) {
 
+            if (i == PhotonNetwork.player.ID - 1)
+            {
+                if (Bets[i] == _winningBet)
+                    FindObjectOfType<PanelInformation>().showMessages(PanelInformation.Messages.SUN_TOKENS_WIN_BET);
+                else
+                    FindObjectOfType<PanelInformation>().showMessages(PanelInformation.Messages.SUN_TOKENS_LOSE_BET);
+            }
+
+
+
             if (Bets[i] == _winningBet) {
+
                 switch (Bets[i])
                 {
                     case Square.typesSquares.BLUE:
@@ -77,6 +85,7 @@ public class ControlBet : Photon.PunBehaviour {
         // despues de encontrar a al ganador de la apuesta se reinician los valores para la apuesta
         _betMade = false;
         _numberPlayerWithBet = 0;
+        FindObjectOfType<BetImage>().finishBet();
     }
     
     
@@ -92,7 +101,11 @@ public class ControlBet : Photon.PunBehaviour {
             _betMade = true;
             _controlTurn.mineTurn(_controlTurn.IndexTurn);
             _numberPlayerWithBet = 0;
-            
+
+        }
+        else if (FindObjectOfType<ControlTurn>().Bemade)
+        {
+            FindObjectOfType<PanelInformation>().showMessages(PanelInformation.Messages.OTHER_PLAYERS_THINKING_PREDICTION);
         }
 
 

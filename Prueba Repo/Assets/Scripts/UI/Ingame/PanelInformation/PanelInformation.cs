@@ -6,6 +6,7 @@ using TMPro;
 public class PanelInformation : MonoBehaviour
 {
     [SerializeField] private TMP_Text _text;
+    [SerializeField] private TMP_Text _textBetweenLevels;
 
     #region textos que se muestran durante la partida
     private const string EMPTY = "";
@@ -16,6 +17,13 @@ public class PanelInformation : MonoBehaviour
     private const string LATER_PUT_BAIT = "Ya no tienes nada mas que hacer termina tu turno";
     private const string OTHER_PLAYER_LOCATE_CHARACTER = "Un jugador esta ubicando su ficha";
     private const string RELOCATION_CHARACTER = "Hay jugadores reubicando sus fichas";
+    private const string SELECT_PREDICTION = "¿Que token será el que mas se obtenga en esta ronda ?";
+    private const string OTHER_PLAYERS_THINKING_PREDICTION = "Espera un momento los otros jugadores estan pensando sus predicciones";
+    private const string WIN_MISSION = "Cumpliste tu mission ahora selecciona cual gema quieres como recompensa";
+    private const string OTHER_WIN_MISSION = "Un jugador cumplio su mision y esta seleccionando su recompensa";
+    private const string SUN_TOKENS_WIN_BET = "Se sumaron los tokens obtenidos en esta ronda mas uno extra por acertar tu prediccion";
+    private const string SUN_TOKENS_LOSE_BET = "Se sumaron los tokens obtenidos en esta ronda, ";
+    private const string LOSE_TOKEN = "un jugador esta eligiendo que token entregarle al fantarma";
     #endregion
 
     public enum Messages
@@ -27,13 +35,42 @@ public class PanelInformation : MonoBehaviour
         LATER_MOVE,
         LATER_PUT_BAIT,
         OTHER_PLAYER_LOCATE_CHARACTER,
-        RELOCATION_CHARACTER
+        RELOCATION_CHARACTER,
+        OTHER_PLAYERS_THINKING_PREDICTION,
+        WIN_MISSION,
+        OTHER_WIN_MISSION,
+        SUN_TOKENS_WIN_BET,
+        SUN_TOKENS_LOSE_BET,
+        LOSE_TOKEN,
+        SELECT_PREDICTION
     }
 
     public void showMessages(Messages messemessages)
     {
+
         switch (messemessages)
         {
+            case Messages.SELECT_PREDICTION:
+                _text.text = SELECT_PREDICTION;
+                break;
+            case Messages.LOSE_TOKEN:
+                _text.text = LOSE_TOKEN;
+                break;
+            case Messages.SUN_TOKENS_WIN_BET:
+                _textBetweenLevels.text = SUN_TOKENS_WIN_BET;
+                break;
+            case Messages.SUN_TOKENS_LOSE_BET:
+                _textBetweenLevels.text = SUN_TOKENS_LOSE_BET;
+                break;
+            case Messages.OTHER_WIN_MISSION:
+                _textBetweenLevels.text = OTHER_WIN_MISSION;
+                break;
+            case Messages.WIN_MISSION:
+                _textBetweenLevels.text = WIN_MISSION;
+                break;
+            case Messages.OTHER_PLAYERS_THINKING_PREDICTION:
+                _text.text = OTHER_PLAYERS_THINKING_PREDICTION;
+                break;
             case Messages.RELOCATION_CHARACTER:
                 _text.text = RELOCATION_CHARACTER;
                 break;
@@ -41,8 +78,8 @@ public class PanelInformation : MonoBehaviour
                 _text.text = START_MY_TURN;
                 break;
             case Messages.START_TURN_OTHER_PLAYER:
-                _text.text = START_TURN_OTHER_PLAYER + 
-                    FindObjectOfType<PlayerDataInGame>().CharactersInGame[FindObjectOfType<ControlTurn>().IndexTurn-1].Name;
+                _text.text = START_TURN_OTHER_PLAYER +
+                    FindObjectOfType<PlayerDataInGame>().CharactersInGame[FindObjectOfType<ControlTurn>().IndexTurn - 1].Name;
                 break;
             case Messages.LOCATE_CHARACTER:
                 _text.text = LOCATE_CHARACTER;
@@ -51,7 +88,14 @@ public class PanelInformation : MonoBehaviour
                 _text.text = LATER_PUT_BAIT;
                 break;
             case Messages.LATER_MOVE:
-                _text.text = LATER_MOVE;
+                if (FindObjectOfType<ControlBait>().NumberBaitCoin > 0 && FindObjectOfType<ControlBait>().NumberBaitPoop > 0)
+                {
+                    _text.text = LATER_MOVE;
+                }
+                else
+                {
+                    showMessages(Messages.LATER_PUT_BAIT);
+                }
                 break;
             case Messages.EMPTY:
                 _text.text = EMPTY;

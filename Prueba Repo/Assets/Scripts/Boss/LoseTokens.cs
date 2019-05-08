@@ -57,6 +57,7 @@ public class LoseTokens : Photon.PunBehaviour
         FindObjectOfType<BehaviourGhost>().photonView.RPC("loadnumberplayerTouch",PhotonTargets.AllBuffered);   
         _player.GetComponent<ControlTokensPlayer>().photonView.RPC("loseToken",PhotonTargets.AllBuffered, index);
         gameObject.SetActive(false);
+
     }
 
 

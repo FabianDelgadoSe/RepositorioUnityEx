@@ -11,6 +11,7 @@ public class Arrow : MonoBehaviour {
     private const float GAP_X = 1f;
     private const float GAP_Y = 1.2f;
     private GameObject _player;
+    private int _steps;
 
     public enum adress
     {
@@ -77,10 +78,14 @@ public class Arrow : MonoBehaviour {
 
     public void normalMovementPlayer()
     {
+        FindObjectOfType<PlayerDataInGame>().CharactersInGame[FindObjectOfType<ControlTurn>().IndexTurn - 1].Character.
+            GetComponent<SpriteRenderer>().color = Color.white;
+
         FindObjectOfType<PanelInformation>().showMessages(PanelInformation.Messages.LATER_MOVE); // mensaje
         FindObjectOfType<ControlTurn>().Myturn.SetActive(true);
 
-        _player.GetComponent<PlayerMove>().photonView.RPC("receiveAdress", PhotonTargets.All, enumAdress);
+        _player.GetComponent<PlayerMove>().CreatedArrow = false;
+        _player.GetComponent<PlayerMove>().photonView.RPC("receiveAdress", PhotonTargets.All, enumAdress, Steps);
         _player.GetComponent<PlayerMove>().photonView.RPC("calculatePointToMove", PhotonTargets.All,true);
         Arrow[] aux = FindObjectsOfType<Arrow>();
 
@@ -124,6 +129,19 @@ public class Arrow : MonoBehaviour {
         set
         {
             enumAdress = value;
+        }
+    }
+
+    public int Steps
+    {
+        get
+        {
+            return _steps;
+        }
+
+        set
+        {
+            _steps = value;
         }
     }
 }

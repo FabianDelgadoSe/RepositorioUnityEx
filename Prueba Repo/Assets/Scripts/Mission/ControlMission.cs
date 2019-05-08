@@ -5,7 +5,7 @@ using TMPro;
 
 public class ControlMission : Photon.PunBehaviour
 {
-    [Header ("mensaje inicial de que mision tienes")]
+    [Header("mensaje inicial de que mision tienes")]
     [SerializeField] private GameObject _showMision;
     [SerializeField] private TMP_Text _textDescriptionMission;
 
@@ -21,11 +21,11 @@ public class ControlMission : Photon.PunBehaviour
 
     public ConfigurationMission.enumMission _mision = ConfigurationMission.enumMission.NONE;
     private string _missionDescription;
-    private bool _reviewMission=true;
+    private bool _reviewMission = true;
     private int numberTokens;
     private int indexAux;
 
-    
+
 
     private void Start()
     {
@@ -37,7 +37,7 @@ public class ControlMission : Photon.PunBehaviour
         switch (token)
         {
             case "RED":
-                FindObjectOfType<ControlTokens>().photonView.RPC("earnExtraTokens", PhotonTargets.All, Square.typesSquares.RED,PhotonNetwork.player.ID);
+                FindObjectOfType<ControlTokens>().photonView.RPC("earnExtraTokens", PhotonTargets.All, Square.typesSquares.RED, PhotonNetwork.player.ID);
                 break;
 
             case "GREEN":
@@ -65,13 +65,23 @@ public class ControlMission : Photon.PunBehaviour
         {
             photonView.RPC("ReviewMission", _PlayerDataInGame.CharactersInGame[0].Character.GetComponent<PlayerMove>().IdOwner);
         }
-        _panelWinMission.SetActive(false);
+
+        FindObjectOfType<PanelBetweenScenes>().photonView.RPC("UpdatePanels", PhotonTargets.AllBuffered);
+        FindObjectOfType<PanelBetweenScenes>().desactiveAddButtons();
+
+
     }
 
-   [PunRPC]
-   public void desactivePanelMission()
+    [PunRPC]
+    public void desactivePanelMission()
     {
         _iconMission.SetActive(false);
+    }
+
+    [PunRPC]
+    public void messageWinMission()
+    {
+        FindObjectOfType<PanelInformation>().showMessages(PanelInformation.Messages.OTHER_WIN_MISSION);
     }
 
     [PunRPC]
@@ -82,11 +92,13 @@ public class ControlMission : Photon.PunBehaviour
             _reviewMission = false;
             if (resultMission(_mision))
             {
-                _panelWinMission.SetActive(true);
+                FindObjectOfType<PanelBetweenScenes>().ActiveAddButtons();
+                FindObjectOfType<PanelInformation>().showMessages(PanelInformation.Messages.WIN_MISSION);
+                photonView.RPC("messageWinMission", PhotonTargets.Others);
             }
             else
             {
-                SSTools.ShowMessage("No gane la mision",SSTools.Position.bottom,SSTools.Time.threeSecond);
+                SSTools.ShowMessage("No gane la mision", SSTools.Position.bottom, SSTools.Time.threeSecond);
 
                 if (FindObjectOfType<ControlTurn>().MineId < _PlayerDataInGame.CharactersInGame.Length)
                 {
@@ -96,13 +108,23 @@ public class ControlMission : Photon.PunBehaviour
                 {
                     photonView.RPC("ReviewMission", _PlayerDataInGame.CharactersInGame[0].Character.GetComponent<PlayerMove>().IdOwner);
                 }
-                
+
             }
         }
         else
         {
-            GetComponent<ControlTokens>().photonView.RPC("resetTokens", PhotonTargets.All);// quita los tokens obtenidos esta ronda
+
+            if (FindObjectOfType<ControlTurn>().MyTurn)
+            {
+                Invoke("desactivePanelDataLevel", 3);   
+            }
+
         }
+    }
+
+    public void desactivePanelDataLevel()
+    {
+        FindObjectOfType<ControlTurn>().photonView.RPC("desactivePanelBetweenLevel", PhotonTargets.AllBuffered);
     }
 
     public void distributeMissions()
@@ -113,7 +135,7 @@ public class ControlMission : Photon.PunBehaviour
         _showMision.SetActive(true);
         _textMission.text = MissionDescription;
         _reviewMission = true;
-        Invoke("finishDistributeMissions",5);
+        Invoke("finishDistributeMissions", 5);
     }
 
     public void finishDistributeMissions()
@@ -132,7 +154,7 @@ public class ControlMission : Photon.PunBehaviour
             return true;
         }
     }
-       
+
 
     /// <summary>
     /// contiene todas las evaluaciones sobre las misiones y recibe la mision que debe evaluar
@@ -271,22 +293,30 @@ public class ControlMission : Photon.PunBehaviour
 
             case ConfigurationMission.enumMission.RIGHT_MAJOR_RED:
 
-                if (FindObjectOfType<ControlTurn>().MineId -2 <0)
+                if (FindObjectOfType<ControlTurn>().MineId - 1 <= 0)
                 {
-                    indexAux = FindObjectOfType<ControlTurn>().MineId - 1;                    
+                    //aca toma el de ultimas en la lista
+                    indexAux = _PlayerDataInGame.CharactersInGame.Length - 1;
                 }
                 else
                 {
-                    indexAux = FindObjectOfType<ControlTurn>().MineId - 2;
+                    // asigna el anterior normalito
+                    indexAux = FindObjectOfType<ControlTurn>().MineId - 1;
+                    indexAux--;
                 }
 
+
                 numberTokens = _PlayerDataInGame.CharactersInGame[indexAux].Character.GetComponent<ControlTokensPlayer>().RedToken;
+
+                Debug.Log("el jugador a mi derecha es " + _PlayerDataInGame.CharactersInGame[indexAux].Name );
 
                 //evalua a cuantos jugares no supero en el numero de tokens
                 for (int i = 0; i < _PlayerDataInGame.CharactersInGame.Length; i++)
                 {
                     if (i != indexAux)
                     {
+                        Debug.Log("prueba del if " + numberTokens + " es menor que " +  _PlayerDataInGame.CharactersInGame[i].Character.GetComponent<ControlTokensPlayer>().RedToken);
+                        Debug.Log("prueba dentro del if" + _PlayerDataInGame.CharactersInGame[i].Name);
                         if (numberTokens < _PlayerDataInGame.CharactersInGame[i].Character.GetComponent<ControlTokensPlayer>().RedToken)
                         {
                             _charactersThatGotMyMission++;
@@ -295,7 +325,7 @@ public class ControlMission : Photon.PunBehaviour
                 }
 
                 // si tuvo el menor numero de ese tokens para todos los jugadores menos el entonces gana
-                if (_charactersThatGotMyMission == _PlayerDataInGame.CharactersInGame.Length-1)
+                if (_charactersThatGotMyMission == _PlayerDataInGame.CharactersInGame.Length - 1)
                 {
                     _charactersThatGotMyMission = 1;
                 }
@@ -308,13 +338,16 @@ public class ControlMission : Photon.PunBehaviour
 
             case ConfigurationMission.enumMission.RIGHT_MAJOR_BLUE:
 
-                if (FindObjectOfType<ControlTurn>().MineId - 2 < 0)
+                if (FindObjectOfType<ControlTurn>().MineId - 1 <= 0)
                 {
-                    indexAux = FindObjectOfType<ControlTurn>().MineId - 1;
+                    //aca toma el de ultimas en la lista
+                    indexAux = _PlayerDataInGame.CharactersInGame.Length - 1;
                 }
                 else
                 {
-                    indexAux = FindObjectOfType<ControlTurn>().MineId - 2;
+                    // asigna el anterior normalito
+                    indexAux = FindObjectOfType<ControlTurn>().MineId - 1;
+                    indexAux--;
                 }
 
                 numberTokens = _PlayerDataInGame.CharactersInGame[indexAux].Character.GetComponent<ControlTokensPlayer>().BlueToken;
@@ -345,14 +378,18 @@ public class ControlMission : Photon.PunBehaviour
 
             case ConfigurationMission.enumMission.RIGHT_MAJOR_GREEN:
 
-                if (FindObjectOfType<ControlTurn>().MineId - 2 < 0)
+                if (FindObjectOfType<ControlTurn>().MineId - 1 <= 0)
                 {
-                    indexAux = FindObjectOfType<ControlTurn>().MineId - 1;
+                    //aca toma el de ultimas en la lista
+                    indexAux = _PlayerDataInGame.CharactersInGame.Length - 1;
                 }
                 else
                 {
-                    indexAux = FindObjectOfType<ControlTurn>().MineId - 2;
+                    // asigna el anterior normalito
+                    indexAux = FindObjectOfType<ControlTurn>().MineId - 1;
+                    indexAux--;
                 }
+
 
                 numberTokens = _PlayerDataInGame.CharactersInGame[indexAux].Character.GetComponent<ControlTokensPlayer>().GreenToken;
 
@@ -381,14 +418,18 @@ public class ControlMission : Photon.PunBehaviour
 
             case ConfigurationMission.enumMission.RIGHT_MAJOR_YELLOW:
 
-                if (FindObjectOfType<ControlTurn>().MineId - 2 < 0)
+                if (FindObjectOfType<ControlTurn>().MineId - 1 <= 0)
                 {
-                    indexAux = FindObjectOfType<ControlTurn>().MineId - 1;
+                    //aca toma el de ultimas en la lista
+                    indexAux = _PlayerDataInGame.CharactersInGame.Length - 1;
                 }
                 else
                 {
-                    indexAux = FindObjectOfType<ControlTurn>().MineId - 2;
+                    // asigna el anterior normalito
+                    indexAux = FindObjectOfType<ControlTurn>().MineId - 1;
+                    indexAux--;
                 }
+
 
                 numberTokens = _PlayerDataInGame.CharactersInGame[indexAux].Character.GetComponent<ControlTokensPlayer>().YellowToken;
 
@@ -440,6 +481,8 @@ public class ControlMission : Photon.PunBehaviour
 
         Mision = ConfigurationMission.enumMission.NONE;
 
+        FindObjectOfType<ControlTokens>().resetTokens();
+
         if (_charactersThatGotMyMission > 0)
         {
             return true;
@@ -448,6 +491,7 @@ public class ControlMission : Photon.PunBehaviour
         {
             return false;
         }
+
     }
 
 

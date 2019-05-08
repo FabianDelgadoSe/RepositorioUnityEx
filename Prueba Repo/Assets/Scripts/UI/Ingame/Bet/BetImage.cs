@@ -9,7 +9,7 @@ public class BetImage : MonoBehaviour {
     [SerializeField] private Sprite _tokenGreen;
     [SerializeField] private Sprite _tokenBlue;
     [SerializeField] private Sprite _tokenYellow;
-
+    [SerializeField] private Sprite _hole;
 
     public void showMyBet(Square.typesSquares token)
     {
@@ -33,4 +33,10 @@ public class BetImage : MonoBehaviour {
 
         }
     }
+
+    public void finishBet()
+    {
+        GetComponent<Image>().sprite = _hole;
+    }
+
 }

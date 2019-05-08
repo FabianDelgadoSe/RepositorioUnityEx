@@ -18,6 +18,9 @@ public class ConfigurationBoard : Photon.PunBehaviour {
     [SerializeField] private Sprite _boardSquareGreen;
     [SerializeField] private Sprite _boardSquareWall;
 
+    [Header("casilla donde aparece el boss")]
+    [SerializeField] private GameObject _squareAppearGhost;
+
     /// <summary>
     /// LLamada un metodo para darle ciertos valores a los cuadros
     /// </summary>
@@ -95,6 +98,10 @@ public class ConfigurationBoard : Photon.PunBehaviour {
 
         }//cierre while
 
+        if (FindObjectOfType<ControlRound>().NumberRounds == 2)
+        {
+            _squareAppearGhost.GetComponent<Square>().photonView.RPC("changeSprite", PhotonTargets.AllBuffered, 5);
+        }
 
     }// Cierre de generateWalls
     

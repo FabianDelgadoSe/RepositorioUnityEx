@@ -7,6 +7,7 @@ public class RoomLayoutGroup : MonoBehaviour
 {
 
     [SerializeField] private GameObject _roomListingPrefab;
+    [SerializeField] private GameObject _panelConectando;
 
     private List<RoomListing> _roomListingButtons = new List<RoomListing>();
 
@@ -15,7 +16,11 @@ public class RoomLayoutGroup : MonoBehaviour
 
     private void Start()
     {
+        _panelConectando.SetActive(false);
+
         OnReceiveRoomListUpdate();
+
+        
     }
 
     public void OnReceiveRoomListUpdate()
@@ -41,12 +46,15 @@ public class RoomLayoutGroup : MonoBehaviour
     private void ResetUI()
     {
         _indexRoomListUI = 0;
-
+       
 
         foreach (GameObject roomButton in _roomListingButtonsUI)
         {
             roomButton.SetActive(false);
         }
+
+
+
     }
 
     private void RoomReceived(RoomInfo room)

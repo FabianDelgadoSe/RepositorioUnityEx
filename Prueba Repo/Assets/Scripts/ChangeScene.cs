@@ -35,12 +35,20 @@ public class ChangeScene : Photon.PunBehaviour
                 changeScene(LOBBY);
                 break;
             case Scenes.Main:
+                PhotonNetwork.LeaveRoom();
+                PhotonNetwork.LeaveLobby();
+                Destroy(FindObjectOfType<PlayerDataInGame>().gameObject);
                 changeScene(MAIN);
                 break;
             case Scenes.PreLobby:
                 changeScene(PRELOBBY);
                 break;
             case Scenes.SelectOrCreate:
+                if (PhotonNetwork.inRoom)
+                {
+                    PhotonNetwork.LeaveRoom();
+                    Destroy(FindObjectOfType<PlayerDataInGame>().gameObject);
+                }
                 changeScene(SELECTORCREATE);
                 break;
             case Scenes.SelectRoom:
@@ -50,6 +58,8 @@ public class ChangeScene : Photon.PunBehaviour
                 //crea las casillas del arreglo de personajes
                 if (FindObjectOfType<PlayerDataInGame>().CharactersInGame.Length != PhotonNetwork.room.PlayerCount)
                     FindObjectOfType<PlayerDataInGame>().CharactersInGame = new PlayerInformation[PhotonNetwork.room.PlayerCount];
+
+                FindObjectOfType<PlayerDataInGame>().Characters = new Character[PhotonNetwork.room.PlayerCount];
 
                 changeScene(INGAME);
                 break;

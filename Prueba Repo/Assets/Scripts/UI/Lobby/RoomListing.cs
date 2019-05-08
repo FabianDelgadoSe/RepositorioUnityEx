@@ -7,6 +7,7 @@ public class RoomListing : MonoBehaviour {
 
     [SerializeField] private TextMeshProUGUI _roomNameText;
     [SerializeField] private GameObject _connectingTextPrefab;
+    [SerializeField] private GameObject _panelBlock;
 
     public bool Update { get; set; }
 
@@ -26,7 +27,9 @@ public class RoomListing : MonoBehaviour {
     public void OnClickJoinRoom()
     {
         Debug.Log("Entrando al room: " + _roomName);
-        Instantiate(_connectingTextPrefab);
+
+        _panelBlock.SetActive(true);
+        _connectingTextPrefab.SetActive(true);
 
         PhotonNetwork.JoinRoom(_roomName);
     }
@@ -34,6 +37,9 @@ public class RoomListing : MonoBehaviour {
     void OnJoinedRoom()
     {
         Debug.Log("He entrado al room");
+
+        _panelBlock.SetActive(false);
+        _connectingTextPrefab.SetActive(false);
         gameObject.GetComponent<ChangeScene>().chanScene();
     }
 

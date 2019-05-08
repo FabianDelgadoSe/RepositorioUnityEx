@@ -39,7 +39,6 @@ public class ConfigurationPlayer : Photon.PunBehaviour
     [PunRPC]
     private void loadName(string name)
     {
-        Debug.Log("me llego el nombre " + name);
 
         if (FindObjectOfType<PlayerDataInGame>().CharactersInGame[FindObjectOfType<ControlTurn>().IndexTurn - 1] == null)
         {
@@ -50,8 +49,18 @@ public class ConfigurationPlayer : Photon.PunBehaviour
 
         FindObjectOfType<PlayerDataInGame>().CharactersInGame[FindObjectOfType<ControlTurn>().IndexTurn - 1].Name = name;
 
-        Debug.Log("la casilla tiene algo ? " + FindObjectOfType<PlayerDataInGame>().CharactersInGame[FindObjectOfType<ControlTurn>().IndexTurn - 1] != null);
-        Debug.Log("que nombre tiene " + FindObjectOfType<PlayerDataInGame>().CharactersInGame[FindObjectOfType<ControlTurn>().IndexTurn - 1].Name);
+        if (!FindObjectOfType<ControlTurn>().MyTurn)
+        {
+            OthersPlayersData[] aux = FindObjectsOfType<OthersPlayersData>();
+            
+            for (int i = 0; i < aux.Length; i++)
+            {
+                if (aux[i].IdOfThePlayerThatRepresents == FindObjectOfType<ControlTurn>().IndexTurn)
+                {
+                    aux[i].assignName();
+                }
+            }
+        }
 
     }
 
@@ -64,6 +73,7 @@ public class ConfigurationPlayer : Photon.PunBehaviour
         if (!FindObjectOfType<ControlTurn>().MyTurn)
         {
             OthersPlayersData[] aux = FindObjectsOfType<OthersPlayersData>();
+            GetComponent<Animator>().runtimeAnimatorController = characters[IDcharacter - 1]._animator;
 
             for (int i = 0; i < aux.Length; i++)
             {
@@ -75,14 +85,17 @@ public class ConfigurationPlayer : Photon.PunBehaviour
                 }
             }
         }
+
+        FindObjectOfType<PlayerDataInGame>().Characters[FindObjectOfType<ControlTurn>().IndexTurn - 1] = characters[IDcharacter - 1];
     }
 
-
+   
     [PunRPC]
     public void endSelectionBox(Vector3 playerPosition)
     {
         transform.position = playerPosition;
         GetComponent<SpriteRenderer>().enabled = true;
+        //GetComponent<BoxCollider2D>().size =
     }
 
 }

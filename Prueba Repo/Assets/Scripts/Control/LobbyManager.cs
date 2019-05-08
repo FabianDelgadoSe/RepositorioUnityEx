@@ -14,6 +14,19 @@ public class LobbyManager : Photon.PunBehaviour
 
     [SerializeField] private TextMeshProUGUI _playersCountText;
     [SerializeField] private TextMeshProUGUI _roomNameText;
+
+    private bool _buttonPlayStatus = true; //true= Play ; false=Cancel
+    [SerializeField] private TextMeshProUGUI _playButtonText;
+    private bool canStartMatch = false;
+
+    [SerializeField] private GameObject _startingMatchText;
+
+    [SerializeField] private List<GameObject> _candles = new List<GameObject>();
+
+
+
+
+
     [SerializeField] private Button _sbuttonPlay;
     private GameObject _selectedCharacter;
     Room _currentRoom;
@@ -33,14 +46,28 @@ public class LobbyManager : Photon.PunBehaviour
     }
 
 
+
+
     /// <summary>
     /// Obtiene la variable del NetworkManager para extraer el playercount y mandarlo al txt, obtiene nombre del room
     /// </summary>    
     [PunRPC]
     public void SetLobbyUI(PhotonPlayer player)
     {
-        _playersCountText.text = "Players: " + _currentRoom.PlayerCount.ToString();
-        _roomNameText.text = "Sala: " + _currentRoom.Name;
+        //_playersCountText.text = "Jugadores conectados: " + _currentRoom.PlayerCount.ToString();
+        _roomNameText.text = "Sala: \n" + _currentRoom.Name;
+
+        foreach (var candle in _candles)
+        {
+            candle.SetActive(false);
+        }
+
+        for (int i = 0; i < _currentRoom.playerCount; i++)
+        {
+            _candles[i].SetActive(true);
+        }
+
+
         someoneSelected(player);
         photonView.RPC("allPlayerSelectCharacter", PhotonTargets.All);
     }
@@ -128,29 +155,69 @@ public class LobbyManager : Photon.PunBehaviour
     /// </summary>  
     public void ChangeSceneIfAllPlayersSelect()
     {
-        List<CharacterSelectionable> _charactersSelectionable = FindObjectsOfType<CharacterSelectionable>().ToList();
-
-        int _charactersSelectedCount = 0;
-
-        foreach (CharacterSelectionable charactersSelectionable in _charactersSelectionable)
+        if (_buttonPlayStatus)//IniciarPartida
         {
+            
+            List<CharacterSelectionable> _charactersSelectionable = FindObjectsOfType<CharacterSelectionable>().ToList();
 
-            if (charactersSelectionable._isSelected)
+            int _charactersSelectedCount = 0;
+
+            foreach (CharacterSelectionable charactersSelectionable in _charactersSelectionable)
             {
-                _charactersSelectedCount++;
+
+                if (charactersSelectionable._isSelected)
+                {
+                    _charactersSelectedCount++;
+                }
             }
+
+            if (_charactersSelectedCount == _currentRoom.playerCount)
+            {
+
+                AllowPick = false;
+
+                photonView.RPC("LaunchStartingText", PhotonTargets.All, true);                
+            }
+            else
+            {
+                SSTools.ShowMessage("Faltan jugadores por seleccionar", SSTools.Position.bottom, SSTools.Time.twoSecond);
+            }
+
+
+
         }
-
-        if (_charactersSelectedCount == _currentRoom.playerCount)
+        else//Cancelar partida
         {
+            AllowPick = true;
 
-            FindObjectOfType<ChangeScene>().chansy();
+            photonView.RPC("LaunchStartingText", PhotonTargets.All, false);
+        }        
+
+    }
+
+    [PunRPC]
+    private void LaunchStartingText(bool activeText)
+    {
+        if (activeText)
+        {
+            CanStartMatch = true;
+            _startingMatchText.SetActive(true);
+
+            _playButtonText.text = "Cancel";
+            _buttonPlayStatus = false;
+            
+                
+
         }
         else
         {
-            SSTools.ShowMessage("Faltan jugadores por seleccionar", SSTools.Position.bottom, SSTools.Time.twoSecond);
-        }
+            CanStartMatch = false;
+            _startingMatchText.SetActive(false);
 
+            _playButtonText.text = "Play";
+            _buttonPlayStatus = true;
+
+        }
     }
 
 
@@ -191,6 +258,19 @@ public class LobbyManager : Photon.PunBehaviour
         set
         {
             _allowPick = value;
+        }
+    }
+
+    public bool CanStartMatch
+    {
+        get
+        {
+            return canStartMatch;
+        }
+
+        set
+        {
+            canStartMatch = value;
         }
     }
 }

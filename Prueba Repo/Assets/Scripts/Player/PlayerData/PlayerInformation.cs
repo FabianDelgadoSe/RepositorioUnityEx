@@ -143,4 +143,5 @@ public class PlayerInformation {
                 _name = value;
         }
     }
+
 }

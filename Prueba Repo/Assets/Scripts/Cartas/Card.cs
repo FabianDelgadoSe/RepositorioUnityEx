@@ -22,7 +22,7 @@ public class Card : MonoBehaviour
             aux = Instantiate(_miniCard, Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10)), Quaternion.identity);
             aux.GetComponent<MiniCard>().Card = gameObject;
             aux.GetComponent<MiniCard>().NumberSteps = _number;
-            gameObject.active = false;
+            gameObject.SetActive(false);
         }
 
     }
@@ -32,7 +32,7 @@ public class Card : MonoBehaviour
     /// </summary>
     public void selectCard()
     {
-        if (FindObjectOfType<ControlTurn>().MyTurn)
+        if (FindObjectOfType<ControlTurn>().MyTurn && FindObjectOfType<ControlRound>().AllowMove && FindObjectOfType<ControlTurn>().AllowSelectCardMove)
             GetComponent<Image>().color = Color.green;
     }
 
@@ -47,8 +47,7 @@ public class Card : MonoBehaviour
         {
             if (reactivate)
             {
-                GetComponent<Image>().color = Color.white;
-                gameObject.SetActive( true);
+                gameObject.SetActive(true);
             }
             else
                 gameObject.SetActive(false);
@@ -58,11 +57,12 @@ public class Card : MonoBehaviour
 
     public void reactiveCard()
     {
-        Debug.Log("soy la carta " + _number);
+        GetComponent<Image>().color = Color.white;
     }
 
     private void OnEnable()
     {
+        GetComponent<Image>().color = Color.white;
         deselectCard(true);
     }
 }

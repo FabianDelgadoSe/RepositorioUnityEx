@@ -5,12 +5,16 @@ using UnityEngine;
 public class LobbyNetwork : MonoBehaviour
 {
     public GameObject _panelConectando;
+    [SerializeField] GameObject _PanelGray;
+    [SerializeField] GameObject _ConnectText;
 
     void Start()
     {
+        
         if (PhotonNetwork.connected)
         {
             _panelConectando.SetActive(false);
+            _PanelGray.SetActive(false);
         }
         else
         {
@@ -36,10 +40,19 @@ public class LobbyNetwork : MonoBehaviour
     /// Se ejecuta cuando se entra al un lobby
     /// </summary>
     private void OnJoinedLobby()
-    {
-        _panelConectando.SetActive(false);
+    {        
         Debug.Log("Joined to Default Lobby");
 
+        Invoke("DeactivePanelsInvoke", 1f);
+        _panelConectando.GetComponent<Animator>().enabled = true;
+        _PanelGray.GetComponent<Animator>().enabled = true;   
+        _ConnectText.GetComponent<Animator>().enabled = true;
+    }
+
+    private void DeactivePanelsInvoke() {
+
+        _panelConectando.SetActive(false);
+        _PanelGray.SetActive(false);
     }
 
 }

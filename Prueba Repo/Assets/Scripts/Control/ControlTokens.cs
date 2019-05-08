@@ -11,10 +11,14 @@ public class ControlTokens : Photon.PunBehaviour
     [SerializeField] private Sprite _greenToken;
     [SerializeField] private Sprite _blueToken;
     [SerializeField] private Sprite _yellowToken;
+    [SerializeField] private Sprite _hole;
 
     [Header("Array que contiene todas las gemas")]
     [SerializeField] private GameObject[] _tokensBoxes;
     private int _numberTokens = 0;
+
+    [Header("Panel entre niveles")]
+    [SerializeField] private GameObject _PanelBetweenScenes;
 
     private GameObject _player;                   // se carga cuando se crea el player 
     private PlayerDataInGame _playerData;
@@ -114,9 +118,7 @@ public class ControlTokens : Photon.PunBehaviour
             }
             else
             {
-                _tokensBoxes[i].GetComponent<Image>().sprite = null;
-                _tokensBoxes[i].GetComponent<Image>().enabled = false;
-                _tokensBoxes[i].gameObject.SetActive(false);
+                _tokensBoxes[i].GetComponent<Image>().sprite = _hole;
             }
             
         }
@@ -125,13 +127,18 @@ public class ControlTokens : Photon.PunBehaviour
     }
 
     [PunRPC]
+    public void activePanelBetweenScenes()
+    {
+        _PanelBetweenScenes.SetActive(true);
+        Invoke("saveTokens", 2);
+    }
+
+    [PunRPC]
     /// <summary>
     /// Al final de la ronda reinicia los valore de las gemas que tiene cada player
     /// </summary>
     public void resetTokens()
     {
-        saveTokens();
-
         // borra la cantidad total de tokens obtenida en el tablero
         TotalBlueTokens = 0;
         TotalRedTokens = 0;
@@ -145,8 +152,8 @@ public class ControlTokens : Photon.PunBehaviour
             _playerData.CharactersInGame[i].Character.GetComponent<ControlTokensPlayer>().GreenToken = 0;
             _playerData.CharactersInGame[i].Character.GetComponent<ControlTokensPlayer>().BlueToken = 0;
             _playerData.CharactersInGame[i].Character.GetComponent<ControlTokensPlayer>().YellowToken = 0;
-
-            _playerData.CharactersInGame[i].Character.GetComponent<ControlTokensPlayer>().ObtainedTokens.Clear();
+            _playerData.CharactersInGame[i].Character.GetComponent<ControlTokensPlayer>().NumberTokens = 0;
+           _playerData.CharactersInGame[i].Character.GetComponent<ControlTokensPlayer>().ObtainedTokens.Clear();
 
             // borra la imagen de los tokens que representa los otros jugadores
             if (_playerData.CharactersInGame[i].Character.GetComponent<ControlTokensPlayer>().PortraitThatRepresents != null)
@@ -156,16 +163,10 @@ public class ControlTokens : Photon.PunBehaviour
         // borra mis tokens
         for (int i = 0; i < _tokensBoxes.Length; i++)
         {
-            _tokensBoxes[i].GetComponent<Image>().enabled = false;
+            _tokensBoxes[i].GetComponent<Image>().sprite = _hole;
         }
         NumberTokens = 0;
-
-        if (FindObjectOfType<ControlTurn>().MyTurn)
-        {
-            Debug.Log("Es mi turno");
-            FindObjectOfType<ControlTurn>().StarTurn();
-        }
-
+        
     }
 
     /// <summary>
@@ -182,6 +183,19 @@ public class ControlTokens : Photon.PunBehaviour
             _playerData.CharactersInGame[i].BlueTokens += _playerData.CharactersInGame[i].Character.GetComponent<ControlTokensPlayer>().BlueToken;
             _playerData.CharactersInGame[i].YellowTokens += _playerData.CharactersInGame[i].Character.GetComponent<ControlTokensPlayer>().YellowToken;
 
+        }
+
+        FindObjectOfType<PanelBetweenScenes>().UpdatePanels();
+
+        Invoke("finishReviewTokens", 3);
+    }
+
+
+    public void finishReviewTokens()
+    {
+        if (FindObjectOfType<ControlTurn>().MyTurn)
+        {
+            FindObjectOfType<ControlMission>().ReviewMission();
         }
     }
 
