@@ -123,6 +123,7 @@ public class ControlTokens : Photon.PunBehaviour
             
         }
         _player.GetComponent<ControlTokensPlayer>().ObtainedTokens.RemoveAt(index);
+        _player.GetComponent<ControlTokensPlayer>().NumberTokens--;
         NumberTokens--;
     }
 

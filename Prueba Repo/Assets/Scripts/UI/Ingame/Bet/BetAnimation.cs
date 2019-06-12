@@ -29,6 +29,7 @@ public class BetAnimation : MonoBehaviour
         if (_time >= 1)
         {
             Debug.Log("LLego el objeto, destuir");
+            FindObjectOfType<PanelBet>().SetPanelsAndBet();
             DestroyObject(gameObject);
 
         }

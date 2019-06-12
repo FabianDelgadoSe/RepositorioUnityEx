@@ -7,8 +7,13 @@ using UnityEngine.UI;
 /// </summary>
 public class ControlTurn : Photon.PunBehaviour
 {
+    [Header("Cosas que salen en tu turno")]
     [SerializeField] private GameObject _myturn; // objeto que aparece cuando es mi turno
     [SerializeField] private GameObject _messagerStarTurn;
+    [SerializeField] private Color _myTurnColor;
+    [SerializeField] private GameObject _myZone;
+    [SerializeField] private GameObject _myBaits;
+    [SerializeField] private GameObject _myGems;
 
     [Header("Objetos que muestran la informacion de otros jugadores")]
     [SerializeField] private GameObject _otherPlayer; // prefab que representa a otros players
@@ -217,10 +222,38 @@ public class ControlTurn : Photon.PunBehaviour
                 if (!FindObjectOfType<PlayerRepositioning>().RepositionPlayer) {
                     if (!_startedBoard) {
                         // empieza turno con normalidad
-                        FindObjectOfType<PlayerDataInGame>().CharactersInGame[IndexTurn-1].Character.GetComponent<SpriteRenderer>().color = Color.gray;
-                        _messagerStarTurn.SetActive(true);
-                        FindObjectOfType<ControlRound>().AllowMove = true;
-                        FindObjectOfType<PanelInformation>().showMessages(PanelInformation.Messages.START_MY_TURN);
+                        if (FindObjectOfType<ControlTutorial>())
+                        {
+                            if (FindObjectOfType<ControlTutorial>().AllowStartTurn)
+                            {
+                                FindObjectOfType<PlayerDataInGame>().CharactersInGame[IndexTurn - 1].Character.GetComponent<SpriteRenderer>().color = Color.gray;
+                                _messagerStarTurn.SetActive(true);
+                                FindObjectOfType<ControlRound>().AllowMove = true;
+                                FindObjectOfType<PanelInformation>().showMessages(PanelInformation.Messages.START_MY_TURN);
+
+                                // cosas que cambian de color
+                                _myZone.GetComponent<Image>().color = _myTurnColor;
+                                _myBaits.GetComponent<Image>().color = _myTurnColor;
+                                _myGems.GetComponent<Image>().color = _myTurnColor;
+                            }
+                            else if(FindObjectOfType<ControlTutorial>().ExplicationMyZone)
+                            {
+                                FindObjectOfType<ControlTutorial>().descriptionMove();
+                            }
+                        }
+                        else
+                        {
+                            FindObjectOfType<PlayerDataInGame>().CharactersInGame[IndexTurn - 1].Character.GetComponent<SpriteRenderer>().color = Color.gray;
+                            _messagerStarTurn.SetActive(true);
+                            FindObjectOfType<ControlRound>().AllowMove = true;
+                            FindObjectOfType<PanelInformation>().showMessages(PanelInformation.Messages.START_MY_TURN);
+
+                            // cosas que cambian de color
+                            _myZone.GetComponent<Image>().color = _myTurnColor;
+                            _myBaits.GetComponent<Image>().color = _myTurnColor;
+                            _myGems.GetComponent<Image>().color = _myTurnColor;
+                        }
+
                     }
                     else
                     {
@@ -278,6 +311,12 @@ public class ControlTurn : Photon.PunBehaviour
         _allowToPlaceBait = false;
         FindObjectOfType<PlayerDataInGame>().CharactersInGame[IndexTurn-1].Character.GetComponent<SpriteRenderer>().color = Color.white;
         photonView.RPC("finishTurnOtherComputers", PhotonTargets.Others, _mineId);
+
+        // cosas que cambian de color
+        _myZone.GetComponent<Image>().color = Color.white;
+        _myBaits.GetComponent<Image>().color = Color.white;
+        _myGems.GetComponent<Image>().color = Color.white;
+
         if (FirstTurn)
         {
             FirstTurn = false;

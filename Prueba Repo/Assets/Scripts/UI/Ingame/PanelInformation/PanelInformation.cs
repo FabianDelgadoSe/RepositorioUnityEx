@@ -14,16 +14,16 @@ public class PanelInformation : MonoBehaviour
     private const string START_MY_TURN = "Es tu turno, mueve un personaje que no sea el tuyo";
     private const string START_TURN_OTHER_PLAYER = "Es turno de ";
     private const string LATER_MOVE = "Coloca un cebo o finaliza tu turno";
-    private const string LATER_PUT_BAIT = "Ya no tienes nada mas que hacer termina tu turno";
-    private const string OTHER_PLAYER_LOCATE_CHARACTER = "Un jugador esta ubicando su ficha";
+    private const string LATER_PUT_BAIT = "Ya no tienes nada más que hacer, termina tu turno";
+    private const string OTHER_PLAYER_LOCATE_CHARACTER = "Un jugador está ubicando su ficha";
     private const string RELOCATION_CHARACTER = "Hay jugadores reubicando sus fichas";
-    private const string SELECT_PREDICTION = "¿Que token será el que mas se obtenga en esta ronda ?";
-    private const string OTHER_PLAYERS_THINKING_PREDICTION = "Espera un momento los otros jugadores estan pensando sus predicciones";
-    private const string WIN_MISSION = "Cumpliste tu mission ahora selecciona cual gema quieres como recompensa";
-    private const string OTHER_WIN_MISSION = "Un jugador cumplio su mision y esta seleccionando su recompensa";
-    private const string SUN_TOKENS_WIN_BET = "Se sumaron los tokens obtenidos en esta ronda mas uno extra por acertar tu prediccion";
-    private const string SUN_TOKENS_LOSE_BET = "Se sumaron los tokens obtenidos en esta ronda, ";
-    private const string LOSE_TOKEN = "un jugador esta eligiendo que token entregarle al fantarma";
+    private const string SELECT_PREDICTION = "¿Qué gema será la que más se obtenga en esta ronda?";
+    private const string OTHER_PLAYERS_THINKING_PREDICTION = "Espera un momento, los otros jugadores están pensando sus predicciones";
+    private const string WIN_MISSION = "Cumpliste tu misión, ahora selecciona cuál gema quieres como recompensa";
+    private const string OTHER_WIN_MISSION = "Un jugador cumplió su misión y está seleccionando su recompensa";
+    private const string SUN_TOKENS_WIN_BET = "INCREIBLE ACERTASTE LA PREDICCION";
+    private const string SUN_TOKENS_LOSE_BET = "Se sumaron las gemas obtenidas en esta ronda";
+    private const string LOSE_TOKEN = "Un jugador está eligiendo qué gema entregarle al fantasma";
     #endregion
 
     public enum Messages

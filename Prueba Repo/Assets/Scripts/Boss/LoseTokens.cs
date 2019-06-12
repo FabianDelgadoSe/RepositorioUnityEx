@@ -11,6 +11,7 @@ public class LoseTokens : Photon.PunBehaviour
     [SerializeField] private Sprite _redTokens;
     [SerializeField] private Sprite _greenTokens;
     [SerializeField] private Sprite _yellowTokens;
+    [SerializeField] private Sprite _hole;
     private GameObject _player;
     private int numberTokens;
 
@@ -22,13 +23,21 @@ public class LoseTokens : Photon.PunBehaviour
     private void OnEnable()
     {
 
+        foreach (GameObject gameObject in _tokens)
+        {
+            gameObject.GetComponent<Image>().sprite = _hole;
+            gameObject.GetComponent<Button>().enabled = false;
+        }
+
+    
         numberTokens = _player.GetComponent<ControlTokensPlayer>().ObtainedTokens.Count;
+
 
         for (int i = 0; i< numberTokens;i++)
         {
             _typeTokens = _player.GetComponent<ControlTokensPlayer>().ObtainedTokens[i];
             _tokens[i].SetActive(true);
-
+            _tokens[i].GetComponent<Button>().enabled = true;
             switch (_typeTokens)
             {
                 case Square.typesSquares.BLUE:

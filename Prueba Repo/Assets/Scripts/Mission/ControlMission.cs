@@ -129,13 +129,17 @@ public class ControlMission : Photon.PunBehaviour
 
     public void distributeMissions()
     {
-        FindObjectOfType<ConfigurationMission>().selectMision();
-        FindObjectOfType<ControlTurn>().MessagerStarTurn.SetActive(false);
-        _textDescriptionMission.text = MissionDescription;
-        _showMision.SetActive(true);
-        _textMission.text = MissionDescription;
-        _reviewMission = true;
-        Invoke("finishDistributeMissions", 5);
+        if (FindObjectOfType<ControlTutorial>() == null || PlayerPrefs.GetInt("Tutorial", 0) == 1)
+        {
+
+            FindObjectOfType<ConfigurationMission>().selectMision();
+            FindObjectOfType<ControlTurn>().MessagerStarTurn.SetActive(false);
+            _textDescriptionMission.text = MissionDescription;
+            _showMision.SetActive(true);
+            _textMission.text = MissionDescription;
+            _reviewMission = true;
+            Invoke("finishDistributeMissions", 5);
+        }
     }
 
     public void finishDistributeMissions()
@@ -327,7 +331,7 @@ public class ControlMission : Photon.PunBehaviour
                 // si tuvo el menor numero de ese tokens para todos los jugadores menos el entonces gana
                 if (_charactersThatGotMyMission == _PlayerDataInGame.CharactersInGame.Length - 1)
                 {
-                    _charactersThatGotMyMission = 1;
+                    _charactersThatGotMyMission = 1; // por que la gano
                 }
                 else
                 {

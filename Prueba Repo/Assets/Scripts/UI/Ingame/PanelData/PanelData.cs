@@ -22,6 +22,8 @@ public class PanelData : Photon.PunBehaviour
     [Header("el que tiene el animator")]
     [SerializeField] private GameObject _fatherAnimator;
 
+    private bool _fierSamples = true;
+
 
     private bool _createdScore = false;
 
@@ -35,8 +37,9 @@ public class PanelData : Photon.PunBehaviour
 
     public void createdObjectScore()
     {
+        _panelData.SetActive(true);
         _fatherAnimator.GetComponent<Animator>().SetBool("Active",true);
-        Invoke("finishAnimation", 0.6f);
+        
 
         if (!_createdScore)
         {
@@ -46,6 +49,12 @@ public class PanelData : Photon.PunBehaviour
             }
 
             _createdScore = true;
+        }
+
+        if (FindObjectOfType<ControlTutorial>())
+        {
+            if(_fierSamples)
+                FindObjectOfType<ControlTutorial>().showExplicationData();
         }
 
     }
@@ -88,6 +97,8 @@ public class PanelData : Photon.PunBehaviour
     public void desactivePanel()
     {
         _fatherAnimator.GetComponent<Animator>().SetBool("Active", false);
+        _fierSamples = false;
+        FindObjectOfType<ControlTutorial>().finishBasicTutorial();
         Invoke("finishAnimation", 0.6f);
         
     }

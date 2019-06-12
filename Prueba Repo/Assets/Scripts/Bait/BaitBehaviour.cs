@@ -114,6 +114,10 @@ public class BaitBehaviour : Photon.MonoBehaviour
                 }
 
                 _playerDataInGame.CharactersInGame[_controlTurn.IndexTurn - 1].Score--;
+                if (_playerDataInGame.CharactersInGame[_controlTurn.IndexTurn - 1].Score< 0)
+                {
+                    _playerDataInGame.CharactersInGame[_controlTurn.IndexTurn - 1].Score = 0;
+                }
 
                 if (_controlTurn.MyTurn) {
                     // solo el feekback visual de que perdio puntos

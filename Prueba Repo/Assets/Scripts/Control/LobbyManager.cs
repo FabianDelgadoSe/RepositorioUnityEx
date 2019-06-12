@@ -55,16 +55,16 @@ public class LobbyManager : Photon.PunBehaviour
     public void SetLobbyUI(PhotonPlayer player)
     {
         //_playersCountText.text = "Jugadores conectados: " + _currentRoom.PlayerCount.ToString();
-        _roomNameText.text = "Sala: \n" + _currentRoom.Name;
+        _roomNameText.text = "Sala: " + _currentRoom.Name;
 
         foreach (var candle in _candles)
         {
-            candle.SetActive(false);
+           // candle.SetActive(false);
         }
 
         for (int i = 0; i < _currentRoom.playerCount; i++)
         {
-            _candles[i].SetActive(true);
+            _candles[i].GetComponent<Animator>().enabled = true;
         }
 
 
@@ -88,7 +88,7 @@ public class LobbyManager : Photon.PunBehaviour
             }
         }
 
-        if (_charactersSelectedCount == _currentRoom.playerCount)
+        if (_charactersSelectedCount == _currentRoom.playerCount)// && _currentRoom.playerCount >= 4)
         {
 
             _sbuttonPlay.gameObject.SetActive(true);

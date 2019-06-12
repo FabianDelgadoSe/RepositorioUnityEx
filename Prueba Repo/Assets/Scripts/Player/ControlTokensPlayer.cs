@@ -113,6 +113,8 @@ public class ControlTokensPlayer : Photon.PunBehaviour
                 }
             }
         }
+
+       
     }
 
     public int RedToken

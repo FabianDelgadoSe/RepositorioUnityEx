@@ -21,7 +21,7 @@ public class PlayerDataInGame : Photon.PunBehaviour
     private void Awake()
     {
         DontDestroyOnLoad(this.gameObject);
-        
+
 
         //_instance = this;
 
@@ -42,14 +42,14 @@ public class PlayerDataInGame : Photon.PunBehaviour
 
     public void OnPhotonPlayerDisconnected()
     {
-        if (Application.loadedLevelName == "InGame") {
+        if (Application.loadedLevelName != "ResultOfTheGame")
+        {
             SSTools.ShowMessage("algun subnormal se fue", SSTools.Position.top, SSTools.Time.threeSecond);
-            PhotonNetwork.room.IsVisible = true;
-            PhotonNetwork.room.IsOpen = true;
-            _charactersInGame = new PlayerInformation[0];
-            _characterSelected = null;
-            SceneManager.LoadScene("Lobby");
-            
+            PhotonNetwork.LeaveRoom();
+
+            SceneManager.LoadScene("SelectOrCreate");
+
+            Destroy(gameObject);
         }
     }
 

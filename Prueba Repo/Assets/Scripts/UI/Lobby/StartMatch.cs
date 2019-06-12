@@ -17,7 +17,7 @@ public class StartMatch : MonoBehaviour
         Debug.Log("countdown reset?: " + _countDown);
         _lobbyManager = FindObjectOfType<LobbyManager>();
 
-        _startMatchText.text = "Comenzando en" + "\n" + _countDown;
+        _startMatchText.text = "Comenzando en " + _countDown;
     }
 
     // Update is called once per frame
@@ -26,11 +26,11 @@ public class StartMatch : MonoBehaviour
         if (_countDown >= 0)
         {
             _countDown -= Time.deltaTime;
-            _startMatchText.text = "Comenzando en" + "\n" + Math.Round(_countDown, 0);
+            _startMatchText.text = "Comenzando en " + Math.Round(_countDown, 0);
         }
         else
         {
-            _startMatchText.text = "Comenzando en" + "\n" + 0;
+            _startMatchText.text = "Comenzando en " + 0;
 
             if (_lobbyManager.CanStartMatch) {
 

@@ -30,29 +30,30 @@ public class ConfigurationMission : Photon.PunBehaviour
         ANY_ALL_COLORS
     }
 
-    private const string ANY_3_RED = "Cualquier jugador obtenga 3 tokens Rojos";
-    private const string ANY_3_GREEN = "Cualquier jugador obtenga 3 tokens Verdes";
-    private const string ANY_3_BLUE = "Cualquier jugador obtenga 3 tokens Azules";
-    private const string ANY_3_YELLOW = "Cualquier jugador obtenga 3 tokens Amarillos";
-    private const string ANY_2_BLUE_2_RED = "Cualquier jugador obtenga 2 tokens Azules y 2 tokens Rojos";
-    private const string ANY_2_BLUE_2_YELLOW = "Cualquier jugador obtenga 2 tokens Azules y 2 tokens Amarillos";
-    private const string ANY_2_BLUE_2_GREEN = "Cualquier jugador obtenga 2 tokens Azules y 2 tokens Verdes";
-    private const string ANY_2_RED_2_YELLOW = "Cualquier jugador obtenga 2 tokens Rojos y 2 tokens Amarillos";
-    private const string ANY_2_RED_2_GREEN = "Cualquier jugador obtenga 2 tokens Rojos y 2 tokens Verdes";
-    private const string ANY_2_YELLOW_2_GREEN = "Cualquier jugador obtenga 2 tokens Amarillos y 2 tokens Verdes";
-    private const string RIGHT_MAJOR_RED = "El jugador de la Derecha NO obtenga tenga la mayor cantidad de tokens Rojos";
-    private const string RIGHT_MAJOR_YELLOW = "El jugador de la Derecha NO obtenga tenga la mayor cantidad de tokens Amarillos";
-    private const string RIGHT_MAJOR_GREEN = "El jugador de la Derecha NO obtenga tenga  la mayor cantidad de tokens Verdes";
-    private const string RIGHT_MAJOR_BLUE = "El jugador de la Derecha NO obtenga tenga  la mayor cantidad de tokens Azules ";
-    private const string ANY_ALL_COLORS = "Cualquier jugador Obtenga un token de cada color";
+    private const string ANY_3_RED = "Cualquier jugador obtenga 3 gemas Rojas";
+    private const string ANY_3_GREEN = "Cualquier jugador obtenga 3 gemas Verdes";
+    private const string ANY_3_BLUE = "Cualquier jugador obtenga 3 gemas Azules";
+    private const string ANY_3_YELLOW = "Cualquier jugador obtenga 3 gemas Amarillas";
+    private const string ANY_2_BLUE_2_RED = "Cualquier jugador obtenga 2 gemas Azules y 2 gemas Rojas";
+    private const string ANY_2_BLUE_2_YELLOW = "Cualquier jugador obtenga 2 gemas Azules y 2 gemas Amarillas";
+    private const string ANY_2_BLUE_2_GREEN = "Cualquier jugador obtenga 2 gemas Azules y 2 gemas Verdes";
+    private const string ANY_2_RED_2_YELLOW = "Cualquier jugador obtenga 2 gemas Rojas y 2 gemas Amarillas";
+    private const string ANY_2_RED_2_GREEN = "Cualquier jugador obtenga 2 gemas Rojas y 2 gemas Verdes";
+    private const string ANY_2_YELLOW_2_GREEN = "Cualquier jugador obtenga 2 gemas Amarillas y 2 gemas Verdes";
+    private const string RIGHT_MAJOR_RED = "El jugador de la Derecha NO obtenga la mayor cantidad de gemas Rojas";
+    private const string RIGHT_MAJOR_YELLOW = "El jugador de la Derecha NO obtenga la mayor cantidad de gemas Amarillas";
+    private const string RIGHT_MAJOR_GREEN = "El jugador de la Derecha NO obtenga la mayor cantidad de gemas Verdes";
+    private const string RIGHT_MAJOR_BLUE = "El jugador de la Derecha NO obtenga la mayor cantidad de gemas Azules ";
+    private const string ANY_ALL_COLORS = "Cualquier jugador Obtenga una gema de cada color";
 
-    
+
     /// <summary>
     /// Le asigna el tipo de mision que debe cumplir y el texto que describe la mision
     /// </summary>
     public void selectMision()
     {
-        int index = Random.Range(1,16); //no toma el 16
+
+            int index = Random.Range(1, 16); //no toma el 16
 
         switch (index)
         {
@@ -132,10 +133,10 @@ public class ConfigurationMission : Photon.PunBehaviour
                 break;
         }
 
-        FindObjectOfType<ControlMission>().Mision = _mision;
-        FindObjectOfType<ControlMission>().MissionDescription = _missionDescription;
-    }
+            FindObjectOfType<ControlMission>().Mision = _mision;
+            FindObjectOfType<ControlMission>().MissionDescription = _missionDescription;
 
+    }
 
 
 }

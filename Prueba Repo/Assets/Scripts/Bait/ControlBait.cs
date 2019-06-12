@@ -9,7 +9,7 @@ public class ControlBait : Photon.PunBehaviour
     private int _numberBaitPoop = 1;
     [SerializeField] private GameObject _baitCoin;
     [SerializeField] private GameObject _baitPoop;
-
+    [SerializeField] private GameObject _perder;
     [PunRPC]
     public void restarBaits()
     {
@@ -40,7 +40,6 @@ public class ControlBait : Photon.PunBehaviour
 
         }
     }
-
 
     public int NumberBaitPoop
     {

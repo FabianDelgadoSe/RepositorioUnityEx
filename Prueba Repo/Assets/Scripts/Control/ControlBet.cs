@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ControlBet : Photon.PunBehaviour {
 
-    private Square.typesSquares[] _bets;
+    [SerializeField]private Square.typesSquares[] _bets;
     [SerializeField] private GameObject _panelBet;
     private int _numberPlayerWithBet = 0;
     private bool _betMade = false;

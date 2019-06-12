@@ -98,7 +98,7 @@ public class ConfigurationBoard : Photon.PunBehaviour {
 
         }//cierre while
 
-        if (FindObjectOfType<ControlRound>().NumberRounds == 2)
+        if (FindObjectOfType<ControlRound>().NumberRounds == 1)
         {
             _squareAppearGhost.GetComponent<Square>().photonView.RPC("changeSprite", PhotonTargets.AllBuffered, 5);
         }

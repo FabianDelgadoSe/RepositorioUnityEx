@@ -18,12 +18,17 @@ public class CharacterSelectionable : Photon.PunBehaviour
     [SerializeField] private Color _normalColor;
     [SerializeField] private Color _selecColor;
 
+    [SerializeField] private GameObject _raySelection;
+    private Animator _animLine;
+
+
     // Use this for initialization
     void Start()
     {
         GetComponent<Image>().sprite = _character._faceCharacter;
         _playerData = FindObjectOfType<PlayerDataInGame>();
         _lobbyManager = FindObjectOfType<LobbyManager>();
+        _animLine = _raySelection.GetComponent<Animator>();
     }
 
     /// <summary>
@@ -43,6 +48,7 @@ public class CharacterSelectionable : Photon.PunBehaviour
         // este if extra evita que cuando se pickeen al tiempo se sobreescriban datos
         if (!_isSelected && PlayerSelect == null)
         {
+            _animLine.SetBool("Selected", true);
             PlayerSelect = Player;
             _isSelected = true;
             GetComponent<Image>().color = _selecColor;
@@ -59,6 +65,7 @@ public class CharacterSelectionable : Photon.PunBehaviour
     [PunRPC]
     private void removeCharacterToPlayer()
     {
+        _animLine.SetBool("Selected", false);
         PlayerSelect = null;
         _isSelected = false;
         GetComponent<Image>().color = _normalColor;
@@ -71,6 +78,8 @@ public class CharacterSelectionable : Photon.PunBehaviour
     /// </summary>
     public void characterClicked()
     {
+
+
         if (_lobbyManager.AllowPick && Input.touchCount<=1)
         {
             if (!_isSelected && _playerData.CharacterSelected == null)

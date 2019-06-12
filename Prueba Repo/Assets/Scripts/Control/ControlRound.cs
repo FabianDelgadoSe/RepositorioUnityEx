@@ -51,7 +51,7 @@ public class ControlRound : Photon.PunBehaviour
     {
         _numberOfCardsUsed++;
 
-        if (_numberOfCardsUsed == 5)
+        if (_numberOfCardsUsed == 5 )
         {
             photonView.RPC("newPlayerWithoutMovements", PhotonTargets.All);
         }
@@ -83,11 +83,11 @@ public class ControlRound : Photon.PunBehaviour
     public void finishRound()
     {
         _numberRounds++;
-        if (_numberRounds == 4)
+        if (_numberRounds == 3)
         {
             SceneManager.LoadScene("ResultOfTheGame");
 
-        }else if (_numberRounds == 3)
+        }else if (_numberRounds == 2)
         {
             _ghost.SetActive(true);
         }

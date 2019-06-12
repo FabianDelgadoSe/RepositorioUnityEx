@@ -45,6 +45,9 @@ public class ControlLocationConfirmationPanel : MonoBehaviour
 
         _player.GetComponent<Animator>().runtimeAnimatorController = FindObjectOfType<PlayerDataInGame>().CharacterSelected._animator;
 
+        if(FindObjectOfType<ControlTutorial>())
+            FindObjectOfType<ControlTutorial>().explicationMyZone();
+
         Destroy(gameObject);
     }//Cierre ConfirmationButton
 

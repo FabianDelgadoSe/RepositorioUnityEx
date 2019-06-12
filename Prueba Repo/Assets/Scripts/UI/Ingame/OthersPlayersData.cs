@@ -161,6 +161,9 @@ public class OthersPlayersData : MonoBehaviour {
         _numberTokens--;
         FindObjectOfType<PlayerDataInGame>().CharactersInGame[IdOfThePlayerThatRepresents - 1].Character
             .GetComponent<ControlTokensPlayer>().ObtainedTokens.RemoveAt(index);
+
+        FindObjectOfType<PlayerDataInGame>().CharactersInGame[IdOfThePlayerThatRepresents - 1].Character
+            .GetComponent<ControlTokensPlayer>().NumberTokens--;
     }
 
     public Character Character

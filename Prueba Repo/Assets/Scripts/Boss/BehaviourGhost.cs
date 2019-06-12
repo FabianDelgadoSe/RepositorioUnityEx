@@ -27,7 +27,6 @@ public class BehaviourGhost : Photon.PunBehaviour
 
     private void Update()
     {
-        Debug.Log("numero de players tocados " + _numberPlayerTouched);
 
         if (_move)
         {
@@ -190,7 +189,7 @@ public class BehaviourGhost : Photon.PunBehaviour
                                 _square.GetComponent<Square>().Player = null;
                                 Square.GetComponent<Square>().IsOccupied = false;
                             }
-                            _move = true;
+                            _move = false;
 
                             Square = Square.GetComponent<Square>().OppositeSquareY;
                             transform.position = Square.transform.position;
@@ -525,6 +524,8 @@ public class BehaviourGhost : Photon.PunBehaviour
                 Square.GetComponent<Square>().Player = gameObject;
                 Square.GetComponent<Square>().IsOccupied = true;
                 Square.GetComponent<Square>().HasBoss = true;
+
+                transform.position = Square.transform.position;
 
                 if (FindObjectOfType<ControlTurn>().MyTurn)
                 {
